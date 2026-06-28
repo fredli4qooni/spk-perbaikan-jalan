@@ -1,0 +1,58 @@
+═══════════════════════════════════════════════════════════════
+   CARA MENJALANKAN WEBSITE PUPR MOORA
+═══════════════════════════════════════════════════════════════
+
+⚠️ PENTING: Pastikan sudah ikuti langkah setup pertama kali ini:
+
+1. SETUP PERTAMA KALI (hanya 1x, skip jika sudah):
+   ─────────────────────────────────────────────
+   a. Buka Command Prompt atau PowerShell
+   b. Navigasi ke folder ini:
+      cd c:\laragon\www\SPKPERBAIKANJALAN
+   
+   c. Jalankan command ini sekali:
+      php artisan migrate --seed
+   
+   Ini akan membuat database dan data demo.
+
+═══════════════════════════════════════════════════════════════
+
+2. MENJALANKAN WEBSITE (setiap kali ingin akses):
+   ─────────────────────────────────────────────
+   
+   OPSI A - SIMPLE (pakai file .bat):
+   • Double-click: start-server.bat (di folder ini)
+   • Tunggu sampai muncul: "Server running on [http://127.0.0.1:8000]"
+   • Buka browser: http://127.0.0.1:8000
+   • Untuk stop: tekan Ctrl+C di command prompt
+
+   OPSI B - MANUAL (pakai Command Prompt):
+   • Buka Command Prompt
+   • Ketik:
+      cd c:\laragon\www\SPKPERBAIKANJALAN
+      php artisan serve --port=8000
+   • Buka browser: http://127.0.0.1:8000
+   • Untuk stop: tekan Ctrl+C
+
+═══════════════════════════════════════════════════════════════
+
+3. LOGIN DEMO:
+   ──────────
+   Admin:   admin@pupr.test / password
+   Petugas: petugas@pupr.test / password
+
+═══════════════════════════════════════════════════════════════
+
+⚠️ TROUBLESHOOTING:
+
+• Port 8000 sudah dipakai:
+  Ganti port di command: php artisan serve --port=8001
+
+• "No database":
+  Jalankan: php artisan migrate --seed
+
+• "Access denied" atau permission error:
+  - Pastikan Laragon sudah di-install
+  - Atau jalankan Command Prompt sebagai Administrator
+
+═══════════════════════════════════════════════════════════════
