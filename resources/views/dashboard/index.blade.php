@@ -1,144 +1,155 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="mb-3">
-    <h2 class="h4 mb-0"><i class="bi bi-speedometer2"></i> Dashboard</h2>
-    <small class="text-muted">Ringkasan sistem MOORA</small>
+<div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <i class="bi bi-speedometer2 text-brand-purple"></i> Dashboard
+    </h2>
+    <p class="text-sm text-gray-500 mt-1">Ringkasan sistem MOORA</p>
 </div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Total Ruas Jalan</div>
-                    <div class="display-6 fw-bold">{{ $roadCount }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #0d6efd; opacity: 0.2;">
-                    <i class="bi bi-road-lane"></i>
-                </div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Total Ruas Jalan</div>
+                <div class="text-3xl font-bold text-gray-900 mt-1">{{ $roadCount }}</div>
+            </div>
+            <div class="text-5xl text-brand-purple opacity-20">
+                <i class="bi bi-road-lane"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Total Kriteria</div>
-                    <div class="display-6 fw-bold">{{ $criterionCount }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #0dcaf0; opacity: 0.2;">
-                    <i class="bi bi-list-check"></i>
-                </div>
+    
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Total Kriteria</div>
+                <div class="text-3xl font-bold text-gray-900 mt-1">{{ $criterionCount }}</div>
+            </div>
+            <div class="text-5xl text-blue-500 opacity-20">
+                <i class="bi bi-list-check"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Prioritas 1</div>
-                    <div class="h5 fw-bold mb-0">{{ optional($ranking['road'] ?? null)->name ?? 'Belum ada' }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #198754; opacity: 0.2;">
-                    <i class="bi bi-check-circle"></i>
-                </div>
+    
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Prioritas 1</div>
+                <div class="text-lg font-bold text-gray-900 mt-1 leading-tight">{{ optional($ranking['road'] ?? null)->name ?? 'Belum ada' }}</div>
+            </div>
+            <div class="text-5xl text-brand-green opacity-20">
+                <i class="bi bi-check-circle"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Nilai Tertinggi</div>
-                    <div class="display-6 fw-bold" style="font-size: 1.5rem;">{{ isset($ranking['result']) ? number_format($ranking['result'], 4) : '-' }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #ffc107; opacity: 0.2;">
-                    <i class="bi bi-graph-up"></i>
-                </div>
+    
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Nilai Tertinggi</div>
+                <div class="text-3xl font-bold text-gray-900 mt-1">{{ isset($ranking['result']) ? number_format($ranking['result'], 4) : '-' }}</div>
+            </div>
+            <div class="text-5xl text-brand-yellow opacity-40">
+                <i class="bi bi-graph-up"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Terverifikasi</div>
-                    <div class="display-6 fw-bold text-success">{{ $verifiedCount }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #198754; opacity: 0.2;">
-                    <i class="bi bi-check2-circle"></i>
-                </div>
+    
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Terverifikasi</div>
+                <div class="text-3xl font-bold text-brand-green mt-1">{{ $verifiedCount }}</div>
+            </div>
+            <div class="text-5xl text-brand-green opacity-20">
+                <i class="bi bi-check2-circle"></i>
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-3">
-        <div class="card h-100 border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-                <div>
-                    <div class="text-muted small">Menunggu Verifikasi</div>
-                    <div class="display-6 fw-bold text-warning">{{ $pendingCount }}</div>
-                </div>
-                <div style="font-size: 3rem; color: #ffc107; opacity: 0.2;">
-                    <i class="bi bi-hourglass-split"></i>
-                </div>
+    
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6 flex items-center justify-between">
+            <div>
+                <div class="text-sm font-medium text-gray-500">Menunggu Verifikasi</div>
+                <div class="text-3xl font-bold text-brand-yellow mt-1">{{ $pendingCount }}</div>
+            </div>
+            <div class="text-5xl text-brand-yellow opacity-40">
+                <i class="bi bi-hourglass-split"></i>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row g-3">
-    <div class="col-lg-7">
-        <div class="card h-100">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0"><i class="bi bi-trophy"></i> Top 3 Prioritas Perbaikan</h5>
-                <span class="badge bg-light text-dark">MOORA</span>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="lg:col-span-7">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 h-full overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                <h5 class="font-bold text-gray-800 flex items-center gap-2">
+                    <i class="bi bi-trophy text-brand-yellow"></i> Top 3 Prioritas Perbaikan
+                </h5>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    MOORA
+                </span>
             </div>
-            <div class="card-body p-0">
+            <div class="divide-y divide-gray-100">
                 @forelse ($topThree as $row)
-                    <div style="padding: 1.5rem; border-bottom: 1px solid #f0f0f0;" class="d-flex justify-content-between align-items-center">
+                    <div class="p-6 flex justify-between items-center hover:bg-gray-50 transition-colors">
                         <div>
-                            <div class="badge bg-primary me-2">Rank {{ $row['rank'] }}</div>
-                            <h6 class="mb-1">{{ $row['road']->name }}</h6>
-                            <small class="text-muted">📍 {{ $row['road']->location }}</small>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-purple text-white mb-2">
+                                Rank {{ $row['rank'] }}
+                            </span>
+                            <h6 class="font-bold text-gray-900 text-lg">{{ $row['road']->name }}</h6>
+                            <p class="text-sm text-gray-500 mt-1 flex items-center gap-1">
+                                <i class="bi bi-geo-alt"></i> {{ $row['road']->location }}
+                            </p>
                         </div>
-                        <div class="text-end">
-                            <div class="h5 fw-bold text-success">{{ number_format($row['result'], 4) }}</div>
-                            <small class="text-muted">Nilai MOORA</small>
+                        <div class="text-right">
+                            <div class="text-2xl font-black text-brand-green">{{ number_format($row['result'], 4) }}</div>
+                            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mt-1">Nilai MOORA</div>
                         </div>
                     </div>
                 @empty
-                    <div style="padding: 2rem; text-align: center; color: #999;">
-                        <i class="bi bi-inbox" style="font-size: 2rem;"></i>
-                        <p class="mt-2 mb-0">Belum ada data untuk ditampilkan</p>
+                    <div class="p-12 text-center">
+                        <i class="bi bi-inbox text-4xl text-gray-300"></i>
+                        <p class="mt-4 text-gray-500 font-medium">Belum ada data untuk ditampilkan</p>
                     </div>
                 @endforelse
             </div>
         </div>
     </div>
 
-    <div class="col-lg-5">
-        <div class="card h-100">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="bi bi-shield-check"></i> Status Verifikasi Terbaru</h5>
+    <div class="lg:col-span-5">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 h-full overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+                <h5 class="font-bold text-gray-800 flex items-center gap-2">
+                    <i class="bi bi-shield-check text-brand-green"></i> Status Verifikasi Terbaru
+                </h5>
             </div>
-            <div class="card-body p-0">
+            <div class="divide-y divide-gray-100">
                 @forelse ($latestRoads as $road)
-                    <div style="padding: 1rem 1.25rem; border-bottom: 1px solid #f0f0f0;" class="d-flex justify-content-between align-items-center">
+                    <div class="px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
                         <div>
-                            <div class="fw-semibold">{{ $road->name }}</div>
-                            <small class="text-muted">{{ $road->location }}</small>
+                            <div class="font-semibold text-gray-900">{{ $road->name }}</div>
+                            <div class="text-sm text-gray-500 mt-0.5">{{ $road->location }}</div>
                         </div>
-                        @if ($road->is_verified)
-                            <span class="badge bg-success">Terverifikasi</span>
-                        @else
-                            <span class="badge bg-warning text-dark">Menunggu</span>
-                        @endif
+                        <div>
+                            @if ($road->is_verified)
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Terverifikasi
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Menunggu
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 @empty
-                    <div style="padding: 2rem; text-align: center; color: #999;">
-                        <i class="bi bi-inbox" style="font-size: 2rem;"></i>
-                        <p class="mt-2 mb-0">Belum ada data ruas jalan</p>
+                    <div class="p-12 text-center">
+                        <i class="bi bi-inbox text-4xl text-gray-300"></i>
+                        <p class="mt-4 text-gray-500 font-medium">Belum ada data ruas jalan</p>
                     </div>
                 @endforelse
             </div>

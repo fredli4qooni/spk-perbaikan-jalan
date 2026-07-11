@@ -1,120 +1,115 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-header d-flex justify-content-between align-items-start gap-3 flex-wrap">
-    <div>
-        <div class="page-title"><i class="bi bi-person-gear"></i> Kelola Profil</div>
-        <p class="page-subtitle">Perbarui identitas akun Anda tanpa mengubah fitur lainnya.</p>
-    </div>
+<div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <i class="bi bi-person-gear text-brand-purple"></i> Kelola Profil
+    </h2>
+    <p class="text-sm text-gray-500 mt-1">Perbarui identitas akun Anda tanpa mengubah fitur lainnya.</p>
 </div>
 
-<div class="row g-4">
-    <div class="col-12 col-lg-7">
-        <div class="card form-shell h-100">
-            <div class="card-body guest-card-inner">
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <strong>Periksa kembali input.</strong>
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="lg:col-span-7">
+        <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden h-full">
+            <div class="p-6 md:p-8">
                 <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="profile-form">
                     @csrf
                     @method('PUT')
 
-                    <div class="mb-3">
-                        <label class="form-label">Foto Profil</label>
-                        <div class="d-flex align-items-center gap-3 flex-wrap mb-2">
-                            <img src="{{ auth()->user()->profile_photo_url }}" alt="Foto profil" class="rounded-circle border bg-white profile-photo-preview" id="profile-photo-preview">
-                            <div class="text-muted small">Unggah foto wajah/ikon akun. Setelah dipilih, cukup geser foto dengan cursor pada area crop lalu simpan.</div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Foto Profil</label>
+                        <div class="flex items-center gap-4 flex-wrap mb-3">
+                            <img src="{{ auth()->user()->profile_photo_url }}" alt="Foto profil" class="w-16 h-16 rounded-full border border-gray-200 bg-white object-cover" id="profile-photo-preview">
+                            <div class="text-xs text-gray-500 max-w-xs leading-relaxed">Unggah foto wajah/ikon akun. Setelah dipilih, cukup geser foto dengan cursor pada area crop lalu simpan.</div>
                         </div>
-                        <input type="file" name="profile_photo" class="form-control" accept="image/*" id="profile-photo-input">
+                        <input type="file" name="profile_photo" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-purple/10 file:text-brand-purple hover:file:bg-brand-purple/20" accept="image/*" id="profile-photo-input">
                     </div>
 
-                    <div class="mb-3 d-none" id="profile-photo-cropper-panel">
-                        <div class="profile-cropper-shell">
-                            <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
+                    <!-- Cropper Panel -->
+                    <div class="mb-6 hidden" id="profile-photo-cropper-panel">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex justify-between items-start sm:items-center gap-3 flex-col sm:flex-row mb-4">
                                 <div>
-                                    <div class="fw-bold">Atur Foto</div>
-                                    <div class="text-muted small">Geser gambar untuk memindahkan posisi, lalu tarik pegangan di pojok untuk zoom.</div>
+                                    <div class="font-bold text-sm text-gray-900">Atur Foto</div>
+                                    <div class="text-xs text-gray-500 mt-1">Geser gambar untuk memindahkan posisi, lalu tarik pegangan di pojok untuk zoom.</div>
                                 </div>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" id="profile-photo-reset">Batal Pilih Foto</button>
-                            </div>
-
-                            <div class="profile-cropper-stage mb-3">
-                                <img id="profile-photo-cropper-image" alt="Crop foto profil">
-                                <button type="button" class="profile-photo-zoom-handle" id="profile-photo-zoom-handle" aria-label="Atur zoom foto profil">
-                                    <i class="bi bi-arrows-expand"></i>
+                                <button type="button" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple" id="profile-photo-reset">
+                                    Batal Pilih Foto
                                 </button>
                             </div>
 
+                            <div class="relative w-full aspect-square max-w-sm mx-auto overflow-hidden rounded-md bg-black mb-4">
+                                <img id="profile-photo-cropper-image" alt="Crop foto profil" class="block max-w-full">
+                                <button type="button" class="absolute bottom-4 right-4 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-colors cursor-row-resize z-10" id="profile-photo-zoom-handle" aria-label="Atur zoom foto profil">
+                                    <i class="bi bi-arrows-expand text-lg transform rotate-45"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', auth()->user()->name) }}" required>
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                        <input type="text" name="name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border" value="{{ old('name', auth()->user()->name) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', auth()->user()->email) }}" required>
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" name="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border" value="{{ old('email', auth()->user()->email) }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Password Baru</label>
-                        <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah">
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
+                        <input type="password" name="password" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border" placeholder="Kosongkan jika tidak ingin mengubah">
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label">Konfirmasi Password Baru</label>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru">
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password Baru</label>
+                        <input type="password" name="password_confirmation" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border" placeholder="Ulangi password baru">
                     </div>
 
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali ke Dashboard</a>
+                    <div class="flex flex-col sm:flex-row gap-3 pt-5 border-t border-gray-100">
+                        <button type="submit" class="inline-flex justify-center items-center rounded-md border border-transparent bg-brand-purple px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 transition-colors">
+                            Simpan Perubahan
+                        </button>
+                        <a href="{{ route('dashboard') }}" class="inline-flex justify-center items-center rounded-md border border-gray-300 bg-white px-6 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 transition-colors">
+                            Kembali ke Dashboard
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-lg-5">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="page-title mb-2"><i class="bi bi-person-badge"></i> Informasi Akun</div>
-                <p class="page-subtitle mb-4">Ringkasan identitas akun yang sedang aktif.</p>
+    <div class="lg:col-span-5">
+        <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden h-full">
+            <div class="p-6 md:p-8">
+                <div class="flex items-center gap-2 mb-2 text-xl font-bold text-gray-900">
+                    <i class="bi bi-person-badge text-brand-purple"></i> Informasi Akun
+                </div>
+                <p class="text-sm text-gray-500 mb-8">Ringkasan identitas akun yang sedang aktif.</p>
 
-                <div class="d-flex align-items-center gap-3 p-3 rounded-4 bg-white border mb-4">
-                    <img src="{{ auth()->user()->profile_photo_url }}" alt="Foto profil" class="rounded-circle border bg-light profile-photo-current">
+                <div class="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100 mb-6">
+                    <img src="{{ auth()->user()->profile_photo_url }}" alt="Foto profil" class="w-14 h-14 rounded-full border border-gray-200 bg-white object-cover">
                     <div>
-                        <div class="fw-bold">{{ auth()->user()->name }}</div>
-                        <div class="text-muted small">{{ auth()->user()->email }}</div>
+                        <div class="font-bold text-gray-900">{{ auth()->user()->name }}</div>
+                        <div class="text-sm text-gray-500">{{ auth()->user()->email }}</div>
                     </div>
                 </div>
 
-                <div class="d-grid gap-3">
-                    <div class="p-3 rounded-4 bg-white border">
-                        <div class="text-muted small mb-1">Nama</div>
-                        <div class="fw-bold">{{ auth()->user()->name }}</div>
+                <div class="space-y-4">
+                    <div class="p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Nama</div>
+                        <div class="font-bold text-gray-900">{{ auth()->user()->name }}</div>
                     </div>
-                    <div class="p-3 rounded-4 bg-white border">
-                        <div class="text-muted small mb-1">Email</div>
-                        <div class="fw-bold">{{ auth()->user()->email }}</div>
+                    <div class="p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Email</div>
+                        <div class="font-bold text-gray-900">{{ auth()->user()->email }}</div>
                     </div>
-                    <div class="p-3 rounded-4 bg-white border">
-                        <div class="text-muted small mb-1">Role</div>
-                        <div class="fw-bold">{{ ucfirst(auth()->user()->role) }}</div>
+                    <div class="p-4 rounded-xl bg-white border border-gray-100 shadow-sm">
+                        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Role</div>
+                        <div class="font-bold text-brand-purple">
+                            {{ ucfirst(auth()->user()->role) }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,6 +120,13 @@
 
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+<style>
+/* Custom styling for cropper overrides if needed */
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}
+</style>
 @endpush
 
 @push('scripts')
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cropper.destroy();
             cropper = null;
         }
-        cropperPanel.classList.add('d-none');
+        cropperPanel.classList.add('hidden');
         input.value = '';
         selectedFile = null;
         preview.src = originalPreviewSrc;
@@ -186,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedFile = file;
         const objectUrl = URL.createObjectURL(file);
         cropperImage.src = objectUrl;
-        cropperPanel.classList.remove('d-none');
+        cropperPanel.classList.remove('hidden');
 
         if (cropper) {
             cropper.destroy();

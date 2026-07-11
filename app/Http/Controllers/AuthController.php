@@ -101,6 +101,12 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
+        if ($user->role === 'admin') {
+            return back()->withErrors([
+                'email' => 'Akun admin tidak diizinkan mereset password melalui halaman ini. Silakan hubungi pengembang sistem.',
+            ])->onlyInput('email');
+        }
+
         $user->update([
             'password' => Hash::make($data['password']),
         ]);

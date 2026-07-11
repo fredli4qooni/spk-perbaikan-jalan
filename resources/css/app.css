@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #008B45;
+  --color-brand-green-hover: #007339;
+  --color-brand-red: #E31837;
+  --color-brand-red-hover: #C5152F;
+  --color-brand-purple: #1D2062;
+  --color-brand-purple-hover: #16184A;
+  --color-brand-yellow: #FFD100;
+  --color-brand-yellow-hover: #E6BC00;
+}
+
+/* Base styling */
+body {
+    @apply bg-gray-50 text-gray-800 antialiased font-sans;
+}

@@ -14,6 +14,7 @@ class Road extends Model
         'location',
         'survey_year',
         'photo',
+        'video',
         'notes',
         'length',
         'width',

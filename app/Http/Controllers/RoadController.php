@@ -31,6 +31,7 @@ class RoadController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'survey_year' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
             'photo' => ['nullable', 'image', 'max:2048'],
+            'video' => ['nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/x-msvideo', 'max:51200'],
             'notes' => ['nullable', 'string'],
             'length' => ['required', 'numeric', 'min:0'],
             'width' => ['required', 'numeric', 'min:0'],
@@ -44,6 +45,10 @@ class RoadController extends Controller
 
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('roads', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $data['video'] = $request->file('video')->store('roads/videos', 'public');
         }
 
         $data['is_verified'] = false;
@@ -71,6 +76,7 @@ class RoadController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'survey_year' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
             'photo' => ['nullable', 'image', 'max:2048'],
+            'video' => ['nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/x-msvideo', 'max:51200'],
             'notes' => ['nullable', 'string'],
             'length' => ['required', 'numeric', 'min:0'],
             'width' => ['required', 'numeric', 'min:0'],
@@ -89,6 +95,13 @@ class RoadController extends Controller
             $data['photo'] = $request->file('photo')->store('roads', 'public');
         }
 
+        if ($request->hasFile('video')) {
+            if ($road->video) {
+                Storage::disk('public')->delete($road->video);
+            }
+            $data['video'] = $request->file('video')->store('roads/videos', 'public');
+        }
+
         $road->update($data);
 
         return redirect()->route('roads.index')->with('success', 'Ruas jalan berhasil diperbarui.');
@@ -100,6 +113,10 @@ class RoadController extends Controller
 
         if ($road->photo) {
             Storage::disk('public')->delete($road->photo);
+        }
+
+        if ($road->video) {
+            Storage::disk('public')->delete($road->video);
         }
 
         $road->delete();
