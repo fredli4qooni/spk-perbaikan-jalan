@@ -19,8 +19,11 @@ class Road extends Model
         'length',
         'width',
         'holes_count',
-        'hole_depth',
+        'potholes_data',
         'importance',
+        'distance',
+        'latitude',
+        'longitude',
         'kelurahan',
         'kecamatan',
         'rt',
@@ -34,6 +37,7 @@ class Road extends Model
         return [
             'is_verified' => 'boolean',
             'verified_at' => 'datetime',
+            'potholes_data' => 'array',
         ];
     }
 

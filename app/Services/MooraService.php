@@ -106,15 +106,23 @@ class MooraService
         $code = strtoupper($criterion->code ?? '');
 
         switch ($code) {
-            case 'C1': // Panjang Jalan (m)
+            case 'C1': // Panjang Kerusakan Jalan (m)
                 return (float) ($road->length ?? 0);
             case 'C2': // Lebar Jalan (m)
                 return (float) ($road->width ?? 0);
-            case 'C3': // Banyaknya Lubang (buah)
+            case 'C3': // Kedalaman Lubang (cm)
+                $potholes = is_array($road->potholes_data) ? $road->potholes_data : json_decode($road->potholes_data, true);
+                if (empty($potholes)) return 0.0;
+                
+                $maxDepth = 0;
+                foreach ($potholes as $p) {
+                    $d = (float) ($p['depth'] ?? 0);
+                    if ($d > $maxDepth) $maxDepth = $d;
+                }
+                return $maxDepth;
+            case 'C4': // Banyaknya Lubang (buah)
                 return (float) ($road->holes_count ?? 0);
-            case 'C4': // Kedalaman Lubang (cm)
-                return (float) ($road->hole_depth ?? 0);
-            case 'C6': // Kepentingan Jalan (kategori)
+            case 'C5': // Kepentingan Jalan (kategori)
                 $map = [
                     'SEKOLAH' => 5,
                     'PASAR' => 4,
@@ -123,25 +131,8 @@ class MooraService
                 ];
                 $imp = strtoupper((string) ($road->importance ?? ''));
                 return (float) ($map[$imp] ?? 1);
-            case 'C5': // Tingkat Kerusakan (perkiraan): gunakan lubang * kedalaman
-                $holes = (float) ($road->holes_count ?? 0);
-                $depth = (float) ($road->hole_depth ?? 0);
-                // jika panjang tersedia, hitung intensitas per 100m sebagai proxy
-                $length = (float) ($road->length ?? 0);
-                $intensity = $holes * $depth;
-                if ($length > 0) {
-                    $intensity = $intensity / max(0.1, ($length / 100.0));
-                }
-                return $intensity;
-            case 'C7': // Biaya Perbaikan (perkiraan): fungsi sederhana
-                $len = (float) ($road->length ?? 0);
-                $wid = (float) ($road->width ?? 0);
-                $holes = (float) ($road->holes_count ?? 0);
-                $depth = (float) ($road->hole_depth ?? 0);
-                // biaya = area * unit_cost + lubang * depth * factor
-                $areaCost = ($len * $wid) * 50000; // asumsi biaya per m2
-                $holeCost = ($holes * $depth) * 1000; // asumsi
-                return $areaCost + $holeCost;
+            case 'C6': // Jarak jalan dari pusat kantor dinas (km)
+                return (float) ($road->distance ?? 0);
             default:
                 return 0.0;
         }

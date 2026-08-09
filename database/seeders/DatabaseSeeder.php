@@ -30,13 +30,12 @@ class DatabaseSeeder extends Seeder
         );
 
         $criteria = [
-            ['code' => 'C1', 'name' => 'Panjang Jalan', 'weight' => 15, 'type' => 'benefit', 'unit' => 'm'],
-            ['code' => 'C2', 'name' => 'Lebar Jalan', 'weight' => 10, 'type' => 'benefit', 'unit' => 'm'],
-            ['code' => 'C3', 'name' => 'Banyaknya Lubang', 'weight' => 20, 'type' => 'benefit', 'unit' => 'buah'],
-            ['code' => 'C4', 'name' => 'Kedalaman Lubang', 'weight' => 15, 'type' => 'benefit', 'unit' => 'cm'],
-            ['code' => 'C5', 'name' => 'Tingkat Kerusakan', 'weight' => 20, 'type' => 'benefit', 'unit' => 'skor'],
-            ['code' => 'C6', 'name' => 'Kepentingan Jalan', 'weight' => 15, 'type' => 'benefit', 'unit' => 'skor'],
-            ['code' => 'C7', 'name' => 'Biaya Perbaikan', 'weight' => 5, 'type' => 'cost', 'unit' => 'rupiah'],
+            ['code' => 'C1', 'name' => 'Panjang Kerusakan Jalan', 'weight' => 20, 'type' => 'benefit', 'unit' => 'm'],
+            ['code' => 'C2', 'name' => 'Lebar Jalan', 'weight' => 15, 'type' => 'benefit', 'unit' => 'm'],
+            ['code' => 'C3', 'name' => 'Kedalaman Lubang', 'weight' => 25, 'type' => 'benefit', 'unit' => 'cm'],
+            ['code' => 'C4', 'name' => 'Banyaknya Lubang', 'weight' => 20, 'type' => 'benefit', 'unit' => 'buah'],
+            ['code' => 'C5', 'name' => 'Kepentingan Jalan', 'weight' => 15, 'type' => 'benefit', 'unit' => 'kategori'],
+            ['code' => 'C6', 'name' => 'Jarak jalan dari pusat', 'weight' => 5, 'type' => 'cost', 'unit' => 'km'],
         ];
 
         foreach ($criteria as $criterion) {
