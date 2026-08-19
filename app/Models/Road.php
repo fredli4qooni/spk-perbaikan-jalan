@@ -10,6 +10,7 @@ class Road extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'location',
         'survey_year',
@@ -27,27 +28,27 @@ class Road extends Model
         'kelurahan',
         'kecamatan',
         'rt',
-        'is_verified',
-        'verified_by',
-        'verified_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'is_verified' => 'boolean',
-            'verified_at' => 'datetime',
             'potholes_data' => 'array',
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function scores()
     {
         return $this->hasMany(RoadScore::class);
-    }
-
-    public function verifier()
-    {
-        return $this->belongsTo(User::class, 'verified_by');
     }
 }

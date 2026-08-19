@@ -35,6 +35,16 @@ class User extends Authenticatable
     {
         return $this->profile_photo_path
             ? asset('storage/' . $this->profile_photo_path)
-            : asset('images/default-avatar.svg');
+            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=582c7d&color=ffffff&bold=true';
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    public function roads()
+    {
+        return $this->hasMany(Road::class);
     }
 }

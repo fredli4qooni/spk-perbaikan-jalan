@@ -6,7 +6,7 @@
         <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <i class="bi bi-road-lane text-brand-purple"></i> Data Ruas Jalan
         </h2>
-        <p class="text-sm text-gray-500 mt-1">Kelola data ruas jalan yang akan dianalisis.</p>
+        <p class="text-sm text-gray-500 mt-1">Daftar seluruh data ruas jalan yang telah diinput dan siap dianalisis.</p>
     </div>
     @if (auth()->user()->role === 'petugas')
         <a href="{{ route('roads.create') }}" class="inline-flex items-center justify-center rounded-md bg-brand-purple px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2">
@@ -20,13 +20,12 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><i class="bi bi-file-text"></i> Nama Ruas</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Media</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nilai</th>
-                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-48">Aksi</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-file-text"></i> Nama Ruas</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi</th>
+                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Tahun</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Diinput Oleh</th>
+                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Media</th>
+                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-40">Aksi</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -34,79 +33,85 @@
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="font-bold text-gray-900">{{ $road->name }}</div>
+                            <div class="text-xs text-gray-400 mt-0.5">
+                                {{ $road->holes_count ?? 0 }} Lubang &bull; Panjang: {{ $road->length }} m
+                            </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
                             {{ $road->location }}
+                            @if ($road->latitude && $road->longitude)
+                                <div class="text-xs font-mono text-brand-purple mt-0.5">
+                                    <i class="bi bi-pin-map"></i> {{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }}
+                                </div>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
                                 {{ $road->survey_year }}
                             </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold text-xs">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs font-bold text-gray-900">{{ $road->user->name ?? 'Petugas' }}</div>
+                                    <div class="text-[10px] text-gray-400">{{ $road->created_at->format('d/m/Y') }}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             <div class="flex justify-center gap-2">
                                 @if ($road->photo)
-                                    <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="overflow-hidden rounded-md border border-gray-200 hover:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all" title="Lihat Foto">
-                                        <img src="{{ asset('storage/' . $road->photo) }}" alt="foto" class="w-10 h-10 object-cover">
+                                    <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="overflow-hidden rounded-md border border-gray-200 hover:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Lihat Foto">
+                                        <img src="{{ asset('storage/' . $road->photo) }}" alt="foto" class="w-9 h-9 object-cover">
                                     </button>
                                 @endif
                                 @if ($road->video)
-                                    <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->name) }}' }" class="flex items-center justify-center w-10 h-10 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/10 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all" title="Putar Video">
-                                        <i class="bi bi-play-circle-fill text-xl"></i>
+                                    <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->name) }}' }" class="flex items-center justify-center w-9 h-9 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/15 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Putar Video">
+                                        <i class="bi bi-play-circle-fill text-lg"></i>
                                     </button>
                                 @endif
                                 @if (!$road->photo && !$road->video)
-                                    <span class="text-gray-400">-</span>
+                                    <span class="text-gray-300">-</span>
                                 @endif
                             </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            @if ($road->is_verified)
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Terverifikasi</span>
-                            @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Menunggu</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">{{ $road->scores_count }}</span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             @if (auth()->user()->role === 'petugas')
                                 <div class="flex justify-end gap-2">
-                                    <a href="{{ route('roads.edit', $road) }}" class="inline-flex items-center p-1.5 border border-transparent rounded-md text-yellow-600 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" title="Edit">
+                                    <a href="{{ route('roads.edit', $road) }}" class="inline-flex items-center p-1.5 border border-transparent rounded-md text-yellow-600 bg-yellow-50 hover:bg-yellow-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" title="Edit Data">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('roads.destroy', $road) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    <form action="{{ route('roads.destroy', $road) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data ruas jalan ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center p-1.5 border border-transparent rounded-md text-red-600 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" title="Hapus">
+                                        <button type="submit" class="inline-flex items-center p-1.5 border border-transparent rounded-md text-red-600 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" title="Hapus Data">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
                                 </div>
                             @else
-                                @if (! $road->is_verified)
-                                    <form action="{{ route('roads.verify', $road) }}" method="POST" class="inline" onsubmit="return confirm('Verifikasi data ruas jalan ini?')">
-                                        @csrf
-                                        <button type="submit" class="inline-flex items-center px-3 py-1 border border-transparent rounded-md text-sm text-green-700 bg-green-50 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                            <i class="bi bi-check-circle mr-1"></i> Verifikasi
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="text-xs text-gray-500">Diverifikasi {{ $road->verified_at?->format('d-m-Y H:i') }}</span>
-                                @endif
+                                <div class="flex justify-end">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-gray-100 text-gray-700">
+                                        <i class="bi bi-check2-all text-brand-green mr-1"></i> Data Aktif
+                                    </span>
+                                </div>
                             @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
-                            <i class="bi bi-inbox text-3xl mb-2 block text-gray-300"></i>
-                            Belum ada data ruas jalan.
+                        <td colspan="6" class="px-6 py-16 text-center text-gray-500">
+                            <i class="bi bi-inbox text-4xl mb-3 block text-gray-300"></i>
+                            <p class="font-semibold text-gray-600">Belum ada data ruas jalan yang diinput.</p>
+                            @if (auth()->user()->role === 'petugas')
+                                <p class="text-xs text-gray-400 mt-1">Silakan klik tombol "Tambah Ruas Jalan" di atas untuk mulai menambahkan data.</p>
+                            @endif
                         </td>
                     </tr>
                 @endforelse
-
             </tbody>
         </table>
     </div>
@@ -153,7 +158,7 @@
     </div>
 </div>
 
-<div class="mt-4">
+<div class="mt-5">
     {{ $roads->links() }}
 </div>
 @endsection

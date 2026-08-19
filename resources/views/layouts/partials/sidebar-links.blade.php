@@ -18,16 +18,16 @@ $iconInactive = 'text-gray-400 group-hover:text-brand-purple';
     </a>
 @else
     <a href="{{ route('roads.index') }}" class="{{ $navClass }} {{ request()->routeIs('roads.*') ? $navActive : $navInactive }}">
-        <i class="bi bi-clipboard-check-fill {{ $iconClass }} {{ request()->routeIs('roads.*') ? $iconActive : $iconInactive }}"></i>
-        <span class="truncate tracking-wide">Verifikasi Ruas Jalan</span>
+        <i class="bi bi-signpost-split-fill {{ $iconClass }} {{ request()->routeIs('roads.*') ? $iconActive : $iconInactive }}"></i>
+        <span class="truncate tracking-wide">Data Ruas Jalan</span>
     </a>
     <a href="{{ route('users.index') }}" class="{{ $navClass }} {{ request()->routeIs('users.*') ? $navActive : $navInactive }}">
         <i class="bi bi-people-fill {{ $iconClass }} {{ request()->routeIs('users.*') ? $iconActive : $iconInactive }}"></i>
         <span class="truncate tracking-wide">Daftar User</span>
     </a>
-    <a href="{{ route('account-requests.index') }}" class="{{ $navClass }} {{ request()->routeIs('account-requests.*') ? $navActive : $navInactive }}">
-        <i class="bi bi-shield-lock-fill {{ $iconClass }} {{ request()->routeIs('account-requests.*') ? $iconActive : $iconInactive }}"></i>
-        <span class="truncate tracking-wide">Verifikasi Petugas</span>
+    <a href="{{ route('activity-logs.index') }}" class="{{ $navClass }} {{ request()->routeIs('activity-logs.*') ? $navActive : $navInactive }}">
+        <i class="bi bi-clock-history {{ $iconClass }} {{ request()->routeIs('activity-logs.*') ? $iconActive : $iconInactive }}"></i>
+        <span class="truncate tracking-wide">Riwayat Aktivitas</span>
     </a>
 @endif
 

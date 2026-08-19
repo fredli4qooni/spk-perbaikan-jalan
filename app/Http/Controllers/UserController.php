@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActivityLogger;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -35,12 +36,14 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => 'petugas',
         ]);
+
+        ActivityLogger::log('create', "Admin menambahkan akun petugas baru: {$user->name} ({$user->email})");
 
         return redirect()->route('users.index')->with('success', 'User petugas berhasil ditambahkan.');
     }

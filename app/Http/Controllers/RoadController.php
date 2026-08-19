@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActivityLogger;
 use App\Models\Road;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RoadController extends Controller
 {
     public function index()
     {
-        $roads = Road::withCount('scores')->latest()->paginate(10);
+        $roads = Road::with(['user', 'scores'])->latest()->paginate(10);
         return view('roads.index', compact('roads'));
     }
 
@@ -57,11 +58,11 @@ class RoadController extends Controller
             $data['video'] = $request->file('video')->store('roads/videos', 'public');
         }
 
-        $data['is_verified'] = false;
-        $data['verified_by'] = null;
-        $data['verified_at'] = null;
+        $data['user_id'] = Auth::id();
 
-        Road::create($data);
+        $road = Road::create($data);
+
+        ActivityLogger::log('create', "Menambahkan data ruas jalan: {$road->name} ({$road->location})");
 
         return redirect()->route('roads.index')->with('success', 'Ruas jalan berhasil ditambahkan.');
     }
@@ -116,12 +117,16 @@ class RoadController extends Controller
 
         $road->update($data);
 
+        ActivityLogger::log('update', "Memperbarui data ruas jalan: {$road->name}");
+
         return redirect()->route('roads.index')->with('success', 'Ruas jalan berhasil diperbarui.');
     }
 
     public function destroy(Road $road)
     {
         abort_unless(Auth::user()?->role === 'petugas', 403);
+
+        $roadName = $road->name;
 
         if ($road->photo) {
             Storage::disk('public')->delete($road->photo);
@@ -133,19 +138,8 @@ class RoadController extends Controller
 
         $road->delete();
 
+        ActivityLogger::log('delete', "Menghapus data ruas jalan: {$roadName}");
+
         return back()->with('success', 'Ruas jalan berhasil dihapus.');
-    }
-
-    public function verify(Road $road)
-    {
-        abort_unless(Auth::user()?->role === 'admin', 403);
-
-        $road->update([
-            'is_verified' => true,
-            'verified_by' => Auth::id(),
-            'verified_at' => now(),
-        ]);
-
-        return back()->with('success', 'Ruas jalan berhasil diverifikasi.');
     }
 }

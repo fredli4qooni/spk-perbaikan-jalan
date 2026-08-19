@@ -74,13 +74,5 @@
             Masuk
         </button>
     </form>
-
-    <div class="mt-4">
-        <a href="{{ route('account-request.create') }}" class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple transition-colors">
-            <i class="bi bi-person-plus mr-2"></i> Permohonan Akun
-        </a>
-    </div>
-
-
 </div>
 @endsection
