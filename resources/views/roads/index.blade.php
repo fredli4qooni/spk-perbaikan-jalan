@@ -6,7 +6,7 @@
         <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <i class="bi bi-road-lane text-brand-purple"></i> Data Ruas Jalan
         </h2>
-        <p class="text-sm text-gray-500 mt-1">Daftar seluruh data ruas jalan yang telah diinput dan siap dianalisis.</p>
+        <p class="text-sm text-gray-500 mt-1">Daftar seluruh data lokasi ruas jalan yang telah disurvei dengan 5 kriteria MOORA.</p>
     </div>
     @if (auth()->user()->role === 'petugas')
         <a href="{{ route('roads.create') }}" class="inline-flex items-center justify-center rounded-md bg-brand-purple px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2">
@@ -20,30 +20,46 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-file-text"></i> Nama Ruas</th>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi Ruas Jalan</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Parameter Kriteria (C1 - C5)</th>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Tahun</th>
                     <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Diinput Oleh</th>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Media</th>
-                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-40">Aksi</th>
+                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-36">Aksi</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($roads as $road)
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="font-bold text-gray-900">{{ $road->name }}</div>
-                            <div class="text-xs text-gray-400 mt-0.5">
-                                {{ $road->holes_count ?? 0 }} Lubang &bull; Panjang: {{ $road->length }} m
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900 text-sm">{{ $road->location }}</div>
+                            <div class="text-xs text-gray-400 mt-1 flex items-center gap-2">
+                                <span>{{ $road->kecamatan }}, {{ $road->kelurahan }}</span>
+                                @if ($road->latitude && $road->longitude)
+                                    <span class="font-mono text-brand-purple">
+                                        <i class="bi bi-pin-map"></i> {{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }}
+                                    </span>
+                                @endif
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
-                            {{ $road->location }}
-                            @if ($road->latitude && $road->longitude)
-                                <div class="text-xs font-mono text-brand-purple mt-0.5">
-                                    <i class="bi bi-pin-map"></i> {{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }}
-                                </div>
-                            @endif
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-1.5 max-w-md">
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-purple-50 text-brand-purple px-2 py-0.5 rounded border border-purple-100" title="Panjang Kerusakan: {{ $road->c1_label }}">
+                                    <strong>C1:</strong> {{ $road->c1_label }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100" title="Lebar Jalan: {{ $road->c2_label }}">
+                                    <strong>C2:</strong> {{ $road->c2_label }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-amber-50 text-amber-800 px-2 py-0.5 rounded border border-amber-100" title="Kedalaman: {{ $road->c3_label }}">
+                                    <strong>C3:</strong> {{ $road->c3_label }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-100" title="Banyaknya Lubang: {{ $road->c4_label }}">
+                                    <strong>C4:</strong> {{ $road->c4_label }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-100" title="Kepentingan: {{ $road->c5_label }}">
+                                    <strong>C5:</strong> {{ $road->c5_label }}
+                                </span>
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
@@ -52,11 +68,9 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center gap-2">
-                                <div class="w-7 h-7 rounded-full bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold text-xs">
-                                    <i class="bi bi-person-fill"></i>
-                                </div>
+                                <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="w-7 h-7 rounded-full object-contain border border-gray-200 bg-white p-0.5">
                                 <div>
-                                    <div class="text-xs font-bold text-gray-900">{{ $road->user->name ?? 'Petugas' }}</div>
+                                    <div class="text-xs font-bold text-gray-900">{{ $road->user->name ?? 'Petugas PUPR' }}</div>
                                     <div class="text-[10px] text-gray-400">{{ $road->created_at->format('d/m/Y') }}</div>
                                 </div>
                             </div>
@@ -69,7 +83,7 @@
                                     </button>
                                 @endif
                                 @if ($road->video)
-                                    <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->name) }}' }" class="flex items-center justify-center w-9 h-9 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/15 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Putar Video">
+                                    <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->location) }}' }" class="flex items-center justify-center w-9 h-9 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/15 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Putar Video">
                                         <i class="bi bi-play-circle-fill text-lg"></i>
                                     </button>
                                 @endif

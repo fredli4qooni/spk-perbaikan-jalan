@@ -33,9 +33,7 @@ class User extends Authenticatable
 
     public function getProfilePhotoUrlAttribute(): string
     {
-        return $this->profile_photo_path
-            ? asset('storage/' . $this->profile_photo_path)
-            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=582c7d&color=ffffff&bold=true';
+        return asset('images/logo-pupr.png');
     }
 
     public function activityLogs()

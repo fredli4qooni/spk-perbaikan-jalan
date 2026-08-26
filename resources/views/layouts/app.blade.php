@@ -30,10 +30,10 @@
                 </button>
             </div>
             
-            <div class="h-16 flex items-center px-6 bg-brand-purple text-white shadow-sm">
-                <a href="{{ route('dashboard') }}" class="font-bold text-xl tracking-wider flex items-center gap-2">
-                    <span class="w-8 h-8 rounded bg-brand-yellow text-brand-purple flex items-center justify-center font-black">P</span>
-                    PUPR MOORA
+            <div class="h-16 flex items-center px-5 bg-brand-purple text-white shadow-sm">
+                <a href="{{ route('dashboard') }}" class="font-bold text-lg tracking-wide flex items-center gap-3">
+                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
+                    <span class="font-extrabold tracking-wider">PUPR MOORA</span>
                 </a>
             </div>
             
@@ -49,10 +49,10 @@
     <!-- Desktop sidebar -->
     <div class="hidden md:flex md:flex-shrink-0 bg-white border-r border-gray-200 shadow-sm z-20 transition-all duration-300 w-64">
         <div class="flex flex-col w-full">
-            <div class="h-16 flex items-center px-6 bg-brand-purple text-white flex-shrink-0">
-                <a href="{{ route('dashboard') }}" class="font-bold text-xl tracking-wider flex items-center gap-3">
-                    <span class="w-8 h-8 rounded bg-brand-yellow text-brand-purple flex items-center justify-center font-black shadow-inner">P</span>
-                    <span>PUPR MOORA</span>
+            <div class="h-16 flex items-center px-5 bg-brand-purple text-white flex-shrink-0">
+                <a href="{{ route('dashboard') }}" class="font-bold text-lg tracking-wide flex items-center gap-3">
+                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
+                    <span class="font-extrabold tracking-wider">PUPR MOORA</span>
                 </a>
             </div>
             <div class="flex flex-col flex-grow pt-6 pb-4 overflow-y-auto">

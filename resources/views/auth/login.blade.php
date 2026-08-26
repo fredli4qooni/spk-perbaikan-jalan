@@ -57,15 +57,8 @@
             </div>
         </div>
         
-        <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center">
-                <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-brand-purple focus:ring-brand-purple border-gray-300 rounded">
-                <label for="remember" class="ml-2 block text-sm text-gray-700">
-                    Ingat saya
-                </label>
-            </div>
-            
-            <a href="{{ route('password.request') }}" class="text-sm font-medium text-brand-purple hover:text-brand-purple-hover">
+        <div class="flex items-center justify-end mb-6">
+            <a href="{{ route('password.request') }}" class="text-sm font-semibold text-brand-purple hover:text-brand-purple-hover hover:underline transition-all">
                 Lupa password?
             </a>
         </div>

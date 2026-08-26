@@ -37,8 +37,8 @@
         <div class="p-6 flex items-center justify-between">
             <div>
                 <div class="text-sm font-semibold text-gray-500">Prioritas #1 Teratas</div>
-                <div class="text-lg font-bold text-gray-900 mt-1 truncate max-w-[180px]" title="{{ optional($ranking['road'] ?? null)->name ?? 'Belum ada' }}">
-                    {{ optional($ranking['road'] ?? null)->name ?? 'Belum ada data' }}
+                <div class="text-lg font-bold text-gray-900 mt-1 truncate max-w-[180px]" title="{{ optional($ranking['road'] ?? null)->location ?? 'Belum ada' }}">
+                    {{ optional($ranking['road'] ?? null)->location ?? 'Belum ada data' }}
                 </div>
             </div>
             <div class="text-5xl text-amber-500 opacity-30">
@@ -79,9 +79,12 @@
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-black {{ $row['rank'] === 1 ? 'bg-amber-400 text-amber-950 ring-2 ring-amber-200' : ($row['rank'] === 2 ? 'bg-slate-200 text-slate-800' : 'bg-amber-700/20 text-amber-900') }} mb-2">
                                 Peringkat #{{ $row['rank'] }}
                             </span>
-                            <h6 class="font-bold text-gray-900 text-lg">{{ $row['road']->name }}</h6>
-                            <p class="text-sm text-gray-500 mt-1 flex items-center gap-1">
-                                <i class="bi bi-geo-alt text-brand-purple"></i> {{ $row['road']->location }}
+                            <h6 class="font-bold text-gray-900 text-lg">{{ $row['road']->location }}</h6>
+                            <p class="text-xs text-gray-500 mt-1 flex items-center gap-2">
+                                <span class="inline-flex items-center gap-1 font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded">
+                                    <i class="bi bi-cone-striped text-amber-500"></i> {{ $row['road']->holes_count ?? 0 }} Lubang
+                                </span>
+                                <span>{{ $row['road']->kecamatan }}, {{ $row['road']->kelurahan }}</span>
                             </p>
                         </div>
                         <div class="text-right">
@@ -114,14 +117,15 @@
                 @forelse ($latestRoads as $road)
                     <div class="px-6 py-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
                         <div>
-                            <div class="font-bold text-gray-900 text-sm">{{ $road->name }}</div>
+                            <div class="font-bold text-gray-900 text-sm">{{ $road->location }}</div>
                             <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
-                                <i class="bi bi-geo-alt"></i> {{ $road->location }}
+                                <span>{{ $road->kecamatan }}</span> &bull; <span>{{ $road->holes_count ?? 0 }} Lubang</span>
                             </div>
                         </div>
                         <div class="text-right">
                             <div class="text-xs font-bold text-brand-purple flex items-center justify-end gap-1">
-                                <i class="bi bi-person-circle"></i> {{ $road->user->name ?? 'Petugas' }}
+                                <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="w-4 h-4 rounded-full object-contain">
+                                {{ $road->user->name ?? 'Petugas PUPR' }}
                             </div>
                             <div class="text-[10px] text-gray-400 mt-0.5">
                                 {{ $road->created_at->translatedFormat('d M Y') }}

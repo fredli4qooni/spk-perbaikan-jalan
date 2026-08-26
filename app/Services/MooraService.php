@@ -9,7 +9,7 @@ class MooraService
 {
     public function calculate(): array
     {
-        $roads = Road::with(['scores.criterion'])->orderBy('name')->get();
+        $roads = Road::with(['scores.criterion'])->orderBy('id')->get();
         $criteria = Criterion::orderBy('code')->orderBy('id')->get();
 
         $weights = $this->normalizeWeights($criteria);
@@ -50,6 +50,7 @@ class MooraService
             ];
         }
 
+        // Sort descending by MOORA result (Yi)
         usort($rows, fn ($a, $b) => $b['result'] <=> $a['result']);
 
         foreach ($rows as $index => &$row) {
@@ -94,7 +95,7 @@ class MooraService
         return $denominators;
     }
 
-    private function getRoadCriterionValue(Road $road, Criterion $criterion): float
+    public function getRoadCriterionValue(Road $road, Criterion $criterion): float
     {
         // Prefer explicit RoadScore if present
         $score = $road->scores->firstWhere('criterion_id', $criterion->id);
@@ -102,39 +103,22 @@ class MooraService
             return (float) $score->value;
         }
 
-        // Fallback: derive values from Road attributes for known criteria codes
+        // Map scale values 1-5 directly from road attributes
         $code = strtoupper($criterion->code ?? '');
 
         switch ($code) {
-            case 'C1': // Panjang Kerusakan Jalan (m)
-                return (float) ($road->length ?? 0);
-            case 'C2': // Lebar Jalan (m)
-                return (float) ($road->width ?? 0);
-            case 'C3': // Kedalaman Lubang (cm)
-                $potholes = is_array($road->potholes_data) ? $road->potholes_data : json_decode($road->potholes_data, true);
-                if (empty($potholes)) return 0.0;
-                
-                $maxDepth = 0;
-                foreach ($potholes as $p) {
-                    $d = (float) ($p['depth'] ?? 0);
-                    if ($d > $maxDepth) $maxDepth = $d;
-                }
-                return $maxDepth;
-            case 'C4': // Banyaknya Lubang (buah)
-                return (float) ($road->holes_count ?? 0);
-            case 'C5': // Kepentingan Jalan (kategori)
-                $map = [
-                    'SEKOLAH' => 5,
-                    'PASAR' => 4,
-                    'KANTOR' => 3,
-                    'LAINNYA' => 1,
-                ];
-                $imp = strtoupper((string) ($road->importance ?? ''));
-                return (float) ($map[$imp] ?? 1);
-            case 'C6': // Jarak jalan dari pusat kantor dinas (km)
-                return (float) ($road->distance ?? 0);
+            case 'C1': // Panjang Kerusakan Jalan (Skala 1 - 5)
+                return (float) ($road->c1_panjang ?: 1);
+            case 'C2': // Lebar Jalan (Skala 1 - 5)
+                return (float) ($road->c2_lebar ?: 1);
+            case 'C3': // Kedalaman Lubang (Skala 1 - 5)
+                return (float) ($road->c3_kedalaman ?: 1);
+            case 'C4': // Banyaknya Lubang (Skala 1 - 5)
+                return (float) ($road->c4_lubang ?: 1);
+            case 'C5': // Tingkat Kepentingan Jalan (Skala 1 - 5)
+                return (float) ($road->c5_kepentingan ?: 1);
             default:
-                return 0.0;
+                return 1.0;
         }
     }
 

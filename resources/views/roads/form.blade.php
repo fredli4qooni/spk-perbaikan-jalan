@@ -1,6 +1,6 @@
 @php
 $labelClass = "block text-sm font-medium text-gray-700 mb-1";
-$inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border";
+$inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2.5 border bg-white";
 @endphp
 
 <!-- Leaflet CDN -->
@@ -8,10 +8,11 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <div x-data="roadForm()">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-            <label class="{{ $labelClass }}">Nama Ruas Jalan</label>
-            <input type="text" name="name" class="{{ $inputClass }}" value="{{ old('name', $road->name ?? '') }}" placeholder="Contoh: Jl. Raden Intan No. 12" required>
+    <!-- Tahun Survei & Lokasi Utama -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="md:col-span-2">
+            <label class="{{ $labelClass }}">Lokasi / Alamat Ruas Jalan</label>
+            <input type="text" name="location" id="location_input" class="{{ $inputClass }}" value="{{ old('location', $road->location ?? '') }}" placeholder="Contoh: Jl. Raden Intan No. 12, Enggal" required>
         </div>
         <div>
             <label class="{{ $labelClass }}">Tahun Survei</label>
@@ -21,10 +22,7 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
     <!-- Peta Lokasi & Pencarian Geocoding -->
     <div class="mb-6">
-        <label class="{{ $labelClass }}">Lokasi (Alamat Lengkap Ruas Jalan)</label>
-        <input type="text" name="location" id="location_input" class="{{ $inputClass }}" value="{{ old('location', $road->location ?? '') }}" placeholder="Alamat atau patokan lokasi jalan" required>
-        
-        <div class="mt-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
                 <label class="block text-sm font-bold text-gray-800 flex items-center gap-2">
                     <i class="bi bi-geo-alt-fill text-brand-purple"></i> Titik Koordinat & Pencarian Peta
@@ -106,114 +104,117 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <!-- Kecamatan & Kelurahan -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
             <label class="{{ $labelClass }}">Kecamatan</label>
             <select name="kecamatan" class="{{ $inputClass }}" required>
                 <option value="" {{ old('kecamatan', $road->kecamatan ?? '') == '' ? 'selected' : '' }}>Pilih Kecamatan</option>
-                <option value="Kecamatan A" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan A' ? 'selected' : '' }}>Kecamatan A</option>
-                <option value="Kecamatan B" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan B' ? 'selected' : '' }}>Kecamatan B</option>
-                <option value="Kecamatan C" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan C' ? 'selected' : '' }}>Kecamatan C</option>
+                <option value="Kecamatan Way Halim" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Way Halim' ? 'selected' : '' }}>Kecamatan Way Halim</option>
+                <option value="Kecamatan Sukarame" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Sukarame' ? 'selected' : '' }}>Kecamatan Sukarame</option>
+                <option value="Kecamatan Tanjung Karang Pusat" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Tanjung Karang Pusat' ? 'selected' : '' }}>Kecamatan Tanjung Karang Pusat</option>
+                <option value="Kecamatan Tanjung Karang Barat" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Tanjung Karang Barat' ? 'selected' : '' }}>Kecamatan Tanjung Karang Barat</option>
+                <option value="Kecamatan Kedaton" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Kedaton' ? 'selected' : '' }}>Kecamatan Kedaton</option>
+                <option value="Kecamatan Teluk Betung Selatan" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Teluk Betung Selatan' ? 'selected' : '' }}>Kecamatan Teluk Betung Selatan</option>
             </select>
         </div>
         <div>
             <label class="{{ $labelClass }}">Kelurahan</label>
             <select name="kelurahan" class="{{ $inputClass }}" required>
                 <option value="" {{ old('kelurahan', $road->kelurahan ?? '') == '' ? 'selected' : '' }}>Pilih Kelurahan</option>
-                <option value="Kelurahan X" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan X' ? 'selected' : '' }}>Kelurahan X</option>
-                <option value="Kelurahan Y" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Y' ? 'selected' : '' }}>Kelurahan Y</option>
-                <option value="Kelurahan Z" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Z' ? 'selected' : '' }}>Kelurahan Z</option>
-            </select>
-        </div>
-        <div>
-            <label class="{{ $labelClass }}">RT</label>
-            <select name="rt" class="{{ $inputClass }}" required>
-                <option value="" {{ old('rt', $road->rt ?? '') == '' ? 'selected' : '' }}>Pilih RT</option>
-                @for($i=1;$i<=10;$i++)
-                    <option value="{{ str_pad($i,2,'0',STR_PAD_LEFT) }}" {{ old('rt', $road->rt ?? '') == str_pad($i,2,'0',STR_PAD_LEFT) ? 'selected' : '' }}>RT {{ str_pad($i,2,'0',STR_PAD_LEFT) }}</option>
-                @endfor
+                <option value="Kelurahan Way Halim Permai" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Way Halim Permai' ? 'selected' : '' }}>Kelurahan Way Halim Permai</option>
+                <option value="Kelurahan Sukarame" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Sukarame' ? 'selected' : '' }}>Kelurahan Sukarame</option>
+                <option value="Kelurahan Gedong Meneng" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Gedong Meneng' ? 'selected' : '' }}>Kelurahan Gedong Meneng</option>
+                <option value="Kelurahan Labuhan Ratu" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Labuhan Ratu' ? 'selected' : '' }}>Kelurahan Labuhan Ratu</option>
+                <option value="Kelurahan Gunung Sulah" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Gunung Sulah' ? 'selected' : '' }}>Kelurahan Gunung Sulah</option>
             </select>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-            <label class="{{ $labelClass }}">Kepentingan Jalan (C5)</label>
-            <select name="importance" class="{{ $inputClass }}" required>
-                <option value="" {{ old('importance', $road->importance ?? '') == '' ? 'selected' : '' }}>Pilih kepentingan</option>
-                <option value="sekolah" {{ old('importance', $road->importance ?? '') == 'sekolah' ? 'selected' : '' }}>Sekolah (Bobot Utama)</option>
-                <option value="pasar" {{ old('importance', $road->importance ?? '') == 'pasar' ? 'selected' : '' }}>Pasar (Pusat Ekonomi)</option>
-                <option value="kantor" {{ old('importance', $road->importance ?? '') == 'kantor' ? 'selected' : '' }}>Kantor Dinas Kota (Pelayanan)</option>
-                <option value="lainnya" {{ old('importance', $road->importance ?? '') == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
-            </select>
-        </div>
-        <div>
-            <label class="{{ $labelClass }}">Jarak dari Kantor Dinas Pusat (km) (C6)</label>
-            <input type="number" step="0.01" name="distance" class="{{ $inputClass }}" value="{{ old('distance', $road->distance ?? '') }}" placeholder="Contoh: 3.5" required>
-        </div>
-    </div>
-
-    <!-- Data Kerusakan Inti -->
-    <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-6 shadow-sm">
-        <h3 class="font-bold text-lg mb-4 text-gray-800 flex items-center gap-2">
-            <i class="bi bi-cone-striped text-brand-yellow"></i> Data Kerusakan Jalan
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+    <!-- 5 Kriteria Penilaian Dropdown (Sesuai Skripsi) -->
+    <div class="bg-purple-50/40 p-6 rounded-xl border border-purple-200/80 mb-6 shadow-xs">
+        <div class="flex items-center gap-2 mb-4 pb-2 border-b border-purple-100">
+            <i class="bi bi-list-check text-brand-purple text-xl"></i>
             <div>
-                <label class="{{ $labelClass }}">Banyaknya Lubang (C4)</label>
-                <select name="holes_count" x-model.number="holesCount" @change="generatePotholes" class="{{ $inputClass }}" required>
-                    <option value="0">0 Buah (Tidak ada lubang)</option>
-                    @for($i=1; $i<=20; $i++)
-                        <option value="{{ $i }}">{{ $i }} Buah</option>
-                    @endfor
+                <h3 class="font-bold text-gray-900 text-base">Parameter Penilaian Kriteria MOORA</h3>
+                <p class="text-xs text-gray-500">Pilih sub-kriteria sesuai kondisi lapangan ruas jalan yang disurvei.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- C1: Panjang Kerusakan Jalan -->
+            <div>
+                <label class="{{ $labelClass }} flex items-center justify-between">
+                    <span>Panjang Kerusakan Jalan <strong class="text-brand-purple">(C1 - Bobot 25%)</strong></span>
+                </label>
+                <select name="c1_panjang" class="{{ $inputClass }}" required>
+                    <option value="">-- Pilih Panjang Kerusakan --</option>
+                    @foreach(\App\Models\Road::getC1Options() as $val => $text)
+                        <option value="{{ $val }}" {{ old('c1_panjang', $road->c1_panjang ?? '') == $val ? 'selected' : '' }}>
+                            {{ $text }} (Nilai: {{ $val }})
+                        </option>
+                    @endforeach
                 </select>
-                <p class="text-xs text-gray-500 mt-1">Pilih jumlah lubang, form ukuran lubang akan otomatis muncul di bawah.</p>
             </div>
-            <div>
-                <label class="{{ $labelClass }}">Panjang Kerusakan Total (m) (C1)</label>
-                <input type="number" step="0.01" name="length" class="{{ $inputClass }}" value="{{ old('length', $road->length ?? '') }}" placeholder="Contoh: 15.5" required>
-            </div>
-            <div>
-                <label class="{{ $labelClass }}">Lebar Jalan (m) (C2)</label>
-                <input type="number" step="0.01" name="width" class="{{ $inputClass }}" value="{{ old('width', $road->width ?? '') }}" placeholder="Contoh: 6.0" required>
-            </div>
-        </div>
 
-        <!-- Form Dinamis Lubang -->
-        <div x-show="holesCount > 0" class="mt-6 border-t border-gray-200 pt-4" x-cloak>
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="font-bold text-gray-800 text-sm flex items-center gap-1.5">
-                    <i class="bi bi-list-nested text-brand-purple"></i> Dimensi Masing-masing Lubang (Kedalaman = C3)
-                </h4>
-                <span class="text-xs font-semibold px-2 py-0.5 bg-brand-purple/10 text-brand-purple rounded-full">
-                    <span x-text="holesCount"></span> Lubang Terdaftar
-                </span>
+            <!-- C2: Lebar Jalan -->
+            <div>
+                <label class="{{ $labelClass }} flex items-center justify-between">
+                    <span>Lebar Jalan <strong class="text-brand-purple">(C2 - Bobot 15%)</strong></span>
+                </label>
+                <select name="c2_lebar" class="{{ $inputClass }}" required>
+                    <option value="">-- Pilih Lebar Jalan --</option>
+                    @foreach(\App\Models\Road::getC2Options() as $val => $text)
+                        <option value="{{ $val }}" {{ old('c2_lebar', $road->c2_lebar ?? '') == $val ? 'selected' : '' }}>
+                            {{ $text }} (Nilai: {{ $val }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="space-y-4">
-                <template x-for="(hole, index) in potholes" :key="index">
-                    <div class="bg-white p-4 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
-                            <span class="font-bold text-brand-purple text-sm flex items-center gap-1.5">
-                                <span class="w-5 h-5 rounded-full bg-brand-purple text-white inline-flex items-center justify-center text-xs" x-text="index + 1"></span>
-                                Lubang ke-<span x-text="index + 1"></span>
-                            </span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="{{ $labelClass }}">Panjang (cm)</label>
-                                <input type="number" step="0.1" :name="`potholes_data[${index}][length]`" x-model="hole.length" class="{{ $inputClass }}" placeholder="Panjang lubang" required>
-                            </div>
-                            <div>
-                                <label class="{{ $labelClass }}">Lebar/Diameter (cm)</label>
-                                <input type="number" step="0.1" :name="`potholes_data[${index}][width]`" x-model="hole.width" class="{{ $inputClass }}" placeholder="Lebar lubang" required>
-                            </div>
-                            <div>
-                                <label class="{{ $labelClass }}">Kedalaman (cm) <span class="text-brand-purple font-semibold">*C3</span></label>
-                                <input type="number" step="0.1" :name="`potholes_data[${index}][depth]`" x-model="hole.depth" class="{{ $inputClass }}" placeholder="Kedalaman lubang" required>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+
+            <!-- C3: Kedalaman Lubang -->
+            <div>
+                <label class="{{ $labelClass }} flex items-center justify-between">
+                    <span>Kedalaman Lubang <strong class="text-brand-purple">(C3 - Bobot 20%)</strong></span>
+                </label>
+                <select name="c3_kedalaman" class="{{ $inputClass }}" required>
+                    <option value="">-- Pilih Kedalaman Lubang --</option>
+                    @foreach(\App\Models\Road::getC3Options() as $val => $text)
+                        <option value="{{ $val }}" {{ old('c3_kedalaman', $road->c3_kedalaman ?? '') == $val ? 'selected' : '' }}>
+                            {{ $text }} (Nilai: {{ $val }})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- C4: Banyaknya Lubang -->
+            <div>
+                <label class="{{ $labelClass }} flex items-center justify-between">
+                    <span>Banyaknya Lubang <strong class="text-brand-purple">(C4 - Bobot 25%)</strong></span>
+                </label>
+                <select name="c4_lubang" class="{{ $inputClass }}" required>
+                    <option value="">-- Pilih Banyaknya Lubang --</option>
+                    @foreach(\App\Models\Road::getC4Options() as $val => $text)
+                        <option value="{{ $val }}" {{ old('c4_lubang', $road->c4_lubang ?? '') == $val ? 'selected' : '' }}>
+                            {{ $text }} (Nilai: {{ $val }})
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- C5: Tingkat Kepentingan Jalan -->
+            <div class="md:col-span-2">
+                <label class="{{ $labelClass }} flex items-center justify-between">
+                    <span>Tingkat Kepentingan Jalan <strong class="text-brand-purple">(C5 - Bobot 15%)</strong></span>
+                </label>
+                <select name="c5_kepentingan" class="{{ $inputClass }}" required>
+                    <option value="">-- Pilih Kepentingan Jalan --</option>
+                    @foreach(\App\Models\Road::getC5Options() as $val => $text)
+                        <option value="{{ $val }}" {{ old('c5_kepentingan', $road->c5_kepentingan ?? '') == $val ? 'selected' : '' }}>
+                            {{ $text }} (Nilai: {{ $val }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
@@ -245,8 +246,6 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('roadForm', () => ({
-            holesCount: {{ old('holes_count', $road->holes_count ?? 0) }},
-            potholes: {!! json_encode(old('potholes_data', $road->potholes_data ?? [])) !!},
             searchQuery: '',
             searchResults: [],
             isSearching: false,
@@ -254,32 +253,17 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
             marker: null,
             
             init() {
-                if (this.potholes.length === 0 && this.holesCount > 0) {
-                    this.generatePotholes();
-                }
-                
                 setTimeout(() => {
                     this.initMap();
                 }, 150);
-            },
-            
-            generatePotholes() {
-                const currentLength = this.potholes.length;
-                if (this.holesCount > currentLength) {
-                    for (let i = currentLength; i < this.holesCount; i++) {
-                        this.potholes.push({ length: '', width: '', depth: '' });
-                    }
-                } else if (this.holesCount < currentLength) {
-                    this.potholes = this.potholes.slice(0, this.holesCount);
-                }
             },
 
             initMap() {
                 const latInput = document.getElementById('latitude');
                 const lngInput = document.getElementById('longitude');
                 
-                let initialLat = latInput.value ? parseFloat(latInput.value) : -5.450000;
-                let initialLng = lngInput.value ? parseFloat(lngInput.value) : 105.266670;
+                let initialLat = latInput.value ? parseFloat(latInput.value) : -5.385500;
+                let initialLng = lngInput.value ? parseFloat(lngInput.value) : 105.275000;
                 let zoomLevel = latInput.value ? 16 : 13;
 
                 this.map = L.map('map').setView([initialLat, initialLng], zoomLevel);

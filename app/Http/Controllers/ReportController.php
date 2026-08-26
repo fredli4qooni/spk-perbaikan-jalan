@@ -20,14 +20,20 @@ class ReportController extends Controller
 
         return response()->streamDownload(function () use ($summary) {
             $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['Rank', 'Ruas Jalan', 'Nilai MOORA']);
+            fputcsv($handle, ['Peringkat', 'Lokasi Ruas Jalan', 'Kecamatan', 'Kelurahan', 'Nilai MOORA']);
 
             foreach ($summary['results'] as $row) {
-                fputcsv($handle, [$row['rank'], $row['road']->name, $row['result']]);
+                fputcsv($handle, [
+                    $row['rank'],
+                    $row['road']->location,
+                    $row['road']->kecamatan,
+                    $row['road']->kelurahan,
+                    $row['result']
+                ]);
             }
 
             fclose($handle);
-        }, 'laporan-moora-pupr.csv', [
+        }, 'laporan-prioritas-jalan-moora-pupr.csv', [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
     }

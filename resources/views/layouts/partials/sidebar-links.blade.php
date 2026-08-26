@@ -12,10 +12,6 @@ $iconInactive = 'text-gray-400 group-hover:text-brand-purple';
         <i class="bi bi-signpost-split-fill {{ $iconClass }} {{ request()->routeIs('roads.*') ? $iconActive : $iconInactive }}"></i>
         <span class="truncate tracking-wide">Input Ruas Jalan</span>
     </a>
-    <a href="{{ route('scores.index') }}" class="{{ $navClass }} {{ request()->routeIs('scores.*') ? $navActive : $navInactive }}">
-        <i class="bi bi-card-checklist {{ $iconClass }} {{ request()->routeIs('scores.*') ? $iconActive : $iconInactive }}"></i>
-        <span class="truncate tracking-wide">Nilai Alternatif</span>
-    </a>
 @else
     <a href="{{ route('roads.index') }}" class="{{ $navClass }} {{ request()->routeIs('roads.*') ? $navActive : $navInactive }}">
         <i class="bi bi-signpost-split-fill {{ $iconClass }} {{ request()->routeIs('roads.*') ? $iconActive : $iconInactive }}"></i>

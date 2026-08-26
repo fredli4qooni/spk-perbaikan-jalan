@@ -37,7 +37,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-24">Peringkat</th>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nama Ruas Jalan & Lokasi</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lokasi Ruas Jalan</th>
                     <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Total Benefit (+)</th>
                     <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Total Cost (-)</th>
                     <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Nilai Akhir (Yi)</th>
@@ -66,9 +66,9 @@
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4">
                             <div class="font-bold text-gray-900 text-sm flex items-center gap-2">
-                                {{ $row['road']->name }}
+                                {{ $row['road']->location }}
                                 @if ($row['rank'] === 1)
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
                                         <i class="bi bi-star-fill text-amber-500 mr-1"></i> Prioritas Utama
@@ -76,7 +76,7 @@
                                 @endif
                             </div>
                             <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
-                                <i class="bi bi-geo-alt"></i> {{ $row['road']->location }}
+                                <span>{{ $row['road']->kecamatan }}, {{ $row['road']->kelurahan }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-mono text-green-700 font-semibold">

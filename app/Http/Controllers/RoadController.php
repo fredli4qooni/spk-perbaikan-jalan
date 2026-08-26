@@ -28,26 +28,20 @@ class RoadController extends Controller
         abort_unless(Auth::user()?->role === 'petugas', 403);
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
             'survey_year' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
+            'kecamatan' => ['required', 'string', 'max:150'],
+            'kelurahan' => ['required', 'string', 'max:150'],
+            'c1_panjang' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c2_lebar' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c3_kedalaman' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c4_lubang' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c5_kepentingan' => ['required', 'integer', 'in:1,2,3,4,5'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,mkv', 'max:51200'],
             'notes' => ['nullable', 'string'],
-            'length' => ['required', 'numeric', 'min:0'],
-            'width' => ['required', 'numeric', 'min:0'],
-            'distance' => ['required', 'numeric', 'min:0'],
-            'holes_count' => ['required', 'integer', 'min:0'],
-            'potholes_data' => ['nullable', 'array'],
-            'potholes_data.*.length' => ['required', 'numeric', 'min:0'],
-            'potholes_data.*.width' => ['required', 'numeric', 'min:0'],
-            'potholes_data.*.depth' => ['required', 'numeric', 'min:0'],
-            'importance' => ['required', 'string', 'max:50'],
-            'kelurahan' => ['required', 'string', 'max:150'],
-            'kecamatan' => ['required', 'string', 'max:150'],
-            'rt' => ['required', 'string', 'max:10'],
         ]);
 
         if ($request->hasFile('photo')) {
@@ -58,13 +52,14 @@ class RoadController extends Controller
             $data['video'] = $request->file('video')->store('roads/videos', 'public');
         }
 
+        $data['name'] = $data['location'];
         $data['user_id'] = Auth::id();
 
         $road = Road::create($data);
 
-        ActivityLogger::log('create', "Menambahkan data ruas jalan: {$road->name} ({$road->location})");
+        ActivityLogger::log('create', "Menambahkan data ruas jalan: {$road->location}");
 
-        return redirect()->route('roads.index')->with('success', 'Ruas jalan berhasil ditambahkan.');
+        return redirect()->route('roads.index')->with('success', 'Data ruas jalan berhasil ditambahkan.');
     }
 
     public function edit(Road $road)
@@ -79,26 +74,20 @@ class RoadController extends Controller
         abort_unless(Auth::user()?->role === 'petugas', 403);
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'location' => ['required', 'string', 'max:255'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
             'survey_year' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
+            'kecamatan' => ['required', 'string', 'max:150'],
+            'kelurahan' => ['required', 'string', 'max:150'],
+            'c1_panjang' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c2_lebar' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c3_kedalaman' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c4_lubang' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'c5_kepentingan' => ['required', 'integer', 'in:1,2,3,4,5'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,mkv', 'max:51200'],
             'notes' => ['nullable', 'string'],
-            'length' => ['required', 'numeric', 'min:0'],
-            'width' => ['required', 'numeric', 'min:0'],
-            'distance' => ['required', 'numeric', 'min:0'],
-            'holes_count' => ['required', 'integer', 'min:0'],
-            'potholes_data' => ['nullable', 'array'],
-            'potholes_data.*.length' => ['required', 'numeric', 'min:0'],
-            'potholes_data.*.width' => ['required', 'numeric', 'min:0'],
-            'potholes_data.*.depth' => ['required', 'numeric', 'min:0'],
-            'importance' => ['required', 'string', 'max:50'],
-            'kelurahan' => ['required', 'string', 'max:150'],
-            'kecamatan' => ['required', 'string', 'max:150'],
-            'rt' => ['required', 'string', 'max:10'],
         ]);
 
         if ($request->hasFile('photo')) {
@@ -115,18 +104,20 @@ class RoadController extends Controller
             $data['video'] = $request->file('video')->store('roads/videos', 'public');
         }
 
+        $data['name'] = $data['location'];
+
         $road->update($data);
 
-        ActivityLogger::log('update', "Memperbarui data ruas jalan: {$road->name}");
+        ActivityLogger::log('update', "Memperbarui data ruas jalan: {$road->location}");
 
-        return redirect()->route('roads.index')->with('success', 'Ruas jalan berhasil diperbarui.');
+        return redirect()->route('roads.index')->with('success', 'Data ruas jalan berhasil diperbarui.');
     }
 
     public function destroy(Road $road)
     {
         abort_unless(Auth::user()?->role === 'petugas', 403);
 
-        $roadName = $road->name;
+        $roadLoc = $road->location;
 
         if ($road->photo) {
             Storage::disk('public')->delete($road->photo);
@@ -138,8 +129,8 @@ class RoadController extends Controller
 
         $road->delete();
 
-        ActivityLogger::log('delete', "Menghapus data ruas jalan: {$roadName}");
+        ActivityLogger::log('delete', "Menghapus data ruas jalan: {$roadLoc}");
 
-        return back()->with('success', 'Ruas jalan berhasil dihapus.');
+        return back()->with('success', 'Data ruas jalan berhasil dihapus.');
     }
 }
