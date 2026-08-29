@@ -104,29 +104,24 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
         </div>
     </div>
 
-    <!-- Kecamatan & Kelurahan -->
+    <!-- 20 Kecamatan & Kelurahan Dinamis Kota Bandar Lampung -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-            <label class="{{ $labelClass }}">Kecamatan</label>
-            <select name="kecamatan" class="{{ $inputClass }}" required>
-                <option value="" {{ old('kecamatan', $road->kecamatan ?? '') == '' ? 'selected' : '' }}>Pilih Kecamatan</option>
-                <option value="Kecamatan Way Halim" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Way Halim' ? 'selected' : '' }}>Kecamatan Way Halim</option>
-                <option value="Kecamatan Sukarame" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Sukarame' ? 'selected' : '' }}>Kecamatan Sukarame</option>
-                <option value="Kecamatan Tanjung Karang Pusat" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Tanjung Karang Pusat' ? 'selected' : '' }}>Kecamatan Tanjung Karang Pusat</option>
-                <option value="Kecamatan Tanjung Karang Barat" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Tanjung Karang Barat' ? 'selected' : '' }}>Kecamatan Tanjung Karang Barat</option>
-                <option value="Kecamatan Kedaton" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Kedaton' ? 'selected' : '' }}>Kecamatan Kedaton</option>
-                <option value="Kecamatan Teluk Betung Selatan" {{ old('kecamatan', $road->kecamatan ?? '') == 'Kecamatan Teluk Betung Selatan' ? 'selected' : '' }}>Kecamatan Teluk Betung Selatan</option>
+            <label class="{{ $labelClass }}">Kecamatan (20 Kecamatan Bandar Lampung)</label>
+            <select name="kecamatan" x-model="selectedKecamatan" @change="onKecamatanChange()" class="{{ $inputClass }}" required>
+                <option value="">-- Pilih Kecamatan --</option>
+                <template x-for="kec in kecamatanList" :key="kec">
+                    <option :value="kec" x-text="kec" :selected="selectedKecamatan === kec"></option>
+                </template>
             </select>
         </div>
         <div>
             <label class="{{ $labelClass }}">Kelurahan</label>
-            <select name="kelurahan" class="{{ $inputClass }}" required>
-                <option value="" {{ old('kelurahan', $road->kelurahan ?? '') == '' ? 'selected' : '' }}>Pilih Kelurahan</option>
-                <option value="Kelurahan Way Halim Permai" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Way Halim Permai' ? 'selected' : '' }}>Kelurahan Way Halim Permai</option>
-                <option value="Kelurahan Sukarame" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Sukarame' ? 'selected' : '' }}>Kelurahan Sukarame</option>
-                <option value="Kelurahan Gedong Meneng" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Gedong Meneng' ? 'selected' : '' }}>Kelurahan Gedong Meneng</option>
-                <option value="Kelurahan Labuhan Ratu" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Labuhan Ratu' ? 'selected' : '' }}>Kelurahan Labuhan Ratu</option>
-                <option value="Kelurahan Gunung Sulah" {{ old('kelurahan', $road->kelurahan ?? '') == 'Kelurahan Gunung Sulah' ? 'selected' : '' }}>Kelurahan Gunung Sulah</option>
+            <select name="kelurahan" x-model="selectedKelurahan" class="{{ $inputClass }}" required>
+                <option value="">-- Pilih Kelurahan --</option>
+                <template x-for="kel in availableKelurahans" :key="kel">
+                    <option :value="kel" x-text="kel" :selected="selectedKelurahan === kel"></option>
+                </template>
             </select>
         </div>
     </div>
@@ -251,11 +246,77 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
             isSearching: false,
             map: null,
             marker: null,
+
+            // 20 Kecamatan Lengkap Kota Bandar Lampung beserta Kelurahannya
+            kecamatanList: [
+                "Bumi Waras",
+                "Enggal",
+                "Kedamaian",
+                "Kedaton",
+                "Kemiling",
+                "Labuhan Ratu",
+                "Langkapura",
+                "Panjang",
+                "Rajabasa",
+                "Sukabumi",
+                "Sukarame",
+                "Tanjung Karang Barat",
+                "Tanjung Karang Pusat",
+                "Tanjung Karang Timur",
+                "Tanjung Senang",
+                "Teluk Betung Barat",
+                "Teluk Betung Selatan",
+                "Teluk Betung Timur",
+                "Teluk Betung Utara",
+                "Way Halim"
+            ],
+
+            kelurahanMap: {
+                "Bumi Waras": ["Bumi Waras", "Garuntang", "Kangkung", "Sukaraja", "Bumi Raya"],
+                "Enggal": ["Enggal", "Gunung Sari", "Pahoman", "Pelita", "Rawa Laut", "Tanjung Karang"],
+                "Kedamaian": ["Bumi Kedamaian", "Kedamaian", "Tanjung Agung Raya", "Tanjung Baru", "Tanjung Raya"],
+                "Kedaton": ["Kedaton", "Penengahan", "Penengahan Raya", "Sidodadi", "Sukamenanti", "Sukamenanti Baru", "Surabaya"],
+                "Kemiling": ["Beringin Jaya", "Beringin Raya", "Kedaung", "Kemiling Permai", "Kemiling Raya", "Pinang Jaya", "Sumber Agung", "Sumber Rejo", "Sumber Rejo Sejahtera"],
+                "Labuhan Ratu": ["Kampung Baru", "Kampung Baru Raya", "Labuhan Ratu", "Labuhan Ratu Raya", "Sepang Jaya"],
+                "Langkapura": ["Bilabong Jaya", "Gunung Agung", "Gunung Terang", "Langkapura", "Langkapura Baru"],
+                "Panjang": ["Karang Maritim", "Ketapang", "Ketapang Kuala", "Panjang Selatan", "Panjang Utara", "Pidada", "Srengsem", "Way Lunik"],
+                "Rajabasa": ["Gedong Meneng", "Gedong Meneng Baru", "Rajabasa", "Rajabasa Jaya", "Rajabasa Nunyai", "Rajabasa Pemuka", "Rajabasa Raya"],
+                "Sukabumi": ["Campang Jaya", "Campang Raya", "Nusantara Permai", "Sukabumi", "Sukabumi Indah", "Way Gubak", "Way Laga"],
+                "Sukarame": ["Harapan Jaya", "Korpri Jaya", "Korpri Raya", "Sukarame", "Sukarame Baru"],
+                "Tanjung Karang Barat": ["Gedong Air", "Kelapa Tiga", "Kelapa Tiga Permai", "Segala Mider", "Sukadanaham", "Susunan Baru"],
+                "Tanjung Karang Pusat": ["Durian Payung", "Gotong Royong", "Kaliawi", "Kaliawi Persada", "Palapa", "Pasir Gintung", "Kelapa Tiga"],
+                "Tanjung Karang Timur": ["Kebon Jeruk", "Kota Baru", "Sawah Brebes", "Sawah Lama", "Tanjung Agung"],
+                "Tanjung Senang": ["Labuhan Dalam", "Pematang Wangi", "Perumnas Way Kandis", "Tanjung Senang", "Way Kandis"],
+                "Teluk Betung Barat": ["Bakung", "Batu Putuk", "Kuripan", "Negeri Olok Gading", "Sukarame II"],
+                "Teluk Betung Selatan": ["Gedong Pakuon", "Gunung Mas", "Pesawahan", "Sumur Putri", "Talang", "Teluk Betung"],
+                "Teluk Betung Timur": ["Keteguhan", "Kota Karang", "Kota Karang Raya", "Sukamaju", "Way Tataan"],
+                "Teluk Betung Utara": ["Gulak Galik", "Kupang Kota", "Kupang Raya", "Kupang Teba", "Pengajaran", "Sumur Batu"],
+                "Way Halim": ["Gunung Sulah", "Jagabaya I", "Jagabaya II", "Jagabaya III", "Perumnas Way Halim", "Way Halim Permai"]
+            },
+
+            selectedKecamatan: "{{ old('kecamatan', str_replace('Kecamatan ', '', $road->kecamatan ?? '')) }}",
+            selectedKelurahan: "{{ old('kelurahan', str_replace('Kelurahan ', '', $road->kelurahan ?? '')) }}",
+            availableKelurahans: [],
             
             init() {
+                this.updateKelurahanList();
+
                 setTimeout(() => {
                     this.initMap();
                 }, 150);
+            },
+
+            onKecamatanChange() {
+                this.updateKelurahanList();
+                this.selectedKelurahan = '';
+            },
+
+            updateKelurahanList() {
+                if (this.selectedKecamatan && this.kelurahanMap[this.selectedKecamatan]) {
+                    this.availableKelurahans = this.kelurahanMap[this.selectedKecamatan];
+                } else {
+                    this.availableKelurahans = [];
+                }
             },
 
             initMap() {
