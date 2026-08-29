@@ -21,7 +21,7 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi Ruas Jalan</th>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Parameter Kriteria (C1 - C5)</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Kondisi Kerusakan Jalan</th>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Tahun</th>
                     <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Diinput Oleh</th>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Media</th>
@@ -44,20 +44,20 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-wrap gap-1.5 max-w-md">
-                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-purple-50 text-brand-purple px-2 py-0.5 rounded border border-purple-100" title="Panjang Kerusakan: {{ $road->c1_label }}">
-                                    <strong>C1:</strong> {{ $road->c1_label }}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-purple-50 text-brand-purple px-2 py-0.5 rounded border border-purple-100">
+                                    Panjang: {{ $road->c1_label }}
                                 </span>
-                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100" title="Lebar Jalan: {{ $road->c2_label }}">
-                                    <strong>C2:</strong> {{ $road->c2_label }}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">
+                                    Lebar: {{ $road->c2_label }}
                                 </span>
-                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-amber-50 text-amber-800 px-2 py-0.5 rounded border border-amber-100" title="Kedalaman: {{ $road->c3_label }}">
-                                    <strong>C3:</strong> {{ $road->c3_label }}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-amber-50 text-amber-800 px-2 py-0.5 rounded border border-amber-100">
+                                    Kedalaman: {{ $road->c3_label }}
                                 </span>
-                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-100" title="Banyaknya Lubang: {{ $road->c4_label }}">
-                                    <strong>C4:</strong> {{ $road->c4_label }}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-100">
+                                    Lubang: {{ $road->c4_label }}
                                 </span>
-                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-100" title="Kepentingan: {{ $road->c5_label }}">
-                                    <strong>C5:</strong> {{ $road->c5_label }}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-100">
+                                    Kepentingan: {{ $road->c5_label }}
                                 </span>
                             </div>
                         </td>

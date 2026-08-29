@@ -38,10 +38,8 @@
                 <tr>
                     <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-24">Peringkat</th>
                     <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Lokasi Ruas Jalan</th>
-                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Total Benefit (+)</th>
-                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Total Cost (-)</th>
-                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Nilai Akhir (Yi)</th>
-                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-36">Status Prioritas</th>
+                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Nilai Akhir MOORA (Yi)</th>
+                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-40">Status Prioritas</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -78,12 +76,6 @@
                             <div class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                                 <span>{{ $row['road']->kecamatan }}, {{ $row['road']->kelurahan }}</span>
                             </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-mono text-green-700 font-semibold">
-                            +{{ number_format($row['benefit_total'], 6) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-xs font-mono text-red-600 font-semibold">
-                            -{{ number_format($row['cost_total'], 6) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-bold {{ $row['rank'] <= 3 ? 'bg-brand-purple text-white shadow-xs' : 'bg-gray-100 text-gray-800' }}">

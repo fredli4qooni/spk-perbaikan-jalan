@@ -131,27 +131,27 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
         </div>
     </div>
 
-    <!-- 5 Kriteria Penilaian Dropdown (Sesuai Skripsi) -->
+    <!-- Parameter Kondisi Kerusakan Jalan (Dropdown) -->
     <div class="bg-purple-50/40 p-6 rounded-xl border border-purple-200/80 mb-6 shadow-xs">
         <div class="flex items-center gap-2 mb-4 pb-2 border-b border-purple-100">
             <i class="bi bi-list-check text-brand-purple text-xl"></i>
             <div>
-                <h3 class="font-bold text-gray-900 text-base">Parameter Penilaian Kriteria MOORA</h3>
-                <p class="text-xs text-gray-500">Pilih sub-kriteria sesuai kondisi lapangan ruas jalan yang disurvei.</p>
+                <h3 class="font-bold text-gray-900 text-base">Parameter Kondisi Kerusakan Jalan</h3>
+                <p class="text-xs text-gray-500">Pilih rentang kondisi sesuai dengan hasil survei lapangan.</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- C1: Panjang Kerusakan Jalan -->
             <div>
-                <label class="{{ $labelClass }} flex items-center justify-between">
-                    <span>Panjang Kerusakan Jalan <strong class="text-brand-purple">(C1 - Bobot 25%)</strong></span>
+                <label class="{{ $labelClass }}">
+                    <span>Panjang Kerusakan Jalan</span>
                 </label>
                 <select name="c1_panjang" class="{{ $inputClass }}" required>
                     <option value="">-- Pilih Panjang Kerusakan --</option>
                     @foreach(\App\Models\Road::getC1Options() as $val => $text)
                         <option value="{{ $val }}" {{ old('c1_panjang', $road->c1_panjang ?? '') == $val ? 'selected' : '' }}>
-                            {{ $text }} (Nilai: {{ $val }})
+                            {{ $text }}
                         </option>
                     @endforeach
                 </select>
@@ -159,14 +159,14 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
             <!-- C2: Lebar Jalan -->
             <div>
-                <label class="{{ $labelClass }} flex items-center justify-between">
-                    <span>Lebar Jalan <strong class="text-brand-purple">(C2 - Bobot 15%)</strong></span>
+                <label class="{{ $labelClass }}">
+                    <span>Lebar Jalan</span>
                 </label>
                 <select name="c2_lebar" class="{{ $inputClass }}" required>
                     <option value="">-- Pilih Lebar Jalan --</option>
                     @foreach(\App\Models\Road::getC2Options() as $val => $text)
                         <option value="{{ $val }}" {{ old('c2_lebar', $road->c2_lebar ?? '') == $val ? 'selected' : '' }}>
-                            {{ $text }} (Nilai: {{ $val }})
+                            {{ $text }}
                         </option>
                     @endforeach
                 </select>
@@ -174,14 +174,14 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
             <!-- C3: Kedalaman Lubang -->
             <div>
-                <label class="{{ $labelClass }} flex items-center justify-between">
-                    <span>Kedalaman Lubang <strong class="text-brand-purple">(C3 - Bobot 20%)</strong></span>
+                <label class="{{ $labelClass }}">
+                    <span>Kedalaman Lubang</span>
                 </label>
                 <select name="c3_kedalaman" class="{{ $inputClass }}" required>
                     <option value="">-- Pilih Kedalaman Lubang --</option>
                     @foreach(\App\Models\Road::getC3Options() as $val => $text)
                         <option value="{{ $val }}" {{ old('c3_kedalaman', $road->c3_kedalaman ?? '') == $val ? 'selected' : '' }}>
-                            {{ $text }} (Nilai: {{ $val }})
+                            {{ $text }}
                         </option>
                     @endforeach
                 </select>
@@ -189,14 +189,14 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
             <!-- C4: Banyaknya Lubang -->
             <div>
-                <label class="{{ $labelClass }} flex items-center justify-between">
-                    <span>Banyaknya Lubang <strong class="text-brand-purple">(C4 - Bobot 25%)</strong></span>
+                <label class="{{ $labelClass }}">
+                    <span>Banyaknya Lubang</span>
                 </label>
                 <select name="c4_lubang" class="{{ $inputClass }}" required>
                     <option value="">-- Pilih Banyaknya Lubang --</option>
                     @foreach(\App\Models\Road::getC4Options() as $val => $text)
                         <option value="{{ $val }}" {{ old('c4_lubang', $road->c4_lubang ?? '') == $val ? 'selected' : '' }}>
-                            {{ $text }} (Nilai: {{ $val }})
+                            {{ $text }}
                         </option>
                     @endforeach
                 </select>
@@ -204,14 +204,14 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
             <!-- C5: Tingkat Kepentingan Jalan -->
             <div class="md:col-span-2">
-                <label class="{{ $labelClass }} flex items-center justify-between">
-                    <span>Tingkat Kepentingan Jalan <strong class="text-brand-purple">(C5 - Bobot 15%)</strong></span>
+                <label class="{{ $labelClass }}">
+                    <span>Tingkat Kepentingan Jalan</span>
                 </label>
                 <select name="c5_kepentingan" class="{{ $inputClass }}" required>
                     <option value="">-- Pilih Kepentingan Jalan --</option>
                     @foreach(\App\Models\Road::getC5Options() as $val => $text)
                         <option value="{{ $val }}" {{ old('c5_kepentingan', $road->c5_kepentingan ?? '') == $val ? 'selected' : '' }}>
-                            {{ $text }} (Nilai: {{ $val }})
+                            {{ $text }}
                         </option>
                     @endforeach
                 </select>
