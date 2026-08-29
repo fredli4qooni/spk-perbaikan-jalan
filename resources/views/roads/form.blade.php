@@ -104,10 +104,10 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
         </div>
     </div>
 
-    <!-- 20 Kecamatan & Kelurahan Dinamis Kota Bandar Lampung -->
+    <!-- Kecamatan & Kelurahan Dinamis Kota Bandar Lampung -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
-            <label class="{{ $labelClass }}">Kecamatan (20 Kecamatan Bandar Lampung)</label>
+            <label class="{{ $labelClass }}">Kecamatan</label>
             <select name="kecamatan" x-model="selectedKecamatan" @change="onKecamatanChange()" class="{{ $inputClass }}" required>
                 <option value="">-- Pilih Kecamatan --</option>
                 <template x-for="kec in kecamatanList" :key="kec">
