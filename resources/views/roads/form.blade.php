@@ -20,19 +20,27 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
         </div>
     </div>
 
-    <!-- Peta Lokasi & Pencarian Geocoding -->
+    <!-- Peta Lokasi, Deteksi Otomatis & Pencarian Terdekat -->
     <div class="mb-6">
         <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                <label class="block text-sm font-bold text-gray-800 flex items-center gap-2">
-                    <i class="bi bi-geo-alt-fill text-brand-purple"></i> Titik Koordinat & Pencarian Peta
-                </label>
-                <span class="text-xs text-gray-500">Cari nama jalan atau klik langsung pada peta</span>
+                <div class="flex items-center gap-2">
+                    <label class="block text-sm font-bold text-gray-800 flex items-center gap-2">
+                        <i class="bi bi-geo-alt-fill text-brand-purple"></i> Titik Koordinat & Pencarian Peta
+                    </label>
+                    <template x-if="userLocation">
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            GPS Perangkat Aktif
+                        </span>
+                    </template>
+                </div>
+                <span class="text-xs text-gray-500">Cari nama jalan atau gunakan lokasi GPS perangkat Anda</span>
             </div>
 
-            <!-- Search Bar Peta -->
+            <!-- Search Bar Peta & Tombol Lokasi Saya -->
             <div class="relative mb-3">
-                <div class="flex gap-2">
+                <div class="flex flex-col sm:flex-row gap-2">
                     <div class="relative flex-1">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                             <i class="bi bi-search"></i>
@@ -42,7 +50,7 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                             x-model="searchQuery" 
                             @keydown.enter.prevent="searchLocation"
                             placeholder="Ketik nama jalan / kelurahan / tempat (misal: Jl. ZA Pagar Alam, Bandar Lampung)..." 
-                            class="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2 border bg-white"
+                            class="pl-10 pr-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-purple focus:ring-brand-purple sm:text-sm p-2.5 border bg-white"
                         >
                         <button 
                             type="button" 
@@ -53,39 +61,80 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                             <i class="bi bi-x-circle-fill"></i>
                         </button>
                     </div>
+
+                    <!-- Tombol Cari di Peta -->
                     <button 
                         type="button" 
                         @click="searchLocation" 
                         :disabled="isSearching"
-                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-purple hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple disabled:opacity-50 transition-colors"
+                        class="inline-flex items-center justify-center px-4 py-2.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-purple hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-purple disabled:opacity-50 transition-colors"
                     >
-                        <span x-show="!isSearching" class="flex items-center gap-1.5"><i class="bi bi-geo"></i> Cari di Peta</span>
+                        <span x-show="!isSearching" class="flex items-center gap-1.5"><i class="bi bi-search"></i> Cari di Peta</span>
                         <span x-show="isSearching" class="flex items-center gap-1.5"><i class="bi bi-arrow-repeat animate-spin"></i> Mencari...</span>
+                    </button>
+
+                    <!-- Tombol Deteksi Lokasi Perangkat -->
+                    <button 
+                        type="button" 
+                        @click="detectUserLocation(true)" 
+                        :disabled="isLocating"
+                        class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-colors disabled:opacity-50"
+                        title="Dapatkan koordinat saat ini dari GPS perangkat Anda"
+                    >
+                        <i class="bi bi-crosshair text-brand-purple" :class="isLocating ? 'animate-spin' : ''"></i>
+                        <span x-text="isLocating ? 'Mendeteksi...' : 'Lokasi Saya'"></span>
                     </button>
                 </div>
 
-                <!-- Dropdown Hasil Pencarian -->
+                <!-- Dropdown Hasil Pencarian (Diurutkan Berdasarkan Jarak Terdekat) -->
                 <div 
                     x-show="searchResults.length > 0" 
                     @click.away="searchResults = []" 
-                    class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto z-50 divide-y divide-gray-100"
+                    class="absolute left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-2xl max-h-72 overflow-y-auto z-50 divide-y divide-gray-100"
                     x-cloak
                 >
+                    <div class="px-4 py-2.5 bg-purple-50/70 border-b border-purple-100 text-xs font-bold text-gray-700 flex items-center justify-between">
+                        <span class="flex items-center gap-1.5">
+                            <i class="bi bi-sort-numeric-down text-brand-purple"></i> Hasil Pencarian (Diurutkan dari yang Terdekat)
+                        </span>
+                        <span class="text-[11px] text-brand-purple font-semibold" x-show="userLocation">
+                            <i class="bi bi-geo-alt"></i> Dihitung dari titik Anda
+                        </span>
+                    </div>
                     <template x-for="(result, index) in searchResults" :key="index">
                         <button 
                             type="button" 
                             @click="selectSearchResult(result)" 
-                            class="w-full text-left px-4 py-3 hover:bg-brand-purple/5 transition-colors flex items-start gap-2.5 text-sm text-gray-800"
+                            class="w-full text-left px-4 py-3 hover:bg-brand-purple/5 transition-colors flex items-start justify-between gap-3 text-sm text-gray-800"
                         >
-                            <i class="bi bi-pin-map text-brand-purple mt-0.5 flex-shrink-0"></i>
-                            <span class="truncate" x-text="result.display_name"></span>
+                            <div class="flex items-start gap-2.5 min-w-0">
+                                <i class="bi bi-pin-map-fill text-brand-purple mt-0.5 flex-shrink-0 text-base"></i>
+                                <div class="min-w-0">
+                                    <div class="font-bold text-gray-900 truncate" x-text="result.name || result.display_name.split(',')[0]"></div>
+                                    <div class="text-xs text-gray-500 truncate mt-0.5" x-text="result.display_name"></div>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0 flex flex-col items-end gap-1">
+                                <template x-if="result.distanceFormatted">
+                                    <span 
+                                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold"
+                                        :class="index === 0 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-gray-100 text-gray-700'"
+                                    >
+                                        <i class="bi bi-cursor-fill mr-1 text-[10px]"></i>
+                                        <span x-text="result.distanceFormatted"></span>
+                                    </span>
+                                </template>
+                                <template x-if="index === 0 && result.distanceFormatted">
+                                    <span class="text-[10px] font-black text-emerald-600 uppercase tracking-wider">Terdekat</span>
+                                </template>
+                            </div>
                         </button>
                     </template>
                 </div>
             </div>
 
             <!-- Map Element -->
-            <div id="map" class="h-72 w-full rounded-lg border border-gray-300 mb-3 shadow-inner relative" style="z-index: 10;"></div>
+            <div id="map" class="h-80 w-full rounded-lg border border-gray-300 mb-3 shadow-inner relative" style="z-index: 10;"></div>
 
             <!-- Koordinat Input -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -99,7 +148,7 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                 </div>
             </div>
             <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                <i class="bi bi-info-circle text-brand-purple"></i> Anda juga dapat menggeser peta dan mengklik titik kerusakan jalan secara langsung.
+                <i class="bi bi-info-circle text-brand-purple"></i> Anda juga dapat menggeser peta dan mengklik langsung lokasi kerusakan jalan.
             </p>
         </div>
     </div>
@@ -244,10 +293,13 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
             searchQuery: '',
             searchResults: [],
             isSearching: false,
+            isLocating: false,
+            userLocation: null,
+            userLocationMarker: null,
             map: null,
             marker: null,
 
-            // 20 Kecamatan Lengkap Kota Bandar Lampung beserta Kelurahannya
+            // 20 Kecamatan Lengkap Kota Bandar Lampung beserta 126 Kelurahannya
             kecamatanList: [
                 "Bumi Waras",
                 "Enggal",
@@ -303,6 +355,8 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 
                 setTimeout(() => {
                     this.initMap();
+                    // Deteksi lokasi perangkat secara otomatis saat pertama kali dibuka
+                    this.detectUserLocation(false);
                 }, 150);
             },
 
@@ -352,8 +406,104 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                 });
             },
 
+            detectUserLocation(manual = false) {
+                if (!navigator.geolocation) {
+                    if (manual) {
+                        alert('Browser perangkat Anda tidak mendukung fitur Geolocation / GPS.');
+                    }
+                    return;
+                }
+
+                this.isLocating = true;
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const accuracy = position.coords.accuracy;
+
+                        this.userLocation = { lat, lng, accuracy };
+                        this.isLocating = false;
+
+                        const latInput = document.getElementById('latitude');
+                        const lngInput = document.getElementById('longitude');
+
+                        // Jika ditekan secara manual atau form baru (belum ada koordinat), arahkan peta & marker ke lokasi user
+                        if (manual || !latInput.value || !lngInput.value) {
+                            latInput.value = lat.toFixed(8);
+                            lngInput.value = lng.toFixed(8);
+
+                            if (this.map) {
+                                this.map.setView([lat, lng], 17);
+
+                                if (this.marker) {
+                                    this.marker.setLatLng([lat, lng]);
+                                } else {
+                                    this.marker = L.marker([lat, lng]).addTo(this.map);
+                                }
+                            }
+                        }
+
+                        this.renderUserLocationMarker(lat, lng);
+                    },
+                    (error) => {
+                        this.isLocating = false;
+                        console.warn('Geolocation notice:', error.message);
+                        if (manual) {
+                            alert('Gagal mendeteksi lokasi perangkat. Pastikan izin akses lokasi (GPS) pada browser telah diizinkan.');
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 30000
+                    }
+                );
+            },
+
+            renderUserLocationMarker(lat, lng) {
+                if (!this.map) return;
+
+                if (this.userLocationMarker) {
+                    this.userLocationMarker.setLatLng([lat, lng]);
+                } else {
+                    const userIcon = L.divIcon({
+                        className: 'custom-user-marker',
+                        html: '<div class="relative flex items-center justify-center w-5 h-5"><div class="absolute w-5 h-5 rounded-full bg-blue-500 opacity-75 animate-ping"></div><div class="w-3.5 h-3.5 rounded-full bg-blue-600 border-2 border-white shadow-md"></div></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+
+                    this.userLocationMarker = L.marker([lat, lng], { icon: userIcon, zIndexOffset: 1000 })
+                        .addTo(this.map)
+                        .bindPopup('<div class="text-xs font-bold text-gray-800">📍 Posisi Anda Saat Ini</div>');
+                }
+            },
+
+            calculateDistance(lat1, lon1, lat2, lon2) {
+                const R = 6371; // Radius bumi dalam KM
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a = 
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c; // Jarak dalam KM
+            },
+
+            formatDistance(distKm) {
+                if (distKm === null || distKm === undefined || isNaN(distKm)) {
+                    return '';
+                }
+                if (distKm < 1) {
+                    return Math.round(distKm * 1000) + ' m';
+                }
+                return distKm.toFixed(1) + ' km';
+            },
+
             async searchLocation() {
-                if (!this.searchQuery || this.searchQuery.trim().length < 3) {
+                if (!this.searchQuery || this.searchQuery.trim().length < 2) {
                     return;
                 }
 
@@ -361,7 +511,22 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                 this.searchResults = [];
 
                 try {
-                    const endpoint = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery.trim())}&limit=5&countrycodes=id`;
+                    let query = this.searchQuery.trim();
+                    let endpoint = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=10&countrycodes=id&addressdetails=1`;
+                    
+                    // Titik acuan perhitungan jarak (prioritaskan posisi GPS user saat ini)
+                    let refLat = this.userLocation ? this.userLocation.lat : (document.getElementById('latitude').value ? parseFloat(document.getElementById('latitude').value) : -5.385500);
+                    let refLng = this.userLocation ? this.userLocation.lng : (document.getElementById('longitude').value ? parseFloat(document.getElementById('longitude').value) : 105.275000);
+
+                    // Beri prioritas bounding box wilayah Lampung (+- 0.35 derajat)
+                    if (!isNaN(refLat) && !isNaN(refLng)) {
+                        const vbMinLng = (refLng - 0.35).toFixed(4);
+                        const vbMaxLng = (refLng + 0.35).toFixed(4);
+                        const vbMinLat = (refLat - 0.35).toFixed(4);
+                        const vbMaxLat = (refLat + 0.35).toFixed(4);
+                        endpoint += `&viewbox=${vbMinLng},${vbMaxLat},${vbMaxLng},${vbMinLat}`;
+                    }
+
                     const response = await fetch(endpoint, {
                         headers: {
                             'Accept-Language': 'id'
@@ -369,7 +534,26 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
                     });
                     
                     if (response.ok) {
-                        this.searchResults = await response.json();
+                        let data = await response.json();
+
+                        // Hitung jarak dari posisi user ke setiap lokasi hasil pencarian
+                        data.forEach(item => {
+                            const itemLat = parseFloat(item.lat);
+                            const itemLon = parseFloat(item.lon);
+
+                            if (refLat && refLng && !isNaN(itemLat) && !isNaN(itemLon)) {
+                                item.distance = this.calculateDistance(refLat, refLng, itemLat, itemLon);
+                                item.distanceFormatted = this.formatDistance(item.distance);
+                            } else {
+                                item.distance = 999999;
+                                item.distanceFormatted = '';
+                            }
+                        });
+
+                        // Urutkan hasil pencarian dari yang paling dekat dengan user (Ascending)
+                        data.sort((a, b) => a.distance - b.distance);
+
+                        this.searchResults = data;
                     }
                 } catch (error) {
                     console.error('Error fetching geocoding:', error);
@@ -408,4 +592,5 @@ $inputClass = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:bord
 <style>
     [x-cloak] { display: none !important; }
     .leaflet-container { z-index: 10 !important; }
+    .custom-user-marker { background: transparent; border: none; }
 </style>
