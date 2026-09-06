@@ -5,7 +5,7 @@
     <!-- Header Halaman (Rata Kiri Presisi) -->
     <div class="flex items-center justify-between gap-3 mb-5">
         <div class="min-w-0 flex-1">
-            <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-tight">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
                 Data Ruas Jalan
             </h2>
             <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
@@ -13,10 +13,28 @@
             </p>
         </div>
         @if (auth()->user()->role === 'petugas')
-            <a href="{{ route('roads.create') }}" class="inline-flex items-center justify-center rounded-xl bg-brand-purple px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-xs hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all flex-shrink-0">
+            <a href="{{ route('roads.create') }}" class="inline-flex items-center justify-center rounded-xl bg-brand-purple px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all flex-shrink-0">
                 <i class="bi bi-plus-lg mr-1.5"></i> <span>Tambah Ruas</span>
             </a>
         @endif
+    </div>
+
+    <!-- Sub-bar: Total Ruas & Opsi Tampilan Per Halaman -->
+    <div class="flex items-center justify-between gap-2 mb-4">
+        <div class="flex items-center gap-1.5">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-50 text-brand-purple border border-purple-200/80">
+                <i class="bi bi-signpost-2 text-xs"></i>
+                <span>{{ $roads->total() }} Ruas Terdata</span>
+            </span>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
+            <span class="hidden sm:inline text-gray-400 text-[11px]">Tampilkan per hal:</span>
+            <div class="inline-flex items-center p-0.5 bg-gray-100 rounded-lg border border-gray-200/80">
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => 5, 'page' => 1]) }}" class="px-2.5 py-0.5 rounded-md text-xs font-semibold transition-all {{ request('per_page', 5) == 5 ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-500 hover:text-gray-900' }}">5</a>
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => 10, 'page' => 1]) }}" class="px-2.5 py-0.5 rounded-md text-xs font-semibold transition-all {{ request('per_page', 5) == 10 ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-500 hover:text-gray-900' }}">10</a>
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => 25, 'page' => 1]) }}" class="px-2.5 py-0.5 rounded-md text-xs font-semibold transition-all {{ request('per_page', 5) == 25 ? 'bg-white text-gray-900 shadow-2xs' : 'text-gray-500 hover:text-gray-900' }}">25</a>
+            </div>
+        </div>
     </div>
 
     <!-- ========================================== -->
@@ -24,99 +42,117 @@
     <!-- ========================================== -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
         @forelse ($roads as $road)
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-xs p-4 sm:p-5 flex flex-col justify-between space-y-3.5 h-full">
+            <div class="bg-white rounded-2xl border border-gray-200/90 shadow-xs p-4 sm:p-5 flex flex-col justify-between space-y-3.5 h-full hover:border-gray-300 transition-colors">
                 <div class="space-y-3">
-                    <!-- Header Card: Lokasi & Tahun -->
+                    <!-- Header Card: Status & Tahun (Symmetrical Top Bar) -->
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border {{ $road->damage_status['badge'] }} shadow-2xs">
+                            <span class="w-1.5 h-1.5 rounded-full {{ $road->damage_status['dot'] }}"></span>
+                            {{ $road->damage_status['label'] }}
+                        </span>
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200/80">
+                            <i class="bi bi-calendar3 text-[10px] text-gray-400"></i>
+                            Survei {{ $road->survey_year }}
+                        </span>
+                    </div>
+
+                    <!-- Judul Ruas & Lokasi Detail -->
                     <div>
-                        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex-shrink-0">
-                                {{ $road->survey_year }}
-                            </span>
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-bold border {{ $road->damage_status['badge'] }} flex-shrink-0">
-                                <span class="w-1.5 h-1.5 rounded-full {{ $road->damage_status['dot'] }}"></span>
-                                {{ $road->damage_status['label'] }}
-                            </span>
-                            <span class="text-xs font-semibold text-gray-500 truncate">
-                                {{ $road->kecamatan }}, {{ $road->kelurahan }}
-                            </span>
-                        </div>
                         <h3 class="font-bold text-gray-900 text-sm sm:text-base leading-snug">
                             {{ $road->location }}
                         </h3>
-                        @if ($road->latitude && $road->longitude)
-                            <div class="text-[11px] font-mono text-brand-purple mt-1 flex items-center gap-1">
-                                <i class="bi bi-geo-alt"></i> {{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }}
-                            </div>
-                        @endif
+                        <div class="flex items-center gap-1.5 text-xs text-gray-500 mt-1.5 flex-wrap">
+                            <span class="inline-flex items-center gap-1 text-gray-600 font-medium">
+                                <i class="bi bi-geo-alt text-brand-purple text-xs"></i>
+                                {{ $road->kecamatan }}, {{ $road->kelurahan }}
+                            </span>
+                            @if ($road->latitude && $road->longitude)
+                                <span class="text-gray-300">•</span>
+                                <span class="font-mono text-[11px] text-gray-400">
+                                    {{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
 
-                    <!-- Parameter Metrik Kerusakan (Matrix Ringkas & Akses) -->
-                    <div class="space-y-2 pt-2 border-t border-gray-100">
-                        <!-- Metrik Grid 2x2 Clean Minimalist -->
-                        <div class="grid grid-cols-2 gap-1.5 bg-gray-50 p-2.5 rounded-xl border border-gray-200 text-xs">
-                            <div class="flex items-center justify-between px-1">
-                                <span class="text-gray-400 font-bold text-[11px]">Panjang:</span>
-                                <span class="font-bold text-gray-900 text-[11px]">{{ $road->c1_label }}</span>
+                    <!-- Parameter Metrik Kerusakan (Unified Specs Matrix) -->
+                    <div class="bg-gray-50/90 rounded-xl p-3 border border-gray-200/80 space-y-2.5">
+                        <!-- 4 Kriteria Fisik (Grid 2x2 Clean Tiles) -->
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-white rounded-lg p-2 border border-gray-200/70 shadow-2xs">
+                                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider block">Panjang</span>
+                                <span class="text-xs font-semibold text-gray-800 block truncate mt-0.5">{{ $road->c1_label }}</span>
                             </div>
-                            <div class="flex items-center justify-between px-1">
-                                <span class="text-gray-400 font-bold text-[11px]">Lebar:</span>
-                                <span class="font-bold text-gray-900 text-[11px]">{{ $road->c2_label }}</span>
+                            <div class="bg-white rounded-lg p-2 border border-gray-200/70 shadow-2xs">
+                                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider block">Lebar</span>
+                                <span class="text-xs font-semibold text-gray-800 block truncate mt-0.5">{{ $road->c2_label }}</span>
                             </div>
-                            <div class="flex items-center justify-between px-1">
-                                <span class="text-gray-400 font-bold text-[11px]">Kedalaman:</span>
-                                <span class="font-bold text-gray-900 text-[11px]">{{ $road->c3_label }}</span>
+                            <div class="bg-white rounded-lg p-2 border border-gray-200/70 shadow-2xs">
+                                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider block">Kedalaman</span>
+                                <span class="text-xs font-semibold text-gray-800 block truncate mt-0.5">{{ $road->c3_label }}</span>
                             </div>
-                            <div class="flex items-center justify-between px-1">
-                                <span class="text-gray-400 font-bold text-[11px]">Jml Lubang:</span>
-                                <span class="font-bold text-gray-900 text-[11px]">{{ $road->c4_label }}</span>
+                            <div class="bg-white rounded-lg p-2 border border-gray-200/70 shadow-2xs">
+                                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wider block">Jml Lubang</span>
+                                <span class="text-xs font-semibold text-gray-800 block truncate mt-0.5">{{ $road->c4_label }}</span>
                             </div>
                         </div>
 
-                        <!-- C5: Kepentingan Fasilitas Umum -->
-                        <div class="flex items-center justify-between px-3 py-2 bg-purple-50/80 rounded-xl border border-purple-100 text-xs">
-                            <span class="text-brand-purple font-semibold flex items-center gap-1.5">
-                                <i class="bi bi-building text-xs"></i> Kepentingan
+                        <!-- C5: Kepentingan Fasilitas Umum (Satu Kesatuan) -->
+                        <div class="pt-2 border-t border-gray-200/70 flex items-center justify-between gap-2 text-xs">
+                            <span class="text-gray-500 font-medium flex items-center gap-1.5 text-[11px]">
+                                <i class="bi bi-building text-brand-purple"></i>
+                                <span>Kepentingan</span>
                             </span>
-                            <span class="font-bold text-purple-900 truncate max-w-[180px]">{{ $road->c5_label }}</span>
+                            <span class="font-semibold text-brand-purple bg-purple-50 px-2.5 py-0.5 rounded-md border border-purple-200/70 text-[11px] truncate max-w-[170px]">
+                                {{ $road->c5_label }}
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Footer Card: Petugas & Media & Aksi (Sejajar & Ergonomis) -->
+                <!-- Footer Card: Petugas, Tanggal, Media & Aksi -->
                 <div class="pt-3 border-t border-gray-100 flex items-center justify-between gap-2 mt-auto">
                     <!-- Petugas & Media -->
-                    <div class="flex items-center gap-2 min-w-0">
+                    <div class="flex items-center gap-2.5 min-w-0">
                         @if ($road->photo)
-                            <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="w-9 h-9 rounded-xl overflow-hidden border border-gray-200 flex-shrink-0 shadow-2xs hover:border-brand-purple transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple" title="Lihat Foto">
+                            <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="relative group w-9 h-9 rounded-xl overflow-hidden border border-gray-200 flex-shrink-0 shadow-2xs hover:border-brand-purple transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer" title="Lihat Foto Dokumentasi">
                                 <img src="{{ asset('storage/' . $road->photo) }}" alt="Foto" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="bi bi-zoom-in text-xs"></i>
+                                </div>
                             </button>
                         @endif
                         @if ($road->video)
-                            <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->location) }}' }" class="w-9 h-9 rounded-xl bg-brand-purple/10 text-brand-purple flex items-center justify-center flex-shrink-0 hover:bg-brand-purple/20 transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple" title="Putar Video">
-                                <i class="bi bi-play-circle-fill text-lg"></i>
+                            <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->location) }}' }" class="w-9 h-9 rounded-xl bg-purple-50 text-brand-purple border border-purple-200/80 flex items-center justify-center flex-shrink-0 hover:bg-brand-purple hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer" title="Putar Video Kerusakan">
+                                <i class="bi bi-play-circle-fill text-base"></i>
                             </button>
                         @endif
-                        <div class="truncate text-[11px] text-gray-500">
-                            <span class="font-bold text-gray-800 block truncate leading-tight">{{ $road->user->name ?? 'Petugas PUPR' }}</span>
-                            <span class="text-[10px] text-gray-400 leading-tight">{{ $road->created_at->format('d/m/Y') }}</span>
+                        @if (!$road->photo && !$road->video)
+                            <div class="w-9 h-9 rounded-xl bg-gray-100 text-gray-400 border border-gray-200 flex items-center justify-center text-sm flex-shrink-0">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        @endif
+                        <div class="truncate text-xs">
+                            <span class="font-semibold text-gray-800 block truncate leading-tight">{{ $road->user->name ?? 'Petugas PUPR' }}</span>
+                            <span class="text-[10px] text-gray-400 leading-tight mt-0.5 block">{{ $road->created_at->translatedFormat('d M Y') }}</span>
                         </div>
                     </div>
 
                     <!-- Aksi Tombol (Ergonomis) -->
-                    <div class="flex items-center gap-2 flex-shrink-0">
+                    <div class="flex items-center gap-1.5 flex-shrink-0">
                         @if (auth()->user()->role === 'petugas')
-                            <a href="{{ route('roads.edit', $road) }}" class="inline-flex items-center justify-center px-3 py-2 bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 rounded-xl text-xs font-bold transition-all min-h-[38px] shadow-2xs">
+                            <a href="{{ route('roads.edit', $road) }}" class="inline-flex items-center justify-center px-3 py-1.5 bg-amber-50 text-amber-800 border border-amber-200/80 hover:bg-amber-100 rounded-xl text-xs font-semibold transition-all min-h-[36px] shadow-2xs">
                                 <i class="bi bi-pencil mr-1"></i> Edit
                             </a>
                             <form action="{{ route('roads.destroy', $road) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data ruas jalan ini?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="inline-flex items-center justify-center w-[38px] h-[38px] min-h-[38px] min-w-[38px] bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 rounded-xl text-xs font-bold transition-all shadow-2xs" title="Hapus">
+                                <button type="submit" class="inline-flex items-center justify-center w-9 h-9 min-h-[36px] min-w-[36px] bg-red-50 text-red-600 border border-red-200/80 hover:bg-red-100 rounded-xl text-xs font-semibold transition-all shadow-2xs cursor-pointer" title="Hapus Ruas">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
                         @else
-                            <span class="inline-flex items-center px-2.5 py-1.5 rounded-lg text-xs font-bold bg-gray-100 text-gray-700">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 text-gray-700">
                                 <i class="bi bi-check2-all text-brand-green mr-1"></i> Aktif
                             </span>
                         @endif
@@ -140,19 +176,19 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi Ruas Jalan</th>
-                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"><i class="bi bi-speedometer2"></i> Kondisi & Metrik Kerusakan</th>
-                        <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Tahun</th>
-                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Diinput Oleh</th>
-                        <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Media</th>
-                        <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-36">Aksi</th>
+                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><i class="bi bi-geo-alt"></i> Lokasi Ruas Jalan</th>
+                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"><i class="bi bi-speedometer2"></i> Kondisi & Metrik Kerusakan</th>
+                        <th scope="col" class="px-6 py-3.5 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Tahun</th>
+                        <th scope="col" class="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Diinput Oleh</th>
+                        <th scope="col" class="px-6 py-3.5 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Media</th>
+                        <th scope="col" class="px-6 py-3.5 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-36">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($roads as $road)
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4">
-                                <div class="font-bold text-gray-900 text-sm">{{ $road->location }}</div>
+                                <div class="font-semibold text-gray-900 text-sm">{{ $road->location }}</div>
                                 <div class="text-xs text-gray-400 mt-1 flex items-center gap-2">
                                     <span>{{ $road->kecamatan }}, {{ $road->kelurahan }}</span>
                                     @if ($road->latitude && $road->longitude)
@@ -166,11 +202,11 @@
                                 <div class="space-y-2">
                                     <!-- Row 1: Status Tingkat Kerusakan (Opsi 1) & Fasilitas Umum (C5) -->
                                     <div class="flex items-center gap-2 flex-wrap">
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border {{ $road->damage_status['badge'] }} shadow-2xs">
+                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $road->damage_status['badge'] }} shadow-2xs">
                                             <span class="w-1.5 h-1.5 rounded-full {{ $road->damage_status['dot'] }}"></span>
                                             {{ $road->damage_status['label'] }}
                                         </span>
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-purple-50 text-brand-purple border border-purple-100 shadow-2xs" title="Kepentingan: {{ $road->c5_label }}">
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-medium bg-purple-50 text-brand-purple border border-purple-100 shadow-2xs" title="Kepentingan: {{ $road->c5_label }}">
                                             <i class="bi bi-building text-[11px]"></i>
                                             <span class="truncate max-w-[170px]">{{ $road->c5_label }}</span>
                                         </span>
@@ -179,26 +215,26 @@
                                     <!-- Row 2: Unified Matrix Strip Kapsul Metrik (Opsi 2: P, L, D, Jml) -->
                                     <div class="inline-flex items-center rounded-lg bg-gray-50 border border-gray-200 text-xs divide-x divide-gray-200 overflow-hidden shadow-2xs">
                                         <span class="px-2.5 py-1 text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-1" title="Panjang Rusak: {{ $road->c1_label }}">
-                                            <span class="text-gray-400 font-bold">P:</span>
-                                            <span class="font-medium text-gray-900">{{ $road->c1_label }}</span>
+                                            <span class="text-gray-400 font-medium">P:</span>
+                                            <span class="font-normal text-gray-800">{{ $road->c1_label }}</span>
                                         </span>
                                         <span class="px-2.5 py-1 text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-1" title="Lebar Kerusakan: {{ $road->c2_label }}">
-                                            <span class="text-gray-400 font-bold">L:</span>
-                                            <span class="font-medium text-gray-900">{{ $road->c2_label }}</span>
+                                            <span class="text-gray-400 font-medium">L:</span>
+                                            <span class="font-normal text-gray-800">{{ $road->c2_label }}</span>
                                         </span>
                                         <span class="px-2.5 py-1 text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-1" title="Kedalaman Rusak: {{ $road->c3_label }}">
-                                            <span class="text-gray-400 font-bold">D:</span>
-                                            <span class="font-medium text-gray-900">{{ $road->c3_label }}</span>
+                                            <span class="text-gray-400 font-medium">D:</span>
+                                            <span class="font-normal text-gray-800">{{ $road->c3_label }}</span>
                                         </span>
                                         <span class="px-2.5 py-1 text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-1" title="Jumlah Lubang: {{ $road->c4_label }}">
-                                            <span class="text-gray-400 font-bold">Jml:</span>
-                                            <span class="font-medium text-gray-900">{{ $road->c4_label }}</span>
+                                            <span class="text-gray-400 font-medium">Jml:</span>
+                                            <span class="font-normal text-gray-800">{{ $road->c4_label }}</span>
                                         </span>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
                                     {{ $road->survey_year }}
                                 </span>
                             </td>
@@ -206,7 +242,7 @@
                                 <div class="flex items-center gap-2">
                                     <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="w-7 h-7 rounded-full object-contain border border-gray-200 bg-white p-0.5">
                                     <div>
-                                        <div class="text-xs font-bold text-gray-900">{{ $road->user->name ?? 'Petugas PUPR' }}</div>
+                                        <div class="text-xs font-semibold text-gray-900">{{ $road->user->name ?? 'Petugas PUPR' }}</div>
                                         <div class="text-[10px] text-gray-400">{{ $road->created_at->format('d/m/Y') }}</div>
                                     </div>
                                 </div>

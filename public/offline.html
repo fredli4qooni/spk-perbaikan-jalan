@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - PUPR MOORA</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: #F8FAFC;
+            color: #1E293B;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+        .card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 1.5rem;
+            max-width: 26rem;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+        }
+        .logo-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 1.25rem;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        .logo-wrap img {
+            width: 2.75rem;
+            height: 2.75rem;
+            object-fit: contain;
+        }
+        .badge-offline {
+            position: absolute;
+            bottom: -0.375rem;
+            right: -0.375rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 9999px;
+            background: #EF4444;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            border: 2px solid white;
+        }
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        p {
+            font-size: 0.875rem;
+            color: #64748B;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+        }
+        .btn-reload {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            background: #1D2062;
+            color: #FFFFFF;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            min-height: 44px;
+        }
+        .btn-reload:hover {
+            background: #15184B;
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            background: #FFFFFF;
+            color: #475569;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 0.875rem;
+            border: 1px solid #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            min-height: 44px;
+        }
+        .btn-secondary:hover {
+            background: #F8FAFC;
+        }
+        .indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #EF4444;
+            background: #FEF2F2;
+            border: 1px solid #FEE2E2;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+        }
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background: #EF4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo-wrap">
+            <img src="/images/logo-pupr.png" alt="Logo PUPR">
+            <div class="badge-offline" title="Mode Offline">✕</div>
+        </div>
+        <br>
+        <div class="indicator">
+            <span class="dot"></span>
+            Koneksi Internet Terputus
+        </div>
+        <h1>Anda Sedang Offline</h1>
+        <p>
+            Perangkat tidak dapat terhubung ke server. Halaman yang telah tersimpan di cache tetap dapat diakses. Silakan periksa koneksi data seluler atau Wi-Fi Anda.
+        </p>
+        <button class="btn-reload" onclick="window.location.reload()">
+            Coba Muat Ulang
+        </button>
+        <a href="/" class="btn-secondary">
+            Buka Halaman Utama
+        </a>
+    </div>
+</body>
+</html>

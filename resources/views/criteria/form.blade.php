@@ -1,5 +1,5 @@
 @php
-$labelClass = "block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5";
+$labelClass = "block text-xs sm:text-sm font-medium text-gray-700 mb-1.5";
 $inputClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/20 text-sm py-2.5 px-3.5 bg-white transition-all";
 $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/20 text-sm py-2.5 px-3.5 bg-white transition-all cursor-pointer";
 @endphp

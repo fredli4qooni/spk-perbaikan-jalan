@@ -4,14 +4,14 @@
 <!-- Header Halaman (Rata Kiri Presisi) -->
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
     <div class="min-w-0 flex-1">
-        <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-tight">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
             Riwayat Aktivitas
         </h2>
         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
             Audit log dan pencatatan aktivitas seluruh petugas dan admin di dalam sistem.
         </p>
     </div>
-    <div class="inline-flex items-center gap-2 text-xs font-bold text-gray-700 bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-2xs flex-shrink-0">
+    <div class="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white px-3.5 py-2 rounded-xl border border-gray-200 shadow-2xs flex-shrink-0">
         <i class="bi bi-shield-check text-brand-green text-sm"></i> 
         <span>Total: {{ number_format($activities->total()) }} Catatan</span>
     </div>
@@ -44,20 +44,20 @@
                     @if ($log->user)
                         <img src="{{ $log->user->profile_photo_url }}" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gray-200 flex-shrink-0">
                         <div class="min-w-0">
-                            <span class="font-bold text-gray-900 text-xs sm:text-sm block truncate">{{ $log->user->name }}</span>
+                            <span class="font-semibold text-gray-900 text-xs sm:text-sm block truncate">{{ $log->user->name }}</span>
                             <span class="text-[10px] text-gray-400 block truncate">{{ $log->user->email }}</span>
                         </div>
                     @else
-                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-xs flex-shrink-0">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-medium text-xs flex-shrink-0">
                             ?
                         </div>
                         <div class="min-w-0">
-                            <span class="font-bold text-gray-500 text-xs block truncate">Sistem / Tamu</span>
+                            <span class="font-medium text-gray-500 text-xs block truncate">Sistem / Tamu</span>
                         </div>
                     @endif
                 </div>
 
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border flex-shrink-0 {{ $colorClass }}">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase border flex-shrink-0 {{ $colorClass }}">
                     {{ $log->action }}
                 </span>
             </div>
@@ -80,7 +80,7 @@
     @empty
         <div class="bg-white rounded-2xl border border-gray-200 p-8 text-center text-gray-500">
             <i class="bi bi-clock-history text-4xl mb-2 block text-gray-300"></i>
-            <p class="font-bold text-gray-700 text-sm">Belum ada riwayat aktivitas.</p>
+            <p class="font-medium text-gray-700 text-sm">Belum ada riwayat aktivitas.</p>
         </div>
     @endforelse
 </div>
@@ -93,11 +93,11 @@
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Pengguna</th>
-                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-28">Tindakan</th>
-                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Deskripsi Aktivitas</th>
-                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-36">Alamat IP</th>
-                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider w-44">Waktu</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pengguna</th>
+                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider w-28">Tindakan</th>
+                    <th scope="col" class="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Deskripsi Aktivitas</th>
+                    <th scope="col" class="px-6 py-3.5 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider w-36">Alamat IP</th>
+                    <th scope="col" class="px-6 py-3.5 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider w-44">Waktu</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -111,22 +111,22 @@
                                 @if ($log->user)
                                     <img src="{{ $log->user->profile_photo_url }}" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gray-200">
                                     <div>
-                                        <div class="font-bold text-gray-900 text-sm">{{ $log->user->name }}</div>
+                                        <div class="font-semibold text-gray-900 text-sm">{{ $log->user->name }}</div>
                                         <div class="text-xs text-gray-400">{{ $log->user->email }}</div>
                                     </div>
                                 @else
-                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-xs">
+                                    <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-medium text-xs">
                                         ?
                                     </div>
                                     <div>
-                                        <div class="font-bold text-gray-500 text-sm">Sistem / Tamu</div>
+                                        <div class="font-medium text-gray-500 text-sm">Sistem / Tamu</div>
                                         <div class="text-xs text-gray-400">-</div>
                                     </div>
                                 @endif
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase border {{ $colorClass }}">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold uppercase border {{ $colorClass }}">
                                 {{ $log->action }}
                             </span>
                         </td>

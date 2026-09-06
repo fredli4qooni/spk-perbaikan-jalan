@@ -13,46 +13,20 @@
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    
+    @include('layouts.partials.pwa-head')
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased overflow-hidden">
 
-<div class="flex h-screen bg-gray-50" x-data="{ mobileMenuOpen: false }">
-    
-    <!-- Mobile sidebar -->
-    <div x-show="mobileMenuOpen" class="md:hidden fixed inset-0 z-40 flex" style="display: none;">
-        <div x-show="mobileMenuOpen" @click="mobileMenuOpen = false" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-75"></div>
-        
-        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-xl">
-            <div class="absolute top-0 right-0 -mr-12 pt-4">
-                <button @click="mobileMenuOpen = false" type="button" class="ml-1 flex items-center justify-center h-11 w-11 rounded-full bg-black/50 text-white hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-all cursor-pointer" aria-label="Tutup menu navigasi">
-                    <span class="sr-only">Tutup menu</span>
-                    <i class="bi bi-x-lg text-white text-lg"></i>
-                </button>
-            </div>
-            
-            <div class="h-16 flex items-center px-5 bg-brand-purple text-white shadow-sm">
-                <a href="{{ route('dashboard') }}" class="font-bold text-lg tracking-wide flex items-center gap-3">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
-                    <span class="font-extrabold tracking-wider">PUPR MOORA</span>
-                </a>
-            </div>
-            
-            <div class="mt-5 flex-1 h-0 overflow-y-auto">
-                <nav class="px-4 space-y-1.5">
-                    @include('layouts.partials.sidebar-links')
-                </nav>
-            </div>
-        </div>
-        <div class="flex-shrink-0 w-14" aria-hidden="true"></div>
-    </div>
+<div class="flex h-screen bg-gray-50">
 
     <!-- Desktop sidebar -->
-    <div class="hidden md:flex md:flex-shrink-0 bg-white border-r border-gray-200 shadow-sm z-20 transition-all duration-300 w-64">
+    <div class="hidden lg:flex lg:flex-shrink-0 bg-white border-r border-gray-200 shadow-sm z-20 transition-all duration-300 w-64">
         <div class="flex flex-col w-full">
             <div class="h-16 flex items-center px-5 bg-brand-purple text-white flex-shrink-0">
                 <a href="{{ route('dashboard') }}" class="font-bold text-lg tracking-wide flex items-center gap-3">
                     <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
-                    <span class="font-extrabold tracking-wider">PUPR MOORA</span>
+                    <span class="font-bold tracking-wider">PUPR MOORA</span>
                 </a>
             </div>
             <div class="flex flex-col flex-grow pt-6 pb-4 overflow-y-auto">
@@ -67,7 +41,7 @@
                 <div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50 border border-gray-100">
                     <img class="h-9 w-9 rounded-full object-cover border border-gray-200" src="{{ auth()->user()->profile_photo_url }}" alt="">
                     <div class="overflow-hidden">
-                        <p class="text-sm font-bold text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
                         <p class="text-xs text-brand-purple font-medium truncate">{{ ucfirst(auth()->user()->role) }}</p>
                     </div>
                 </div>
@@ -80,16 +54,17 @@
         
         <!-- Top Navbar -->
         <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow-sm border-b border-gray-200">
-            <!-- Mobile menu button (Ergonomis) -->
-            <button @click="mobileMenuOpen = true" type="button" class="w-14 h-16 flex items-center justify-center border-r border-gray-200 text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-purple md:hidden hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer" aria-label="Buka menu navigasi">
-                <span class="sr-only">Buka menu</span>
-                <i class="bi bi-list text-2xl"></i>
-            </button>
-            
-            <div class="flex-1 px-4 flex justify-between sm:px-6 lg:px-8 items-center">
-                <div class="flex-1 flex">
-                    <!-- Optional: Search bar or Page Breadcrumbs can go here -->
-                    <div class="hidden sm:flex items-center text-sm font-medium text-gray-500">
+            <div class="flex-1 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <!-- Sisi Kiri: Brand PUPR pada Mobile/Tablet (< lg) & Tanggal pada Desktop (>= lg) -->
+                <div class="flex items-center gap-3">
+                    <!-- Brand Logo untuk Layar Mobile/Tablet (< lg) -->
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 lg:hidden" title="Beranda PUPR MOORA">
+                        <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-8 w-8 object-contain bg-white rounded-lg p-0.5 border border-gray-200 shadow-2xs">
+                        <span class="font-bold tracking-wider text-brand-purple text-base">PUPR MOORA</span>
+                    </a>
+
+                    <!-- Tanggal untuk Desktop (>= lg) -->
+                    <div class="hidden lg:flex items-center text-sm font-medium text-gray-500">
                         <span class="text-gray-400 mr-2">{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                     </div>
                 </div>
@@ -100,7 +75,7 @@
                         <div>
                             <button @click="open = !open" type="button" class="flex items-center gap-2 max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-brand-purple focus:ring-offset-2 transition-all hover:ring-2 hover:ring-brand-purple/50 p-1 pr-3 bg-gray-50 border border-gray-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <img class="h-8 w-8 rounded-full object-cover" src="{{ auth()->user()->profile_photo_url }}" alt="">
-                                <span class="hidden md:block font-medium text-gray-700">{{ explode(' ', auth()->user()->name)[0] }}</span>
+                                <span class="hidden lg:block font-medium text-gray-700">{{ explode(' ', auth()->user()->name)[0] }}</span>
                                 <i class="bi bi-chevron-down text-gray-400 text-xs ml-1"></i>
                             </button>
                         </div>
@@ -128,9 +103,9 @@
             </div>
         </div>
 
-        <!-- Main Content (Full Width Fluid Layout) -->
+        <!-- Main Content (Full Width Fluid Layout with Bottom Nav Compensation) -->
         <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-50/50">
-            <div class="py-4 sm:py-6 md:py-8 w-full px-4 sm:px-6 lg:px-8">
+            <div class="py-4 sm:py-6 md:py-8 w-full px-4 sm:px-6 lg:px-8 pb-24 lg:pb-8">
                 
                 @if (session('success'))
                     <div x-data="{ show: true }" x-show="show" class="mb-6 bg-green-50 border border-green-200 border-l-4 border-l-brand-green p-4 rounded-lg shadow-sm flex justify-between items-start">
@@ -170,6 +145,12 @@
         </main>
     </div>
 </div>
+
+@include('layouts.partials.bottom-nav')
+
+@include('layouts.partials.toast')
+
+@include('layouts.partials.pwa-scripts')
 
 @stack('modals')
 @stack('scripts')

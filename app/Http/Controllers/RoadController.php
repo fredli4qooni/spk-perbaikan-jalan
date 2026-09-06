@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class RoadController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $roads = Road::with(['user', 'scores'])->latest()->paginate(10);
+        $perPage = $request->integer('per_page', 5);
+        $roads = Road::with(['user', 'scores'])
+            ->latest()
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('roads.index', compact('roads'));
     }
 

@@ -1,5 +1,5 @@
 @php
-$labelClass = "block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5";
+$labelClass = "block text-xs sm:text-sm font-medium text-gray-700 mb-1.5";
 $inputClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/20 text-sm py-2.5 px-3.5 bg-white transition-all";
 $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/20 text-sm py-2.5 px-3.5 bg-white transition-all cursor-pointer";
 @endphp
@@ -11,84 +11,90 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
 <div x-data="roadMultiStepForm()" class="space-y-6">
 
     <!-- ======================================================== -->
-    <!-- STEP PROGRESS BAR & TABS (HORIZONTAL WIZARD)            -->
+    <!-- STEP PROGRESS BAR & TABS (MODERN SEGMENTED STEPPER)     -->
     <!-- ======================================================== -->
     <div class="border-b border-gray-100 pb-5">
-        <!-- Progress Bar Line -->
-        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden mb-4">
+        <!-- Progress Bar Indicator -->
+        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden mb-3.5">
             <div 
                 class="bg-brand-purple h-full transition-all duration-300 rounded-full"
                 :style="`width: ${(currentStep / 3) * 100}%`"
             ></div>
         </div>
 
-        <!-- 3 Step Buttons -->
-        <div class="grid grid-cols-3 gap-2 sm:gap-3">
+        <!-- Segmented Tab Pills (3 Kolom Simetris Bebas Truncate) -->
+        <div class="grid grid-cols-3 p-1 sm:p-1.5 bg-gray-100/90 rounded-2xl gap-1">
             <!-- Step 1 Tab -->
             <button 
                 type="button" 
                 @click="goToStep(1)" 
-                class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl transition-all text-left min-h-[44px]"
-                :class="currentStep === 1 ? 'bg-brand-purple/10 text-brand-purple ring-1 ring-brand-purple' : (currentStep > 1 ? 'bg-emerald-50 text-emerald-800' : 'bg-gray-50 text-gray-400')"
+                class="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-1.5 sm:px-3 rounded-xl transition-all min-h-[44px] cursor-pointer text-center"
+                :class="currentStep === 1 
+                    ? 'bg-white text-gray-900 shadow-xs border border-gray-200/80' 
+                    : (currentStep > 1 ? 'bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100/80' : 'text-gray-400 hover:text-gray-600')"
             >
-                <div 
-                    class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                <span 
+                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[11px] sm:text-xs font-bold flex-shrink-0 transition-colors"
                     :class="currentStep === 1 ? 'bg-brand-purple text-white' : (currentStep > 1 ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-500')"
                 >
                     <template x-if="currentStep > 1">
-                        <i class="bi bi-check-lg"></i>
+                        <i class="bi bi-check-lg text-xs"></i>
                     </template>
                     <template x-if="currentStep <= 1">
                         <span>1</span>
                     </template>
-                </div>
-                <div class="truncate">
-                    <span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider opacity-70">Langkah 1</span>
-                    <span class="block text-xs font-bold truncate">Lokasi & Peta</span>
-                </div>
+                </span>
+                <span class="text-xs font-semibold whitespace-nowrap">
+                    <span class="sm:hidden">Lokasi</span>
+                    <span class="hidden sm:inline">Lokasi & Peta</span>
+                </span>
             </button>
 
             <!-- Step 2 Tab -->
             <button 
                 type="button" 
                 @click="goToStep(2)" 
-                class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl transition-all text-left min-h-[44px]"
-                :class="currentStep === 2 ? 'bg-brand-purple/10 text-brand-purple ring-1 ring-brand-purple' : (currentStep > 2 ? 'bg-emerald-50 text-emerald-800' : 'bg-gray-50 text-gray-400')"
+                class="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-1.5 sm:px-3 rounded-xl transition-all min-h-[44px] cursor-pointer text-center"
+                :class="currentStep === 2 
+                    ? 'bg-white text-gray-900 shadow-xs border border-gray-200/80' 
+                    : (currentStep > 2 ? 'bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100/80' : 'text-gray-400 hover:text-gray-600')"
             >
-                <div 
-                    class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
+                <span 
+                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[11px] sm:text-xs font-bold flex-shrink-0 transition-colors"
                     :class="currentStep === 2 ? 'bg-brand-purple text-white' : (currentStep > 2 ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-500')"
                 >
                     <template x-if="currentStep > 2">
-                        <i class="bi bi-check-lg"></i>
+                        <i class="bi bi-check-lg text-xs"></i>
                     </template>
                     <template x-if="currentStep <= 2">
                         <span>2</span>
                     </template>
-                </div>
-                <div class="truncate">
-                    <span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider opacity-70">Langkah 2</span>
-                    <span class="block text-xs font-bold truncate">Kondisi Jalan</span>
-                </div>
+                </span>
+                <span class="text-xs font-semibold whitespace-nowrap">
+                    <span class="sm:hidden">Kondisi</span>
+                    <span class="hidden sm:inline">Kondisi Jalan</span>
+                </span>
             </button>
 
             <!-- Step 3 Tab -->
             <button 
                 type="button" 
                 @click="goToStep(3)" 
-                class="flex items-center gap-2 p-2 sm:p-2.5 rounded-xl transition-all text-left min-h-[44px]"
-                :class="currentStep === 3 ? 'bg-brand-purple/10 text-brand-purple ring-1 ring-brand-purple' : 'bg-gray-50 text-gray-400'"
+                class="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-1.5 sm:px-3 rounded-xl transition-all min-h-[44px] cursor-pointer text-center"
+                :class="currentStep === 3 
+                    ? 'bg-white text-gray-900 shadow-xs border border-gray-200/80' 
+                    : 'text-gray-400 hover:text-gray-600'"
             >
-                <div 
-                    class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center font-bold text-xs flex-shrink-0"
-                    :class="currentStep === 3 ? 'bg-brand-purple text-white' : 'bg-gray-200 text-gray-500')"
+                <span 
+                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[11px] sm:text-xs font-bold flex-shrink-0 transition-colors"
+                    :class="currentStep === 3 ? 'bg-brand-purple text-white' : 'bg-gray-200 text-gray-500'"
                 >
                     <span>3</span>
-                </div>
-                <div class="truncate">
-                    <span class="block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider opacity-70">Langkah 3</span>
-                    <span class="block text-xs font-bold truncate">Dokumentasi</span>
-                </div>
+                </span>
+                <span class="text-xs font-semibold whitespace-nowrap">
+                    <span class="sm:hidden">Dokumen</span>
+                    <span class="hidden sm:inline">Dokumentasi</span>
+                </span>
             </button>
         </div>
     </div>
@@ -97,13 +103,23 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
     <!-- STEP 1: LOKASI RUAS JALAN & TITIK KOORDINAT PETA        -->
     <!-- ======================================================== -->
     <div x-show="currentStep === 1" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" class="space-y-5">
-        <div class="flex items-center gap-2 mb-2">
-            <div class="w-8 h-8 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold">
+        <!-- Header Langkah 1 -->
+        <div class="flex items-start gap-3 pb-3 mb-2 border-b border-gray-100">
+            <div class="w-9 h-9 rounded-xl bg-purple-50 text-brand-purple border border-purple-200/80 flex items-center justify-center text-sm flex-shrink-0 shadow-2xs mt-0.5">
                 <i class="bi bi-geo-alt-fill"></i>
             </div>
-            <div>
-                <h3 class="text-sm sm:text-base font-bold text-gray-900">Langkah 1: Identitas Lokasi & Koordinat Peta</h3>
-                <p class="text-xs text-gray-400">Tentukan alamat dan titik lokasi kerusakan pada peta.</p>
+            <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="text-sm sm:text-base font-bold text-gray-900 leading-tight">
+                        Lokasi & Titik Koordinat
+                    </h3>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100/80 text-brand-purple flex-shrink-0">
+                        Langkah 1
+                    </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 leading-normal">
+                    Tentukan alamat ruas jalan dan tandai titik kerusakan pada peta.
+                </p>
             </div>
         </div>
 
@@ -140,7 +156,7 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
         <!-- Peta Interaktif & Pencarian Geocoding -->
         <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50 border border-gray-200">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
-                <label class="text-xs font-bold text-gray-700 flex items-center gap-1.5">
+                <label class="text-xs font-medium text-gray-700 flex items-center gap-1.5">
                     <i class="bi bi-pin-map-fill text-brand-purple"></i> Pencarian Lokasi & Peta
                 </label>
                 <template x-if="userLocation">
@@ -295,13 +311,23 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
     <!-- STEP 2: PARAMETER KONDISI KERUSAKAN JALAN (MOORA)       -->
     <!-- ======================================================== -->
     <div x-show="currentStep === 2" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" class="space-y-5" style="display: none;">
-        <div class="flex items-center gap-2 mb-2">
-            <div class="w-8 h-8 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold">
+        <!-- Header Langkah 2 -->
+        <div class="flex items-start gap-3 pb-3 mb-2 border-b border-gray-100">
+            <div class="w-9 h-9 rounded-xl bg-purple-50 text-brand-purple border border-purple-200/80 flex items-center justify-center text-sm flex-shrink-0 shadow-2xs mt-0.5">
                 <i class="bi bi-sliders"></i>
             </div>
-            <div>
-                <h3 class="text-sm sm:text-base font-bold text-gray-900">Langkah 2: Parameter Kondisi Kerusakan Jalan</h3>
-                <p class="text-xs text-gray-400">Pilih rentang kondisi fisik sesuai hasil survei lapangan.</p>
+            <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="text-sm sm:text-base font-bold text-gray-900 leading-tight">
+                        Parameter Kondisi Jalan
+                    </h3>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100/80 text-brand-purple flex-shrink-0">
+                        Langkah 2
+                    </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 leading-normal">
+                    Pilih skala penilaian untuk 5 kriteria penentu prioritas MOORA.
+                </p>
             </div>
         </div>
 
@@ -309,13 +335,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             <!-- C1: Panjang Kerusakan Jalan -->
             <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50/80 border border-gray-200 transition-all hover:border-gray-300">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <label class="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-1.5">
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-purple-100 text-brand-purple">C1</span>
+                    <label class="text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-100 text-brand-purple">C1</span>
                         <span>Panjang Kerusakan</span>
                         <span class="text-red-500">*</span>
                     </label>
                     <template x-if="formData.c1_panjang">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-100 text-brand-purple">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100 text-brand-purple">
                             Skala <span x-text="formData.c1_panjang" class="ml-0.5"></span>
                         </span>
                     </template>
@@ -333,13 +359,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             <!-- C2: Lebar Jalan -->
             <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50/80 border border-gray-200 transition-all hover:border-gray-300">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <label class="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-1.5">
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-blue-100 text-blue-700">C2</span>
+                    <label class="text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700">C2</span>
                         <span>Lebar Jalan</span>
                         <span class="text-red-500">*</span>
                     </label>
                     <template x-if="formData.c2_lebar">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-700">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700">
                             Skala <span x-text="formData.c2_lebar" class="ml-0.5"></span>
                         </span>
                     </template>
@@ -357,13 +383,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             <!-- C3: Kedalaman Lubang -->
             <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50/80 border border-gray-200 transition-all hover:border-gray-300">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <label class="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-1.5">
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-amber-100 text-amber-800">C3</span>
+                    <label class="text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">C3</span>
                         <span>Kedalaman Lubang</span>
                         <span class="text-red-500">*</span>
                     </label>
                     <template x-if="formData.c3_kedalaman">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-800">
                             Skala <span x-text="formData.c3_kedalaman" class="ml-0.5"></span>
                         </span>
                     </template>
@@ -381,13 +407,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             <!-- C4: Banyaknya Lubang -->
             <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50/80 border border-gray-200 transition-all hover:border-gray-300">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <label class="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-1.5">
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-red-100 text-red-700">C4</span>
+                    <label class="text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-red-100 text-red-700">C4</span>
                         <span>Banyaknya Lubang</span>
                         <span class="text-red-500">*</span>
                     </label>
                     <template x-if="formData.c4_lubang">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-red-100 text-red-700">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-700">
                             Skala <span x-text="formData.c4_lubang" class="ml-0.5"></span>
                         </span>
                     </template>
@@ -405,13 +431,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             <!-- C5: Tingkat Kepentingan Jalan -->
             <div class="sm:col-span-2 p-3.5 sm:p-4 rounded-xl bg-gray-50/80 border border-gray-200 transition-all hover:border-gray-300">
                 <div class="flex items-center justify-between gap-2 mb-2">
-                    <label class="text-xs sm:text-sm font-bold text-gray-800 flex items-center gap-1.5">
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-emerald-100 text-emerald-800">C5</span>
+                    <label class="text-xs sm:text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">C5</span>
                         <span>Tingkat Kepentingan Jalan</span>
                         <span class="text-red-500">*</span>
                     </label>
                     <template x-if="formData.c5_kepentingan">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">
                             Skala <span x-text="formData.c5_kepentingan" class="ml-0.5"></span>
                         </span>
                     </template>
@@ -432,13 +458,23 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
     <!-- STEP 3: DOKUMENTASI MEDIA & CATATAN KHUSUS              -->
     <!-- ======================================================== -->
     <div x-show="currentStep === 3" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" class="space-y-5" style="display: none;">
-        <div class="flex items-center gap-2 mb-2">
-            <div class="w-8 h-8 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold">
+        <!-- Header Langkah 3 -->
+        <div class="flex items-start gap-3 pb-3 mb-2 border-b border-gray-100">
+            <div class="w-9 h-9 rounded-xl bg-purple-50 text-brand-purple border border-purple-200/80 flex items-center justify-center text-sm flex-shrink-0 shadow-2xs mt-0.5">
                 <i class="bi bi-camera-fill"></i>
             </div>
-            <div>
-                <h3 class="text-sm sm:text-base font-bold text-gray-900">Langkah 3: Dokumentasi Media & Catatan</h3>
-                <p class="text-xs text-gray-400">Lampirkan foto/video dokumentasi lapangan dan catatan penting.</p>
+            <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="text-sm sm:text-base font-bold text-gray-900 leading-tight">
+                        Dokumentasi & Catatan
+                    </h3>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-100/80 text-brand-purple flex-shrink-0">
+                        Langkah 3
+                    </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 leading-normal">
+                    Unggah foto/video kondisi kerusakan dan catatan hasil survei lapangan.
+                </p>
             </div>
         </div>
 
@@ -558,7 +594,7 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
                 <button 
                     type="button" 
                     @click="nextStep()" 
-                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-5 sm:px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all min-h-[44px]"
+                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-5 sm:px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all min-h-[44px]"
                 >
                     <span>Langkah Selanjutnya</span>
                     <i class="bi bi-arrow-right ml-1.5"></i>
@@ -566,8 +602,9 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             </template>
             <template x-if="currentStep === 3">
                 <button 
-                    type="submit" 
-                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-6 sm:px-8 py-2.5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all min-h-[44px]"
+                    type="button" 
+                    @click.prevent="submitForm()"
+                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-6 sm:px-8 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all min-h-[44px] cursor-pointer"
                 >
                     <i class="bi bi-save mr-2"></i> Simpan Data Jalan
                 </button>
@@ -706,25 +743,52 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             validateStep(step) {
                 if (step === 1) {
                     if (!this.formData.location || this.formData.location.trim() === '') {
-                        alert('Silakan isi Lokasi / Alamat Ruas Jalan terlebih dahulu.');
-                        document.getElementById('location_input')?.focus();
+                        window.showToast('Silakan isi Lokasi / Alamat Ruas Jalan terlebih dahulu.', 'warning', 'Validasi Lokasi');
+                        const input = document.getElementById('location_input');
+                        if (input) {
+                            input.focus();
+                            input.classList.add('!border-red-500', 'ring-2', 'ring-red-200');
+                            setTimeout(() => input.classList.remove('!border-red-500', 'ring-2', 'ring-red-200'), 3000);
+                        }
                         return false;
                     }
                     if (!this.formData.kecamatan) {
-                        alert('Silakan pilih Kecamatan.');
+                        window.showToast('Silakan pilih Kecamatan terlebih dahulu.', 'warning', 'Validasi Lokasi');
                         return false;
                     }
                     if (!this.formData.kelurahan) {
-                        alert('Silakan pilih Kelurahan.');
+                        window.showToast('Silakan pilih Kelurahan terlebih dahulu.', 'warning', 'Validasi Lokasi');
                         return false;
                     }
                 } else if (step === 2) {
-                    if (!this.formData.c1_panjang || !this.formData.c2_lebar || !this.formData.c3_kedalaman || !this.formData.c4_lubang || !this.formData.c5_kepentingan) {
-                        alert('Silakan lengkapi seluruh 5 parameter kondisi kerusakan jalan.');
+                    const missing = [];
+                    if (!this.formData.c1_panjang) missing.push('Panjang Kerusakan (C1)');
+                    if (!this.formData.c2_lebar) missing.push('Lebar Kerusakan (C2)');
+                    if (!this.formData.c3_kedalaman) missing.push('Kedalaman Lubang (C3)');
+                    if (!this.formData.c4_lubang) missing.push('Jumlah Lubang (C4)');
+                    if (!this.formData.c5_kepentingan) missing.push('Tingkat Kepentingan (C5)');
+
+                    if (missing.length > 0) {
+                        window.showToast('Silakan lengkapi parameter: ' + missing.join(', ') + '.', 'warning', 'Validasi Parameter Kerusakan');
                         return false;
                     }
                 }
                 return true;
+            },
+
+            submitForm() {
+                if (!this.validateStep(1)) {
+                    this.goToStep(1);
+                    return false;
+                }
+                if (!this.validateStep(2)) {
+                    this.goToStep(2);
+                    return false;
+                }
+                const form = document.getElementById('roadMainForm');
+                if (form) {
+                    form.submit();
+                }
             },
 
             onKecamatanChange() {
@@ -788,7 +852,7 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             detectUserLocation(manual = false) {
                 if (!navigator.geolocation) {
                     if (manual) {
-                        alert('Browser perangkat Anda tidak mendukung fitur Geolocation / GPS.');
+                        window.showToast('Browser perangkat Anda tidak mendukung fitur Geolocation / GPS.', 'error', 'GPS Tidak Didukung');
                     }
                     return;
                 }
@@ -820,12 +884,15 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
                         }
 
                         this.renderUserLocationMarker(lat, lng);
+                        if (manual) {
+                            window.showToast('Koordinat GPS berhasil dideteksi dan disematkan pada peta.', 'success', 'GPS Terdeteksi');
+                        }
                     },
                     (error) => {
                         this.isLocating = false;
                         console.warn('Geolocation notice:', error.message);
                         if (manual) {
-                            alert('Gagal mendeteksi lokasi perangkat. Pastikan izin akses lokasi (GPS) telah diaktifkan.');
+                            window.showToast('Gagal mendeteksi lokasi perangkat. Pastikan izin akses lokasi (GPS) telah diaktifkan.', 'error', 'Akses Lokasi Ditolak');
                         }
                     },
                     {

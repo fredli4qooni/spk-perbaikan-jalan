@@ -9,7 +9,7 @@
                 <i class="bi bi-arrow-left text-lg"></i>
             </a>
             <div>
-                <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-tight">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
                     Edit Kriteria
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Perbarui detail kriteria dan bobot penilaian MOORA.</p>
@@ -34,7 +34,7 @@
                 </a>
                 <button 
                     type="submit" 
-                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all"
+                    class="inline-flex items-center justify-center rounded-xl border border-transparent bg-brand-purple px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-purple-hover focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all"
                 >
                     <i class="bi bi-save mr-2"></i> Perbarui Kriteria
                 </button>

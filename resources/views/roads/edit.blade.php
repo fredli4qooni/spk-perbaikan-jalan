@@ -23,7 +23,7 @@
                 <i class="bi bi-arrow-left text-lg"></i>
             </a>
             <div>
-                <h2 class="text-xl sm:text-2xl font-black text-gray-900 leading-tight">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
                     Edit Ruas Jalan
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-500 mt-0.5">Perbarui detail ruas jalan sebelum dianalisis.</p>
@@ -33,7 +33,7 @@
 
     <!-- Main Card Form Multi-Step Container -->
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <form method="POST" action="{{ route('roads.update', $road) }}" enctype="multipart/form-data" id="roadMainForm">
+        <form method="POST" action="{{ route('roads.update', $road) }}" enctype="multipart/form-data" id="roadMainForm" novalidate>
             @csrf
             @method('PUT')
             <div class="p-5 sm:p-7 md:p-8">
