@@ -163,10 +163,17 @@
     }
     .pupr-kecamatan-outline {
         cursor: pointer !important;
-        transition: all 0.2s ease !important;
+        transition: stroke 0.2s ease, fill 0.2s ease, opacity 0.2s ease !important;
     }
     .pupr-boundary-selected {
         filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.5));
+    }
+    .leaflet-tile {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    .leaflet-tile-container {
+        pointer-events: none;
     }
 
     /* Modern PUPR Leaflet Zoom Controls */
@@ -1006,8 +1013,11 @@
                 // Aktifkan interaksi zoom lengkap: Trackpad gesture, Mouse Scroll Wheel, Double Click & Box Zoom
                 this.map = L.map('public-map', {
                     scrollWheelZoom: true,
-                    wheelDebounceTime: 40,
-                    wheelPxPerZoomLevel: 60,
+                    wheelDebounceTime: 60,
+                    wheelPxPerZoomLevel: 80,
+                    zoomSnap: 1,
+                    zoomDelta: 1,
+                    zoomAnimation: true,
                     doubleClickZoom: true,
                     touchZoom: true,
                     boxZoom: true,
@@ -1028,13 +1038,24 @@
                 // Lapisan Peta Jalan Vektor (OpenStreetMap)
                 this.streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap contributors | Dinas PUPR Kota Bandar Lampung'
+                    maxNativeZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors | Dinas PUPR Kota Bandar Lampung',
+                    updateWhenZooming: false,
+                    updateWhenIdle: false,
+                    keepBuffer: 8,
+                    crossOrigin: true
                 });
 
                 // Lapisan Citra Satelit Resolusi Tinggi (ESRI World Imagery)
+                // Dioptimalkan dengan maxNativeZoom: 18 & updateWhenZooming: false agar sinkron presisi saat interaksi zoom
                 this.satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                     maxZoom: 19,
-                    attribution: 'Tiles &copy; Esri &mdash; Sumber: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                    maxNativeZoom: 18,
+                    attribution: 'Tiles &copy; Esri &mdash; Sumber: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                    updateWhenZooming: false,
+                    updateWhenIdle: false,
+                    keepBuffer: 8,
+                    crossOrigin: true
                 });
 
                 this.streetLayer.addTo(this.map);
@@ -1288,12 +1309,33 @@
                 if (this.activeLayer === type || !this.map) return;
                 this.activeLayer = type;
                 if (type === 'satellite') {
-                    this.map.removeLayer(this.streetLayer);
-                    this.satelliteLayer.addTo(this.map);
+                    if (this.map.hasLayer(this.streetLayer)) {
+                        this.map.removeLayer(this.streetLayer);
+                    }
+                    if (!this.map.hasLayer(this.satelliteLayer)) {
+                        this.satelliteLayer.addTo(this.map);
+                    }
+                    this.satelliteLayer.bringToBack();
                 } else {
-                    this.map.removeLayer(this.satelliteLayer);
-                    this.streetLayer.addTo(this.map);
+                    if (this.map.hasLayer(this.satelliteLayer)) {
+                        this.map.removeLayer(this.satelliteLayer);
+                    }
+                    if (!this.map.hasLayer(this.streetLayer)) {
+                        this.streetLayer.addTo(this.map);
+                    }
+                    this.streetLayer.bringToBack();
                 }
+
+                // Pastikan vector boundary dan highlight tetap berada di atas tile citra namun di bawah marker
+                if (this.boundariesLayer) {
+                    this.boundariesLayer.bringToBack();
+                }
+                if (this.highlightLayer) {
+                    this.highlightLayer.bringToBack();
+                }
+
+                // Invalidate canvas peta agar seluruh tile langsung ter-render presisi tanpa jeda
+                this.map.invalidateSize({ pan: false });
             },
 
             toggleFullscreenMap() {
