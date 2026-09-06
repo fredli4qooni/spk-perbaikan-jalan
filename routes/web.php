@@ -7,11 +7,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MooraController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoadController;
+use App\Http\Controllers\PublicDashboardController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [AuthController::class, 'showLoginForm']);
+Route::get('/', [PublicDashboardController::class, 'index'])->name('public.dashboard');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');

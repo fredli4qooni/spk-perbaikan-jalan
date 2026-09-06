@@ -75,3 +75,5 @@ composer.phar
 # Misc
 # ==========================
 *.sqlite
+/scratch
+.agent/
