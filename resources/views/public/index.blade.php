@@ -346,36 +346,12 @@
 
             <!-- Toolbar Kontrol Peta Ramping (1 Baris Bersih di Mobile & Desktop) -->
             <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 pt-0.5 sm:pt-0">
-                <!-- Layer Switcher: Peta Jalan vs Satelit -->
-                <div class="inline-flex items-center p-0.5 sm:p-1 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                    <button 
-                        type="button" 
-                        @click="setTileLayer('streets')" 
-                        :class="activeLayer === 'streets' ? 'bg-brand-purple text-white shadow-xs font-bold' : 'text-slate-600 hover:text-brand-purple hover:bg-slate-50 font-medium'"
-                        class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5 cursor-pointer"
-                        title="Tampilan Peta Jalan Vektor (OpenStreetMap)"
-                    >
-                        <i class="bi bi-map"></i>
-                        <span>Peta Jalan</span>
-                    </button>
-                    <button 
-                        type="button" 
-                        @click="setTileLayer('satellite')" 
-                        :class="activeLayer === 'satellite' ? 'bg-brand-purple text-white shadow-xs font-bold' : 'text-slate-600 hover:text-brand-purple hover:bg-slate-50 font-medium'"
-                        class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5 cursor-pointer"
-                        title="Tampilan Citra Satelit Udara (ESRI World Imagery)"
-                    >
-                        <i class="bi bi-globe-americas"></i>
-                        <span>Satelit</span>
-                    </button>
-                </div>
-
                 <!-- Geolocation Posisi Saya -->
                 <button 
                     type="button" 
                     @click="detectUserLocation(true)" 
                     :disabled="isLocating"
-                    class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-white border border-slate-200 shadow-2xs text-xs font-bold text-slate-700 hover:text-brand-purple hover:bg-slate-50 transition-all min-h-[36px] sm:min-h-[38px] cursor-pointer disabled:opacity-60 shrink-0"
+                    class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white border border-slate-200 shadow-2xs text-xs font-bold text-slate-700 hover:text-brand-purple hover:bg-slate-50 transition-all min-h-[36px] sm:min-h-[38px] cursor-pointer disabled:opacity-60 shrink-0"
                     title="Temukan posisi GPS Anda dan hitung jarak ke ruas jalan"
                 >
                     <i class="bi" :class="isLocating ? 'bi-arrow-repeat animate-spin text-brand-purple' : 'bi-crosshair text-blue-600'"></i>
@@ -490,16 +466,6 @@
                         <span class="hidden sm:inline">Reset</span>
                     </button>
 
-                    <!-- Toggle Layer di Fullscreen Mode -->
-                    <button 
-                        type="button" 
-                        @click="setTileLayer(activeLayer === 'streets' ? 'satellite' : 'streets')" 
-                        class="px-2 sm:px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 flex items-center gap-1 cursor-pointer"
-                    >
-                        <i class="bi" :class="activeLayer === 'streets' ? 'bi-globe-americas' : 'bi-map'"></i>
-                        <span x-text="activeLayer === 'streets' ? 'Satelit' : 'Peta Jalan'"></span>
-                    </button>
-
                     <!-- Tombol Tutup Layar Penuh -->
                     <button 
                         type="button" 
@@ -543,11 +509,10 @@
                 :class="isFullscreenMap ? 'top-14' : 'top-3'"
             >
                 <div class="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200/80 shadow-xs text-xs font-medium text-slate-700 flex items-center gap-2 self-start">
-                    <span class="w-2 h-2 rounded-full" :class="activeLayer === 'satellite' ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span>
                         <strong class="font-bold text-slate-900" x-text="activeMarkerCount"></strong> titik ditampilkan
                     </span>
-                    <span class="text-slate-400 text-[10px]" x-text="'(' + (activeLayer === 'satellite' ? 'Satelit' : 'Peta Jalan') + ')'"></span>
                 </div>
 
                 <!-- Floating Kecamatan Boundary Chip -->
@@ -924,8 +889,6 @@
         return {
             map: null,
             streetLayer: null,
-            satelliteLayer: null,
-            activeLayer: 'streets',
             markersLayer: null,
             userLocationGroup: null,
             markerInstances: {},
@@ -1040,18 +1003,6 @@
                     maxZoom: 19,
                     maxNativeZoom: 19,
                     attribution: '&copy; OpenStreetMap contributors | Dinas PUPR Kota Bandar Lampung',
-                    updateWhenZooming: false,
-                    updateWhenIdle: false,
-                    keepBuffer: 8,
-                    crossOrigin: true
-                });
-
-                // Lapisan Citra Satelit Resolusi Tinggi (ESRI World Imagery)
-                // Dioptimalkan dengan maxNativeZoom: 18 & updateWhenZooming: false agar sinkron presisi saat interaksi zoom
-                this.satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    maxZoom: 19,
-                    maxNativeZoom: 18,
-                    attribution: 'Tiles &copy; Esri &mdash; Sumber: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
                     updateWhenZooming: false,
                     updateWhenIdle: false,
                     keepBuffer: 8,
@@ -1305,38 +1256,6 @@
                 }
             },
 
-            setTileLayer(type) {
-                if (this.activeLayer === type || !this.map) return;
-                this.activeLayer = type;
-                if (type === 'satellite') {
-                    if (this.map.hasLayer(this.streetLayer)) {
-                        this.map.removeLayer(this.streetLayer);
-                    }
-                    if (!this.map.hasLayer(this.satelliteLayer)) {
-                        this.satelliteLayer.addTo(this.map);
-                    }
-                    this.satelliteLayer.bringToBack();
-                } else {
-                    if (this.map.hasLayer(this.satelliteLayer)) {
-                        this.map.removeLayer(this.satelliteLayer);
-                    }
-                    if (!this.map.hasLayer(this.streetLayer)) {
-                        this.streetLayer.addTo(this.map);
-                    }
-                    this.streetLayer.bringToBack();
-                }
-
-                // Pastikan vector boundary dan highlight tetap berada di atas tile citra namun di bawah marker
-                if (this.boundariesLayer) {
-                    this.boundariesLayer.bringToBack();
-                }
-                if (this.highlightLayer) {
-                    this.highlightLayer.bringToBack();
-                }
-
-                // Invalidate canvas peta agar seluruh tile langsung ter-render presisi tanpa jeda
-                this.map.invalidateSize({ pan: false });
-            },
 
             toggleFullscreenMap() {
                 this.isFullscreenMap = !this.isFullscreenMap;
