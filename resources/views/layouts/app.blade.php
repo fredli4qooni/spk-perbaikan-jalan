@@ -24,9 +24,9 @@
         
         <div x-show="mobileMenuOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative flex-1 flex flex-col max-w-xs w-full bg-white shadow-xl">
             <div class="absolute top-0 right-0 -mr-12 pt-4">
-                <button @click="mobileMenuOpen = false" type="button" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                    <span class="sr-only">Close sidebar</span>
-                    <i class="bi bi-x-lg text-white text-xl"></i>
+                <button @click="mobileMenuOpen = false" type="button" class="ml-1 flex items-center justify-center h-11 w-11 rounded-full bg-black/50 text-white hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-all cursor-pointer" aria-label="Tutup menu navigasi">
+                    <span class="sr-only">Tutup menu</span>
+                    <i class="bi bi-x-lg text-white text-lg"></i>
                 </button>
             </div>
             
@@ -80,9 +80,9 @@
         
         <!-- Top Navbar -->
         <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow-sm border-b border-gray-200">
-            <!-- Mobile menu button -->
-            <button @click="mobileMenuOpen = true" type="button" class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-purple md:hidden hover:bg-gray-50">
-                <span class="sr-only">Open sidebar</span>
+            <!-- Mobile menu button (Ergonomis) -->
+            <button @click="mobileMenuOpen = true" type="button" class="w-14 h-16 flex items-center justify-center border-r border-gray-200 text-gray-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-purple md:hidden hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer" aria-label="Buka menu navigasi">
+                <span class="sr-only">Buka menu</span>
                 <i class="bi bi-list text-2xl"></i>
             </button>
             
@@ -128,9 +128,9 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Main Content (Full Width Fluid Layout) -->
         <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-50/50">
-            <div class="py-8 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div class="py-4 sm:py-6 md:py-8 w-full px-4 sm:px-6 lg:px-8">
                 
                 @if (session('success'))
                     <div x-data="{ show: true }" x-show="show" class="mb-6 bg-green-50 border border-green-200 border-l-4 border-l-brand-green p-4 rounded-lg shadow-sm flex justify-between items-start">
@@ -162,14 +162,6 @@
                         </div>
                     </div>
                 @endif
-
-                @unless (request()->routeIs('dashboard'))
-                    <div class="mb-6">
-                        <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-brand-purple hover:text-brand-purple-hover bg-white border border-gray-200 rounded-lg px-4 py-2 shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all focus:ring-2 focus:ring-brand-purple focus:outline-none">
-                            <i class="bi bi-arrow-left mr-2"></i> Kembali ke Dashboard
-                        </a>
-                    </div>
-                @endunless
 
                 <div class="animate-fade-in-up">
                     @yield('content')

@@ -135,4 +135,48 @@ class Road extends Model
     {
         return self::getC5Options()[$this->c5_kepentingan] ?? '-';
     }
+
+    /**
+     * Hitung rata-rata skor kerusakan fisik jalan (C1 - C4)
+     */
+    public function getDamageScoreAttribute(): float
+    {
+        $c1 = (int) ($this->c1_panjang ?? 0);
+        $c2 = (int) ($this->c2_lebar ?? 0);
+        $c3 = (int) ($this->c3_kedalaman ?? 0);
+        $c4 = (int) ($this->c4_lubang ?? 0);
+
+        return ($c1 + $c2 + $c3 + $c4) / 4;
+    }
+
+    /**
+     * Dapatkan status tingkat kerusakan (Severity Status Badge)
+     */
+    public function getDamageStatusAttribute(): array
+    {
+        $score = $this->damage_score;
+
+        if ($score >= 3.8) {
+            return [
+                'label' => 'Rusak Berat',
+                'badge' => 'bg-red-50 text-red-700 border-red-200',
+                'dot'   => 'bg-red-500',
+                'score' => round($score, 2),
+            ];
+        } elseif ($score >= 2.5) {
+            return [
+                'label' => 'Rusak Sedang',
+                'badge' => 'bg-amber-50 text-amber-800 border-amber-200',
+                'dot'   => 'bg-amber-500',
+                'score' => round($score, 2),
+            ];
+        }
+
+        return [
+            'label' => 'Rusak Ringan',
+            'badge' => 'bg-blue-50 text-blue-700 border-blue-200',
+            'dot'   => 'bg-blue-500',
+            'score' => round($score, 2),
+        ];
+    }
 }

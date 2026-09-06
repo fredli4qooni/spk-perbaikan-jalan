@@ -7,6 +7,11 @@ $iconActive = 'text-brand-yellow drop-shadow-sm';
 $iconInactive = 'text-gray-400 group-hover:text-brand-purple';
 @endphp
 
+<a href="{{ route('dashboard') }}" class="{{ $navClass }} {{ request()->routeIs('dashboard') ? $navActive : $navInactive }}">
+    <i class="bi bi-grid-1x2-fill {{ $iconClass }} {{ request()->routeIs('dashboard') ? $iconActive : $iconInactive }}"></i>
+    <span class="truncate tracking-wide">Dashboard</span>
+</a>
+
 @if (auth()->user()->role === 'petugas')
     <a href="{{ route('roads.index') }}" class="{{ $navClass }} {{ request()->routeIs('roads.*') ? $navActive : $navInactive }}">
         <i class="bi bi-signpost-split-fill {{ $iconClass }} {{ request()->routeIs('roads.*') ? $iconActive : $iconInactive }}"></i>
