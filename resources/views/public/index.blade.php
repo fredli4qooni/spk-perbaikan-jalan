@@ -1489,11 +1489,15 @@
                     }
 
                     // Thumbnail foto ruas jalan (hanya ditampilkan jika ada)
+                    const photoBadgeText = (item.photos_count && item.photos_count > 1) 
+                        ? `<i class="bi bi-images" style="color: #FBBF24;"></i> ${item.photos_count} Foto Dokumentasi`
+                        : `<i class="bi bi-camera-fill" style="color: #FBBF24;"></i> Dokumentasi Lapangan`;
+
                     const photoHtml = item.photo 
                         ? `<div style="height: 135px; width: 100%; overflow: hidden; background: #0f172a; position: relative;">
                             <img src="${item.photo}" style="width: 100%; height: 100%; object-fit: cover;" alt="Foto Jalan">
-                            <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(15, 23, 42, 0.75); color: #ffffff; padding: 2px 7px; border-radius: 6px; font-size: 10px; font-weight: 600;">
-                                <i class="bi bi-camera-fill" style="color: #FBBF24;"></i> Dokumentasi Lapangan
+                            <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                                ${photoBadgeText}
                             </span>
                            </div>` 
                         : '';

@@ -65,7 +65,9 @@ class PublicDashboardController extends Controller
                     'c3' => $road->c3_label,
                     'c4' => $road->c4_label,
                     'c5' => $road->c5_label,
-                    'photo' => !empty($road->photo) ? asset('storage/' . $road->photo) : null,
+                    'photo' => $road->first_photo_url,
+                    'photos' => $road->photo_urls,
+                    'photos_count' => count($road->photos_list),
                 ];
             }
         }

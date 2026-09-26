@@ -12,9 +12,14 @@
         </p>
     </div>
     @if(isset($results) && count($results) > 0)
-        <a href="{{ route('reports.index') }}" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm font-semibold rounded-xl shadow-xs hover:bg-gray-50 hover:text-brand-purple hover:border-brand-purple/30 transition-all flex-shrink-0">
-            <i class="bi bi-printer text-sm sm:text-base"></i> <span>Laporan</span>
-        </a>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <a href="{{ route('reports.export.pdf') }}" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 bg-rose-600 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs hover:bg-rose-700 transition-all" title="Unduh Hasil MOORA Format PDF">
+                <i class="bi bi-file-earmark-pdf text-sm sm:text-base"></i> <span>Export PDF</span>
+            </a>
+            <a href="{{ route('reports.index') }}" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm font-semibold rounded-xl shadow-xs hover:bg-gray-50 hover:text-brand-purple hover:border-brand-purple/30 transition-all" title="Buka Halaman Laporan Detail">
+                <i class="bi bi-printer text-sm sm:text-base"></i> <span>Laporan</span>
+            </a>
+        </div>
     @endif
 </div>
 

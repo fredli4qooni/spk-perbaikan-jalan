@@ -4,6 +4,7 @@
   "description": "Sistem Pendukung Keputusan prioritas perbaikan jalan PUPR Kota Bandar Lampung dengan metode MOORA",
   "require": {
     "php": "^8.2",
+    "barryvdh/laravel-dompdf": "^3.1",
     "laravel/framework": "^11.0"
   },
   "require-dev": {

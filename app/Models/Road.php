@@ -24,6 +24,7 @@ class Road extends Model
         'c4_lubang',
         'c5_kepentingan',
         'photo',
+        'photos',
         'video',
         'notes',
     ];
@@ -34,7 +35,38 @@ class Road extends Model
         'c3_kedalaman' => 'integer',
         'c4_lubang' => 'integer',
         'c5_kepentingan' => 'integer',
+        'photos' => 'array',
     ];
+
+    public function getPhotosListAttribute(): array
+    {
+        if (!empty($this->photos) && is_array($this->photos)) {
+            return array_values(array_filter($this->photos));
+        }
+
+        if (!empty($this->photo)) {
+            return [$this->photo];
+        }
+
+        return [];
+    }
+
+    public function getFirstPhotoUrlAttribute(): ?string
+    {
+        $photos = $this->photos_list;
+        if (!empty($photos)) {
+            return asset('storage/' . $photos[0]);
+        }
+
+        return null;
+    }
+
+    public function getPhotoUrlsAttribute(): array
+    {
+        return array_map(function ($p) {
+            return asset('storage/' . $p);
+        }, $this->photos_list);
+    }
 
     public function getNameAttribute($value): string
     {

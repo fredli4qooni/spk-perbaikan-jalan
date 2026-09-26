@@ -1,7 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{ activePhoto: null, activeVideo: null }">
+<div x-data="{ 
+    activeGallery: null, 
+    activeVideo: null,
+    prevPhoto() {
+        if (this.activeGallery && this.activeGallery.photos.length > 1) {
+            this.activeGallery.index = (this.activeGallery.index - 1 + this.activeGallery.photos.length) % this.activeGallery.photos.length;
+        }
+    },
+    nextPhoto() {
+        if (this.activeGallery && this.activeGallery.photos.length > 1) {
+            this.activeGallery.index = (this.activeGallery.index + 1) % this.activeGallery.photos.length;
+        }
+    }
+}" 
+@keydown.window.escape="activeGallery = null; activeVideo = null"
+@keydown.window.left="prevPhoto()"
+@keydown.window.right="nextPhoto()">
     <!-- Header Halaman (Rata Kiri Presisi) -->
     <div class="flex items-center justify-between gap-3 mb-5">
         <div class="min-w-0 flex-1">
@@ -114,9 +130,14 @@
                 <div class="pt-3 border-t border-gray-100 flex items-center justify-between gap-2 mt-auto">
                     <!-- Petugas & Media -->
                     <div class="flex items-center gap-2.5 min-w-0">
-                        @if ($road->photo)
-                            <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="relative group w-9 h-9 rounded-xl overflow-hidden border border-gray-200 flex-shrink-0 shadow-2xs hover:border-brand-purple transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer" title="Lihat Foto Dokumentasi">
-                                <img src="{{ asset('storage/' . $road->photo) }}" alt="Foto" class="w-full h-full object-cover">
+                        @if (count($road->photos_list) > 0)
+                            <button @click="activeGallery = { photos: {{ json_encode($road->photo_urls) }}, index: 0, title: '{{ addslashes($road->location) }}' }" class="relative group w-9 h-9 rounded-xl overflow-hidden border border-gray-200 flex-shrink-0 shadow-2xs hover:border-brand-purple transition-all focus:outline-none focus:ring-2 focus:ring-brand-purple cursor-pointer" title="Lihat {{ count($road->photos_list) }} Foto Dokumentasi">
+                                <img src="{{ $road->first_photo_url }}" alt="Foto" class="w-full h-full object-cover">
+                                @if (count($road->photos_list) > 1)
+                                    <span class="absolute bottom-0 right-0 bg-brand-purple text-white font-bold text-[9px] px-1 rounded-tl-md shadow-xs">
+                                        +{{ count($road->photos_list) - 1 }}
+                                    </span>
+                                @endif
                                 <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                                     <i class="bi bi-zoom-in text-xs"></i>
                                 </div>
@@ -127,7 +148,7 @@
                                 <i class="bi bi-play-circle-fill text-base"></i>
                             </button>
                         @endif
-                        @if (!$road->photo && !$road->video)
+                        @if (count($road->photos_list) === 0 && !$road->video)
                             <div class="w-9 h-9 rounded-xl bg-gray-100 text-gray-400 border border-gray-200 flex items-center justify-center text-sm flex-shrink-0">
                                 <i class="bi bi-person"></i>
                             </div>
@@ -249,17 +270,25 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 <div class="flex justify-center gap-2">
-                                    @if ($road->photo)
-                                        <button @click="activePhoto = '{{ asset('storage/' . $road->photo) }}'" class="overflow-hidden rounded-md border border-gray-200 hover:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Lihat Foto">
-                                            <img src="{{ asset('storage/' . $road->photo) }}" alt="foto" class="w-9 h-9 object-cover">
+                                    @if (count($road->photos_list) > 0)
+                                        <button @click="activeGallery = { photos: {{ json_encode($road->photo_urls) }}, index: 0, title: '{{ addslashes($road->location) }}' }" class="relative group overflow-hidden rounded-md border border-gray-200 hover:border-brand-purple focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs cursor-pointer" title="Lihat {{ count($road->photos_list) }} Foto Dokumentasi">
+                                            <img src="{{ $road->first_photo_url }}" alt="foto" class="w-9 h-9 object-cover">
+                                            @if (count($road->photos_list) > 1)
+                                                <span class="absolute bottom-0 right-0 bg-brand-purple text-white font-bold text-[9px] px-1 rounded-tl-md shadow-xs">
+                                                    +{{ count($road->photos_list) - 1 }}
+                                                </span>
+                                            @endif
+                                            <div class="absolute inset-0 bg-black/25 group-hover:bg-black/40 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <i class="bi bi-zoom-in text-xs"></i>
+                                            </div>
                                         </button>
                                     @endif
                                     @if ($road->video)
-                                        <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->location) }}' }" class="flex items-center justify-center w-9 h-9 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/15 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs" title="Putar Video">
+                                        <button @click="activeVideo = { src: '{{ asset('storage/' . $road->video) }}', title: '{{ addslashes($road->location) }}' }" class="flex items-center justify-center w-9 h-9 rounded-md border border-brand-purple/30 bg-brand-purple/5 text-brand-purple hover:bg-brand-purple/15 focus:outline-none focus:ring-2 focus:ring-brand-purple transition-all shadow-xs cursor-pointer" title="Putar Video">
                                             <i class="bi bi-play-circle-fill text-lg"></i>
                                         </button>
                                     @endif
-                                    @if (!$road->photo && !$road->video)
+                                    @if (count($road->photos_list) === 0 && !$road->video)
                                         <span class="text-gray-300">-</span>
                                     @endif
                                 </div>
@@ -303,20 +332,56 @@
         </div>
     </div>
 
-    <!-- Modals (Foto & Video) -->
-    <!-- Photo Modal -->
-    <div x-show="activePhoto" class="fixed inset-0 z-50 flex items-center justify-center" style="display: none;">
-        <div x-show="activePhoto" @click="activePhoto = null" x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900/80 backdrop-blur-xs"></div>
+    <!-- Multi-Photo Gallery Modal -->
+    <div x-show="activeGallery" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5" style="display: none;">
+        <div x-show="activeGallery" @click="activeGallery = null" x-transition:enter="transition-opacity ease-linear duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900/85 backdrop-blur-xs"></div>
         
-        <div x-show="activePhoto" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="relative bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all sm:max-w-2xl sm:w-full z-10 m-4">
-            <div class="absolute top-3 right-3 z-20">
-                <button @click="activePhoto = null" type="button" class="w-11 h-11 rounded-full bg-gray-900/90 text-white flex items-center justify-center hover:bg-black focus:outline-none focus:ring-2 focus:ring-white transition-all shadow-lg active:scale-95 cursor-pointer" aria-label="Tutup Foto">
-                    <i class="bi bi-x-lg text-lg"></i>
+        <div x-show="activeGallery" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="relative bg-slate-900 text-white rounded-2xl overflow-hidden shadow-2xl transform transition-all w-full max-w-4xl z-10 flex flex-col max-h-[92vh]">
+            <!-- Header Galeri -->
+            <div class="px-4 py-3 bg-slate-950 flex items-center justify-between border-b border-slate-800 flex-shrink-0">
+                <div class="min-w-0 pr-3">
+                    <h3 class="text-sm sm:text-base font-bold text-white truncate" x-text="activeGallery ? activeGallery.title : 'Dokumentasi Jalan'"></h3>
+                    <p class="text-xs text-slate-400 mt-0.5" x-show="activeGallery && activeGallery.photos.length > 0">
+                        Foto ke-<span class="font-bold text-white" x-text="activeGallery.index + 1"></span> dari <span class="font-bold text-white" x-text="activeGallery.photos.length"></span> foto dokumentasi
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <span x-show="activeGallery && activeGallery.photos.length > 1" class="hidden sm:inline-block text-[11px] text-slate-400 bg-slate-800/80 px-2 py-1 rounded-lg border border-slate-700">
+                        Gunakan tombol panah &larr; / &rarr; keyboard
+                    </span>
+                    <button @click="activeGallery = null" type="button" class="w-9 h-9 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white transition-all active:scale-95 cursor-pointer" aria-label="Tutup Galeri">
+                        <i class="bi bi-x-lg text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tampilan Foto Utama & Tombol Navigasi -->
+            <div class="relative flex-1 bg-black flex items-center justify-center min-h-[300px] overflow-hidden select-none">
+                <template x-if="activeGallery && activeGallery.photos.length > 0">
+                    <img :src="activeGallery.photos[activeGallery.index]" alt="Dokumentasi Kerusakan Jalan" class="w-full h-auto max-h-[65vh] object-contain transition-all duration-200">
+                </template>
+
+                <!-- Tombol Prev -->
+                <button x-show="activeGallery && activeGallery.photos.length > 1" @click="prevPhoto()" type="button" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/75 hover:bg-slate-900 text-white border border-slate-700/80 flex items-center justify-center shadow-lg transition-all active:scale-90 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple" aria-label="Foto Sebelumnya">
+                    <i class="bi bi-chevron-left text-lg"></i>
+                </button>
+
+                <!-- Tombol Next -->
+                <button x-show="activeGallery && activeGallery.photos.length > 1" @click="nextPhoto()" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/75 hover:bg-slate-900 text-white border border-slate-700/80 flex items-center justify-center shadow-lg transition-all active:scale-90 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-purple" aria-label="Foto Selanjutnya">
+                    <i class="bi bi-chevron-right text-lg"></i>
                 </button>
             </div>
-            <div class="p-2 sm:p-3">
-                <img :src="activePhoto" alt="Foto Kerusakan" class="w-full h-auto max-h-[80vh] object-contain rounded-xl">
-            </div>
+
+            <!-- Thumbnail Strip Bar Bawah (Jika foto > 1) -->
+            <template x-if="activeGallery && activeGallery.photos.length > 1">
+                <div class="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2 overflow-x-auto no-scrollbar flex-shrink-0 justify-center">
+                    <template x-for="(photoUrl, pIdx) in activeGallery.photos" :key="pIdx">
+                        <button type="button" @click="activeGallery.index = pIdx" :class="activeGallery.index === pIdx ? 'ring-2 ring-brand-purple border-brand-purple scale-105 opacity-100' : 'opacity-50 hover:opacity-85 border-transparent'" class="relative w-14 h-14 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all cursor-pointer">
+                            <img :src="photoUrl" class="w-full h-full object-cover" alt="thumbnail">
+                        </button>
+                    </template>
+                </div>
+            </template>
         </div>
     </div>
 

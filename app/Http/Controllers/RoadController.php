@@ -44,14 +44,28 @@ class RoadController extends Controller
             'c3_kedalaman' => ['required', 'integer', 'in:1,2,3,4,5'],
             'c4_lubang' => ['required', 'integer', 'in:1,2,3,4,5'],
             'c5_kepentingan' => ['required', 'integer', 'in:1,2,3,4,5'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photos' => ['required', 'array', 'min:1'],
+            'photos.*' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
             'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,mkv', 'max:51200'],
             'notes' => ['nullable', 'string'],
+        ], [
+            'photos.required' => 'Foto dokumentasi kerusakan jalan wajib diunggah minimal 1 foto.',
+            'photos.min' => 'Foto dokumentasi kerusakan jalan wajib diunggah minimal 1 foto.',
+            'photos.*.image' => 'File yang diunggah harus berupa gambar (foto).',
+            'photos.*.max' => 'Ukuran file foto maksimal 5 MB per foto.',
         ]);
 
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('roads', 'public');
+        $uploadedPhotos = [];
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photoFile) {
+                if ($photoFile && $photoFile->isValid()) {
+                    $uploadedPhotos[] = $photoFile->store('roads', 'public');
+                }
+            }
         }
+
+        $data['photos'] = $uploadedPhotos;
+        $data['photo'] = !empty($uploadedPhotos) ? $uploadedPhotos[0] : null;
 
         if ($request->hasFile('video')) {
             $data['video'] = $request->file('video')->store('roads/videos', 'public');
@@ -64,7 +78,7 @@ class RoadController extends Controller
 
         ActivityLogger::log('create', "Menambahkan data ruas jalan: {$road->location}");
 
-        return redirect()->route('roads.index')->with('success', 'Data ruas jalan berhasil ditambahkan.');
+        return redirect()->route('roads.index')->with('success', 'Data ruas jalan beserta ' . count($uploadedPhotos) . ' foto dokumentasi berhasil ditambahkan.');
     }
 
     public function edit(Road $road)
@@ -90,17 +104,50 @@ class RoadController extends Controller
             'c3_kedalaman' => ['required', 'integer', 'in:1,2,3,4,5'],
             'c4_lubang' => ['required', 'integer', 'in:1,2,3,4,5'],
             'c5_kepentingan' => ['required', 'integer', 'in:1,2,3,4,5'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'keep_photos' => ['nullable', 'array'],
             'video' => ['nullable', 'file', 'mimes:mp4,mov,avi,mkv', 'max:51200'],
             'notes' => ['nullable', 'string'],
+        ], [
+            'photos.*.image' => 'File yang diunggah harus berupa gambar (foto).',
+            'photos.*.max' => 'Ukuran file foto maksimal 5 MB per foto.',
         ]);
 
-        if ($request->hasFile('photo')) {
-            if ($road->photo) {
-                Storage::disk('public')->delete($road->photo);
-            }
-            $data['photo'] = $request->file('photo')->store('roads', 'public');
+        // Foto yang dipertahankan
+        $existingPhotos = $road->photos_list;
+        $keptPhotos = $request->input('keep_photos', $existingPhotos);
+        if (!is_array($keptPhotos)) {
+            $keptPhotos = [];
         }
+
+        // Hapus foto lama yang di-uncheck atau dibuang
+        $removedPhotos = array_diff($existingPhotos, $keptPhotos);
+        foreach ($removedPhotos as $removed) {
+            Storage::disk('public')->delete($removed);
+        }
+
+        // Upload foto baru jika ada
+        $newPhotos = [];
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photoFile) {
+                if ($photoFile && $photoFile->isValid()) {
+                    $newPhotos[] = $photoFile->store('roads', 'public');
+                }
+            }
+        }
+
+        $allPhotos = array_values(array_merge($keptPhotos, $newPhotos));
+
+        // Validasi: Wajib minimal 1 foto
+        if (empty($allPhotos)) {
+            return back()->withInput()->withErrors([
+                'photos' => 'Foto dokumentasi kerusakan jalan wajib diunggah minimal 1 foto.'
+            ]);
+        }
+
+        $data['photos'] = $allPhotos;
+        $data['photo'] = $allPhotos[0] ?? null;
 
         if ($request->hasFile('video')) {
             if ($road->video) {
@@ -124,8 +171,8 @@ class RoadController extends Controller
 
         $roadLoc = $road->location;
 
-        if ($road->photo) {
-            Storage::disk('public')->delete($road->photo);
+        foreach ($road->photos_list as $photoPath) {
+            Storage::disk('public')->delete($photoPath);
         }
 
         if ($road->video) {

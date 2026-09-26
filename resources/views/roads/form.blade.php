@@ -479,40 +479,104 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Foto Dokumentasi -->
-            <div>
-                <label class="{{ $labelClass }}">Foto Dokumentasi</label>
-                <input 
-                    type="file" 
-                    name="photo" 
-                    id="photo_input" 
-                    @change="previewPhoto($event)" 
-                    accept="image/*" 
-                    capture="environment"
-                    class="{{ $inputClass }} file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-brand-purple hover:file:bg-purple-100 cursor-pointer"
-                >
+            <!-- Foto Dokumentasi (Wajib & Bisa Beberapa Foto) -->
+            <div class="sm:col-span-2">
+                <div class="flex items-center justify-between mb-1.5 flex-wrap gap-2">
+                    <label class="{{ $labelClass }} !mb-0 flex items-center gap-1.5">
+                        <i class="bi bi-camera text-brand-purple"></i>
+                        <span>Foto Dokumentasi Kerusakan Jalan</span>
+                        <span class="text-rose-500 font-bold">*Wajib</span>
+                    </label>
+                    <span class="text-[11px] text-gray-500">
+                        Bisa pilih lebih dari 1 foto (JPG, PNG, WebP maks 5MB)
+                    </span>
+                </div>
 
-                <!-- Preview Foto -->
-                <template x-if="photoPreviewUrl">
-                    <div class="relative mt-2 rounded-xl overflow-hidden border border-gray-200 bg-gray-50 w-32 h-24">
-                        <img :src="photoPreviewUrl" alt="Preview Foto" class="w-full h-full object-cover">
-                        <button 
-                            type="button" 
-                            @click="clearPhotoPreview()" 
-                            class="absolute top-1 right-1 p-1 bg-red-600 text-white rounded-md text-[10px]"
-                            title="Hapus"
-                        >
-                            <i class="bi bi-x"></i>
-                        </button>
-                    </div>
-                </template>
+                <div class="p-3.5 bg-gray-50/80 rounded-2xl border-2 border-dashed border-gray-200 hover:border-brand-purple/50 transition-colors">
+                    <input 
+                        type="file" 
+                        name="photos[]" 
+                        id="photos_input" 
+                        @change="previewPhotos($event)" 
+                        multiple 
+                        accept="image/jpeg,image/png,image/jpg,image/webp" 
+                        capture="environment"
+                        class="block w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-100 file:text-brand-purple hover:file:bg-purple-200 cursor-pointer"
+                    >
 
-                @if (!empty($road?->photo))
-                    <div x-show="!photoPreviewUrl" class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                        <i class="bi bi-image text-brand-purple"></i>
-                        <span class="truncate">Foto tersimpan: {{ basename($road->photo) }}</span>
-                    </div>
-                @endif
+                    <!-- Alert Validasi Error -->
+                    @error('photos')
+                        <p class="mt-2 text-xs text-rose-600 font-medium flex items-center gap-1">
+                            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                        </p>
+                    @enderror
+                    @error('photos.*')
+                        <p class="mt-2 text-xs text-rose-600 font-medium flex items-center gap-1">
+                            <i class="bi bi-exclamation-circle-fill"></i> {{ $message }}
+                        </p>
+                    @enderror
+
+                    <!-- Preview Foto Baru yang Dipilih -->
+                    <template x-if="selectedPhotos.length > 0">
+                        <div class="mt-3.5 pt-3.5 border-t border-gray-200">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-semibold text-gray-700 flex items-center gap-1.5">
+                                    <i class="bi bi-images text-brand-purple"></i>
+                                    Foto Baru Dipilih (<span x-text="selectedPhotos.length"></span> foto)
+                                </span>
+                                <button type="button" @click="clearAllSelectedPhotos()" class="text-[11px] text-rose-600 hover:underline font-medium">
+                                    Hapus Semua Foto Baru
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+                                <template x-for="(item, index) in selectedPhotos" :key="index">
+                                    <div class="relative group rounded-xl overflow-hidden border border-gray-200 bg-white aspect-square shadow-2xs">
+                                        <img :src="item.url" :alt="item.name" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-1">
+                                            <button 
+                                                type="button" 
+                                                @click="removeSelectedPhoto(index)" 
+                                                class="w-7 h-7 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs shadow-sm hover:bg-rose-700 transition-colors cursor-pointer"
+                                                title="Hapus foto ini"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/60 text-white text-[9px] font-mono" x-text="item.size"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Preview Foto Tersimpan Sebelumnya (Saat Mode Edit) -->
+                    <template x-if="existingPhotos.length > 0">
+                        <div class="mt-3.5 pt-3.5 border-t border-gray-200">
+                            <span class="text-xs font-semibold text-gray-700 flex items-center gap-1.5 mb-2">
+                                <i class="bi bi-check2-circle text-emerald-600"></i>
+                                Foto Tersimpan di Sistem (<span x-text="existingPhotos.length"></span> foto)
+                            </span>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+                                <template x-for="(photoPath, index) in existingPhotos" :key="index">
+                                    <div class="relative group rounded-xl overflow-hidden border border-gray-200 bg-white aspect-square shadow-2xs">
+                                        <input type="hidden" name="keep_photos[]" :value="photoPath">
+                                        <img :src="'/storage/' + photoPath" alt="Foto tersimpan" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-1">
+                                            <button 
+                                                type="button" 
+                                                @click="removeExistingPhoto(index)" 
+                                                class="w-7 h-7 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs shadow-sm hover:bg-rose-700 transition-colors cursor-pointer"
+                                                title="Hapus foto ini dari server"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
 
             <!-- Video Dokumentasi -->
@@ -627,8 +691,10 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             searchAbortController: null,
             map: null,
             marker: null,
-            photoPreviewUrl: null,
+            selectedPhotos: [],
+            existingPhotos: @json(!empty($road) ? $road->photos_list : []),
             videoPreviewUrl: null,
+            isSubmittingClean: false,
 
             formData: {
                 location: "{{ old('location', $road->location ?? '') }}",
@@ -695,6 +761,16 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
             
             init() {
                 this.updateKelurahanList();
+
+                const form = document.getElementById('roadMainForm');
+                if (form) {
+                    form.addEventListener('submit', (e) => {
+                        if (!this.isSubmittingClean) {
+                            e.preventDefault();
+                            this.submitForm();
+                        }
+                    });
+                }
 
                 setTimeout(() => {
                     this.initMap();
@@ -772,6 +848,18 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
                         window.showToast('Silakan lengkapi parameter: ' + missing.join(', ') + '.', 'warning', 'Validasi Parameter Kerusakan');
                         return false;
                     }
+                } else if (step === 3) {
+                    const totalPhotos = this.selectedPhotos.length + this.existingPhotos.length;
+                    if (totalPhotos === 0) {
+                        window.showToast('Foto dokumentasi kerusakan jalan wajib diunggah minimal 1 foto!', 'warning', 'Validasi Foto Wajib');
+                        const input = document.getElementById('photos_input');
+                        if (input) {
+                            input.focus();
+                            input.classList.add('!border-red-500', 'ring-2', 'ring-red-200');
+                            setTimeout(() => input.classList.remove('!border-red-500', 'ring-2', 'ring-red-200'), 3000);
+                        }
+                        return false;
+                    }
                 }
                 return true;
             },
@@ -785,8 +873,13 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
                     this.goToStep(2);
                     return false;
                 }
+                if (!this.validateStep(3)) {
+                    this.goToStep(3);
+                    return false;
+                }
                 const form = document.getElementById('roadMainForm');
                 if (form) {
+                    this.isSubmittingClean = true;
                     form.submit();
                 }
             },
@@ -1045,17 +1138,50 @@ $selectClass = "block w-full rounded-xl border border-gray-200 shadow-xs focus:b
                 this.searchResults = [];
             },
 
-            previewPhoto(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    this.photoPreviewUrl = URL.createObjectURL(file);
+            previewPhotos(event) {
+                const files = event.target.files;
+                if (!files || files.length === 0) return;
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const sizeKb = (file.size / 1024).toFixed(0);
+                    const sizeStr = sizeKb > 1024 ? (sizeKb / 1024).toFixed(1) + ' MB' : sizeKb + ' KB';
+                    this.selectedPhotos.push({
+                        file: file,
+                        url: URL.createObjectURL(file),
+                        name: file.name,
+                        size: sizeStr
+                    });
                 }
             },
 
-            clearPhotoPreview() {
-                this.photoPreviewUrl = null;
-                const input = document.getElementById('photo_input');
+            removeSelectedPhoto(index) {
+                this.selectedPhotos.splice(index, 1);
+                this.syncFileInput();
+            },
+
+            clearAllSelectedPhotos() {
+                this.selectedPhotos = [];
+                const input = document.getElementById('photos_input');
                 if (input) input.value = '';
+            },
+
+            removeExistingPhoto(index) {
+                this.existingPhotos.splice(index, 1);
+            },
+
+            syncFileInput() {
+                const input = document.getElementById('photos_input');
+                if (!input) return;
+                try {
+                    const dt = new DataTransfer();
+                    this.selectedPhotos.forEach(item => {
+                        dt.items.add(item.file);
+                    });
+                    input.files = dt.files;
+                } catch (e) {
+                    console.warn('DataTransfer not supported', e);
+                }
             },
 
             previewVideo(event) {

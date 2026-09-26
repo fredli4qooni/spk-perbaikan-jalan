@@ -11,9 +11,14 @@
             Urutan prioritas penanganan berdasarkan nilai akhir optimalisasi MOORA.
         </p>
     </div>
-    <a href="{{ route('reports.export.csv') }}" class="inline-flex items-center justify-center rounded-xl bg-brand-green px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-brand-green-hover focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex-shrink-0">
-        <i class="bi bi-filetype-csv mr-1.5 text-sm sm:text-base"></i> <span>Export CSV</span>
-    </a>
+    <div class="flex items-center gap-2 flex-shrink-0">
+        <a href="{{ route('reports.export.pdf') }}" class="inline-flex items-center justify-center rounded-xl bg-rose-600 px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 transition-all" title="Unduh Laporan Format PDF Resmi">
+            <i class="bi bi-file-earmark-pdf mr-1.5 text-sm sm:text-base"></i> <span>Export PDF</span>
+        </a>
+        <a href="{{ route('reports.export.csv') }}" class="inline-flex items-center justify-center rounded-xl bg-brand-green px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs hover:bg-brand-green-hover focus:outline-none focus:ring-2 focus:ring-brand-green transition-all" title="Unduh Rekapitulasi CSV / Excel">
+            <i class="bi bi-filetype-csv mr-1.5 text-sm sm:text-base"></i> <span>Export CSV</span>
+        </a>
+    </div>
 </div>
 
 <!-- Info Banner (Ringkas) -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MooraService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -53,5 +54,60 @@ class ReportController extends Controller
         }, 'laporan-prioritas-jalan-moora-pupr.csv', [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
+    }
+
+    public function exportPdf(MooraService $mooraService, Request $request)
+    {
+        $summary = $mooraService->calculate();
+
+        // Siapkan Logo PUPR base64
+        $logoBase64 = null;
+        $logoPath = public_path('images/logo-pupr.png');
+        if (file_exists($logoPath)) {
+            $logoData = base64_encode(file_get_contents($logoPath));
+            $logoBase64 = 'data:image/png;base64,' . $logoData;
+        }
+
+        // Siapkan foto dokumentasi base64 untuk setiap ruas jalan
+        $resultsWithPhotos = [];
+        foreach ($summary['results'] as $row) {
+            $road = $row['road'];
+            $photosBase64 = [];
+            foreach ($road->photos_list as $p) {
+                $fullPath = storage_path('app/public/' . $p);
+                if (file_exists($fullPath)) {
+                    $mime = mime_content_type($fullPath) ?: 'image/jpeg';
+                    $data = base64_encode(file_get_contents($fullPath));
+                    $photosBase64[] = "data:{$mime};base64,{$data}";
+                }
+            }
+            $row['photos_base64'] = $photosBase64;
+            $resultsWithPhotos[] = $row;
+        }
+
+        $pdf = Pdf::loadView('reports.pdf', [
+            'results' => $resultsWithPhotos,
+            'criteria' => $summary['criteria'],
+            'weights' => $summary['weights'],
+            'denominators' => $summary['denominators'],
+            'logoBase64' => $logoBase64,
+            'generatedAt' => now()->translatedFormat('d F Y, H:i'),
+            'totalRoads' => count($resultsWithPhotos),
+        ]);
+
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOption([
+            'isRemoteEnabled' => true,
+            'isHtml5ParserEnabled' => true,
+            'defaultFont' => 'sans-serif',
+        ]);
+
+        $filename = 'Laporan-Prioritas-Jalan-MOORA-PUPR-' . date('Ymd-His') . '.pdf';
+
+        if ($request->boolean('stream')) {
+            return $pdf->stream($filename);
+        }
+
+        return $pdf->download($filename);
     }
 }

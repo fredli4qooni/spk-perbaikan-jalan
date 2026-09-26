@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             [
                 'code' => 'C1',
                 'name' => 'Panjang Kerusakan Jalan',
-                'weight' => 25,
+                'weight' => 20,
                 'type' => 'benefit',
                 'unit' => 'cm',
                 'description' => '> 1000 cm (5), 600–999 cm (4), 300–599 cm (3), 100–299 cm (2), < 100 cm (1)'
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             [
                 'code' => 'C2',
                 'name' => 'Lebar Jalan',
-                'weight' => 15,
+                'weight' => 20,
                 'type' => 'benefit',
                 'unit' => 'cm',
                 'description' => '≥ 600 cm (5), 400–599 cm (4), 300–399 cm (3), 100–299 cm (2), < 100 cm (1)'
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             Criterion::updateOrCreate(['code' => $criterion['code']], $criterion);
         }
 
-        // 5 Sampel Data Jalan Resmi dari Tabel 2 Dokumen Word
+        // 5 Sampel Data Jalan Resmi dari Matriks Likert Dokumen Manual (Lengkap dengan Foto Dokumentasi)
         $roads = [
             [
                 'location' => 'Jl. Letjen Alamsyah Ratu Prawiranegara, Way Halim',
@@ -88,11 +88,16 @@ class DatabaseSeeder extends Seeder
                 'kelurahan' => 'Way Halim Permai',
                 'latitude' => -5.385500,
                 'longitude' => 105.275000,
-                'c1_panjang' => 4,
+                'c1_panjang' => 3,
                 'c2_lebar' => 5,
                 'c3_kedalaman' => 5,
-                'c4_lubang' => 2,
-                'c5_kepentingan' => 5,
+                'c4_lubang' => 1,
+                'c5_kepentingan' => 1,
+                'photo' => 'roads/04gZJuaRYqWrugnpM7Ab0kdweWvt0vjBMDCxrFPy.jpg',
+                'photos' => [
+                    'roads/04gZJuaRYqWrugnpM7Ab0kdweWvt0vjBMDCxrFPy.jpg',
+                    'roads/1c3WQsCd4xuwhEZK5e19RlzlUQeAfi9aGwJpdGFP.jpg',
+                ],
                 'user_id' => $petugas->id,
             ],
             [
@@ -105,8 +110,13 @@ class DatabaseSeeder extends Seeder
                 'c1_panjang' => 1,
                 'c2_lebar' => 1,
                 'c3_kedalaman' => 4,
-                'c4_lubang' => 2,
-                'c5_kepentingan' => 5,
+                'c4_lubang' => 1,
+                'c5_kepentingan' => 1,
+                'photo' => 'roads/3ycJfcvmWGaK0qaMYBeeljrS5X0VgrOa6COa4qTP.jpg',
+                'photos' => [
+                    'roads/3ycJfcvmWGaK0qaMYBeeljrS5X0VgrOa6COa4qTP.jpg',
+                    'roads/4C0Baz7C7PJZAPWuWZ8k7tK0YhlTP3PE0QDcx3iE.png',
+                ],
                 'user_id' => $petugas->id,
             ],
             [
@@ -116,11 +126,16 @@ class DatabaseSeeder extends Seeder
                 'kelurahan' => 'Sukarame',
                 'latitude' => -5.378900,
                 'longitude' => 105.298500,
-                'c1_panjang' => 3,
+                'c1_panjang' => 2,
                 'c2_lebar' => 5,
                 'c3_kedalaman' => 4,
                 'c4_lubang' => 5,
-                'c5_kepentingan' => 3,
+                'c5_kepentingan' => 4,
+                'photo' => 'roads/D4E2XgMEksTrNWHZkiy5z6T3Fqsf50vVtMGveXo8.png',
+                'photos' => [
+                    'roads/D4E2XgMEksTrNWHZkiy5z6T3Fqsf50vVtMGveXo8.png',
+                    'roads/D4x6EW7m6JIcVUK4msLuLUMiSU0nZlfRfdRvDcjm.png',
+                ],
                 'user_id' => $petugas->id,
             ],
             [
@@ -130,11 +145,16 @@ class DatabaseSeeder extends Seeder
                 'kelurahan' => 'Sukarame',
                 'latitude' => -5.379200,
                 'longitude' => 105.297800,
-                'c1_panjang' => 4,
+                'c1_panjang' => 3,
                 'c2_lebar' => 5,
                 'c3_kedalaman' => 5,
-                'c4_lubang' => 5,
-                'c5_kepentingan' => 3,
+                'c4_lubang' => 3,
+                'c5_kepentingan' => 4,
+                'photo' => 'roads/9soaqgSBCdvO1laws30HjiAp0bZnD8XuBDzNb7kL.jpg',
+                'photos' => [
+                    'roads/9soaqgSBCdvO1laws30HjiAp0bZnD8XuBDzNb7kL.jpg',
+                    'roads/J39xs4J9J4UtSAudfM1S7JjiPaFDp24T84i0MAes.png',
+                ],
                 'user_id' => $petugas->id,
             ],
             [
@@ -147,8 +167,13 @@ class DatabaseSeeder extends Seeder
                 'c1_panjang' => 5,
                 'c2_lebar' => 5,
                 'c3_kedalaman' => 5,
-                'c4_lubang' => 5,
-                'c5_kepentingan' => 3,
+                'c4_lubang' => 3,
+                'c5_kepentingan' => 4,
+                'photo' => 'roads/t31TMWuXUWzw0JO0g2JF53s91wE49Veh1CpTklzf.jpg',
+                'photos' => [
+                    'roads/t31TMWuXUWzw0JO0g2JF53s91wE49Veh1CpTklzf.jpg',
+                    'roads/Yjvrli8UlSYWN4zG3t4OjhMM9NZyZG5PfkMzlm1E.png',
+                ],
                 'user_id' => $petugas->id,
             ],
         ];
