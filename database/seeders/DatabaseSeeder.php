@@ -180,7 +180,10 @@ class DatabaseSeeder extends Seeder
 
         foreach ($roads as $roadData) {
             $roadData['name'] = $roadData['location'];
-            Road::create($roadData);
+            Road::updateOrCreate(
+                ['location' => $roadData['location']],
+                $roadData
+            );
         }
 
         ActivityLog::create([
