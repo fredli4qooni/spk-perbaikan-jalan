@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Prioritas Perbaikan Jalan Metode MOORA</title>
+    <title>Laporan Prioritas Perbaikan Jalan Metode MOORA - Dinas PUPR Kota Bandar Lampung</title>
     <style>
         @page {
-            margin: 1.2cm 1.2cm 1.5cm 1.2cm;
+            margin: 1.0cm 1.2cm 1.2cm 1.2cm;
             size: A4 landscape;
         }
 
@@ -13,17 +13,18 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: #1e293b;
             line-height: 1.35;
-            font-size: 11px;
+            font-size: 10.5px;
             margin: 0;
             padding: 0;
         }
 
-        /* Kop Surat */
+        /* Kop Surat Halaman 1 */
         .kop-table {
             width: 100%;
             border-bottom: 3px double #0f172a;
-            padding-bottom: 8px;
-            margin-bottom: 14px;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            border-collapse: collapse;
         }
 
         .kop-table td {
@@ -31,18 +32,18 @@
         }
 
         .kop-logo {
-            width: 75px;
+            width: 70px;
             text-align: center;
         }
 
         .kop-logo img {
-            max-width: 68px;
-            max-height: 68px;
+            max-width: 62px;
+            max-height: 62px;
         }
 
         .kop-text {
             text-align: center;
-            padding-right: 75px;
+            padding-right: 70px;
         }
 
         .kop-text h3 {
@@ -65,19 +66,19 @@
 
         .kop-text p {
             margin: 1px 0;
-            font-size: 10px;
+            font-size: 9.5px;
             color: #475569;
         }
 
         /* Judul Laporan */
         .report-title-box {
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
 
         .report-title-box h1 {
             margin: 0;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #1e1b4b;
             text-transform: uppercase;
@@ -85,8 +86,8 @@
         }
 
         .report-title-box p {
-            margin: 3px 0 0 0;
-            font-size: 10px;
+            margin: 2px 0 0 0;
+            font-size: 9.5px;
             color: #64748b;
         }
 
@@ -95,22 +96,24 @@
             width: 100%;
             background-color: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 6px 10px;
-            margin-bottom: 12px;
-            font-size: 10px;
+            border-radius: 5px;
+            padding: 5px 8px;
+            margin-bottom: 10px;
+            font-size: 9.5px;
+            border-collapse: collapse;
         }
 
         .info-strip td {
             vertical-align: middle;
+            padding: 2px 4px;
         }
 
         /* Tabel Data MOORA */
         table.data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 14px;
-            font-size: 10px;
+            margin-bottom: 10px;
+            font-size: 9.5px;
         }
 
         table.data-table th {
@@ -118,14 +121,14 @@
             color: #ffffff;
             font-weight: 700;
             text-align: center;
-            padding: 7px 5px;
+            padding: 6px 4px;
             border: 1px solid #1e1b4b;
-            font-size: 9.5px;
+            font-size: 9px;
             text-transform: uppercase;
         }
 
         table.data-table td {
-            padding: 6px 6px;
+            padding: 5px 6px;
             border: 1px solid #cbd5e1;
             vertical-align: middle;
         }
@@ -136,16 +139,16 @@
 
         .badge-rank {
             display: inline-block;
-            width: 22px;
-            height: 22px;
-            line-height: 22px;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
             text-align: center;
             border-radius: 50%;
             font-weight: 800;
-            font-size: 10px;
+            font-size: 9.5px;
         }
 
-        .rank-1 { background-color: #fbbf24; color: #78350f; font-size: 11px; }
+        .rank-1 { background-color: #fbbf24; color: #78350f; font-size: 10.5px; }
         .rank-2 { background-color: #e2e8f0; color: #1e293b; }
         .rank-3 { background-color: #fde68a; color: #92400e; }
         .rank-other { background-color: #f1f5f9; color: #475569; }
@@ -155,7 +158,7 @@
             padding: 2px 7px;
             border-radius: 4px;
             font-weight: 700;
-            font-size: 9px;
+            font-size: 8.5px;
             text-align: center;
         }
 
@@ -163,74 +166,10 @@
         .prio-sedang { background-color: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
         .prio-rendah { background-color: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
 
-        /* Thumbnails di tabel */
-        .photo-thumb-cell {
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .photo-thumb {
-            width: 48px;
-            height: 38px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #cbd5e1;
-            margin: 0 1px;
-            display: inline-block;
-        }
-
-        /* Lampiran Dokumentasi Foto */
-        .page-break {
-            page-break-before: always;
-        }
-
-        .section-header {
-            font-size: 12px;
-            font-weight: 800;
-            color: #1e1b4b;
-            border-bottom: 2px solid #312e81;
-            padding-bottom: 4px;
-            margin-bottom: 10px;
-            margin-top: 6px;
-            text-transform: uppercase;
-        }
-
-        .photo-card {
-            width: 100%;
-            border: 1px solid #cbd5e1;
-            background-color: #ffffff;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .photo-card-header {
-            background-color: #f1f5f9;
-            padding: 5px 10px;
-            border-bottom: 1px solid #cbd5e1;
-            font-size: 10.5px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .photo-card-body {
-            padding: 8px 10px;
-        }
-
-        .gallery-img {
-            width: 180px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 5px;
-            border: 1px solid #94a3b8;
-            margin-right: 8px;
-            display: inline-block;
-        }
-
         /* Tanda Tangan */
         .signature-table {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 14px;
             border-collapse: collapse;
         }
 
@@ -238,11 +177,11 @@
             width: 50%;
             text-align: center;
             vertical-align: top;
-            font-size: 10px;
+            font-size: 9.5px;
         }
 
         .signature-space {
-            height: 55px;
+            height: 48px;
         }
 
         .signature-name {
@@ -251,20 +190,73 @@
             color: #0f172a;
         }
 
-        .footer-note {
-            position: fixed;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
+        /* Lampiran Dokumentasi Foto */
+        .page-break {
+            page-break-before: always;
+        }
+
+        .photo-card {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
+        .photo-card-header {
+            background-color: #f1f5f9;
+            padding: 5px 8px;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .badge-rank-pill {
+            background-color: #312e81;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 3px;
             font-size: 8.5px;
-            color: #94a3b8;
-            text-align: right;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 3px;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            letter-spacing: 0.3px;
+        }
+
+        .photo-card-body {
+            padding: 8px 10px;
+        }
+
+        .photo-frame {
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 2px;
+            background-color: #f8fafc;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .gallery-img {
+            width: 180px;
+            height: 115px;
+            display: block;
+            border-radius: 3px;
+        }
+
+        .photo-caption {
+            font-size: 8px;
+            color: #64748b;
+            text-align: center;
+            margin-top: 3px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
+
+    <!-- ============================================================== -->
+    <!-- HALAMAN 1: KOP SURAT, REKAPITULASI MOORA, PENGESAHAN           -->
+    <!-- ============================================================== -->
 
     <!-- KOP SURAT RESMI DINAS PUPR KOTA BANDAR LAMPUNG -->
     <table class="kop-table">
@@ -286,15 +278,15 @@
     <!-- JUDUL LAPORAN -->
     <div class="report-title-box">
         <h1>Laporan Rekapitulasi Hasil Prioritas Penanganan Jalan</h1>
-        <p>Sistem Pendukung Keputusan Penentuan Prioritas Perbaikan Jalan Menggunakan Metode MOORA (Multi-Objective Optimization on the Basis of Ratio Analysis)</p>
+        <p>Sistem Pendukung Keputusan Penentuan Prioritas Perbaikan Jalan Menggunakan Metode MOORA</p>
     </div>
 
     <!-- STRIP INFORMASI LAPORAN -->
     <table class="info-strip">
         <tr>
-            <td style="width: 25%;"><strong>Waktu Cetak:</strong> {{ $generatedAt }} WIB</td>
-            <td style="width: 25%;"><strong>Jumlah Ruas:</strong> {{ $totalRoads }} Ruas Jalan Terdata</td>
-            <td style="width: 50%; text-align: right;"><strong>Status Metode:</strong> MOORA Resmi (Vektor Pembagi Sesuai Skripsi)</td>
+            <td style="width: 28%;"><strong>Waktu Cetak:</strong> {{ $generatedAt }} WIB</td>
+            <td style="width: 25%;"><strong>Jumlah Ruas:</strong> {{ $totalRoads }} Ruas Terdata</td>
+            <td style="width: 47%; text-align: right;"><strong>Metode:</strong> MOORA Resmi (Normalisasi Vektor)</td>
         </tr>
     </table>
 
@@ -302,16 +294,16 @@
     <table class="data-table">
         <thead>
             <tr>
-                <th style="width: 4%;">No</th>
-                <th style="width: 26%; text-align: left;">Lokasi Ruas Jalan</th>
-                <th style="width: 16%;">Wilayah</th>
-                <th style="width: 7.5%;">C1 (Pjg)</th>
-                <th style="width: 7.5%;">C2 (Lbr)</th>
-                <th style="width: 7.5%;">C3 (Kdlm)</th>
-                <th style="width: 7.5%;">C4 (Lbg)</th>
-                <th style="width: 8%;">C5 (Kptg)</th>
-                <th style="width: 8%;">Nilai Yi</th>
-                <th style="width: 8%;">Prioritas</th>
+                <th style="width: 5%;">No</th>
+                <th style="width: 28%; text-align: left;">Lokasi Ruas Jalan</th>
+                <th style="width: 17%;">Wilayah</th>
+                <th style="width: 7%;">C1 (Pjg)</th>
+                <th style="width: 7%;">C2 (Lbr)</th>
+                <th style="width: 7%;">C3 (Kdlm)</th>
+                <th style="width: 7%;">C4 (Lbg)</th>
+                <th style="width: 7%;">C5 (Kptg)</th>
+                <th style="width: 7.5%;">Nilai Yi</th>
+                <th style="width: 7.5%;">Prioritas</th>
             </tr>
         </thead>
         <tbody>
@@ -321,7 +313,6 @@
                     $rank = $row['rank'];
                     $yi = $row['result'];
 
-                    // Prioritas label
                     if ($rank === 1) {
                         $prioClass = 'prio-tinggi';
                         $prioLabel = 'Tertinggi';
@@ -344,7 +335,7 @@
                     </td>
                     <td>
                         <strong>{{ $road->location }}</strong>
-                        <div style="font-size: 8.5px; color: #64748b; margin-top: 1px;">
+                        <div style="font-size: 8px; color: #64748b; margin-top: 1px;">
                             Survei Tahun {{ $road->survey_year }}
                             @if ($road->latitude && $road->longitude)
                                 &bull; ({{ number_format($road->latitude, 4) }}, {{ number_format($road->longitude, 4) }})
@@ -353,14 +344,14 @@
                     </td>
                     <td>
                         <div>Kec. {{ str_replace('Kecamatan ', '', $road->kecamatan) }}</div>
-                        <div style="font-size: 8.5px; color: #64748b;">Kel. {{ str_replace('Kelurahan ', '', $road->kelurahan) }}</div>
+                        <div style="font-size: 8px; color: #64748b;">Kel. {{ str_replace('Kelurahan ', '', $road->kelurahan) }}</div>
                     </td>
                     <td style="text-align: center;">{{ $road->c1_label }}</td>
                     <td style="text-align: center;">{{ $road->c2_label }}</td>
                     <td style="text-align: center;">{{ $road->c3_label }}</td>
                     <td style="text-align: center;">{{ $road->c4_label }}</td>
                     <td style="text-align: center;">{{ $road->c5_label }}</td>
-                    <td style="text-align: center; font-family: monospace; font-weight: bold; color: #1e1b4b; font-size: 10.5px;">
+                    <td style="text-align: center; font-family: monospace; font-weight: bold; color: #1e1b4b; font-size: 10px;">
                         {{ number_format($yi, 4) }}
                     </td>
                     <td style="text-align: center;">
@@ -374,7 +365,7 @@
     </table>
 
     <!-- BOBOT KRITERIA SUMMARY -->
-    <div style="margin-top: 4px; font-size: 9px; color: #475569; background: #f8fafc; padding: 5px 8px; border-radius: 4px; border: 1px solid #e2e8f0;">
+    <div style="font-size: 8.5px; color: #475569; background: #f8fafc; padding: 4px 8px; border-radius: 4px; border: 1px solid #e2e8f0;">
         <strong>Keterangan Bobot Kriteria MOORA:</strong>
         @foreach ($criteria as $c)
             {{ $c->code }} ({{ $c->name }}): <strong>{{ ($weights[$c->id] ?? 0) * 100 }}% [{{ strtoupper($c->type) }}]</strong>
@@ -404,27 +395,34 @@
         </tr>
     </table>
 
-    <!-- HALAMAN 2: LAMPIRAN DOKUMENTASI FOTO KERUSAKAN JALAN -->
+
+    <!-- ============================================================== -->
+    <!-- HALAMAN 2: LAMPIRAN DOKUMENTASI FOTO KERUSAKAN JALAN           -->
+    <!-- ============================================================== -->
     <div class="page-break"></div>
 
-    <table class="kop-table" style="margin-bottom: 8px;">
+    <!-- HEADER LAMPIRAN RESMI RINGKAS (HEMAT RUANG) -->
+    <table style="width: 100%; border-bottom: 2px solid #1e1b4b; padding-bottom: 6px; margin-bottom: 12px; border-collapse: collapse;">
         <tr>
-            <td class="kop-logo">
+            <td style="width: 44px; vertical-align: middle; padding: 0;">
                 @if (!empty($logoBase64))
-                    <img src="{{ $logoBase64 }}" alt="Logo PUPR">
+                    <img src="{{ $logoBase64 }}" style="max-width: 38px; max-height: 38px;" alt="Logo PUPR">
                 @endif
             </td>
-            <td class="kop-text">
-                <h3>LAMPIRAN DOKUMENTASI FOTO HASIL SURVEI LAPANGAN</h3>
-                <h2>DINAS PEKERJAAN UMUM DAN PENATAAN RUANG KOTA BANDAR LAMPUNG</h2>
-                <p>Dokumentasi Visual Kerusakan Ruas Jalan sebagai Bukti Fisik Prioritas Penanganan</p>
+            <td style="vertical-align: middle; padding-left: 8px;">
+                <div style="font-size: 11.5px; font-weight: 800; color: #1e1b4b; text-transform: uppercase; letter-spacing: 0.3px;">
+                    LAMPIRAN DOKUMENTASI FOTO KERUSAKAN JALAN HASIL SURVEI LAPANGAN
+                </div>
+                <div style="font-size: 9px; color: #475569; margin-top: 1px;">
+                    Dinas Pekerjaan Umum dan Penataan Ruang Kota Bandar Lampung &bull; Bukti Fisik Prioritas Penanganan MOORA
+                </div>
+            </td>
+            <td style="width: 170px; text-align: right; vertical-align: middle; font-size: 8.5px; color: #64748b; padding: 0;">
+                <strong>Lampiran Dokumen Resmi</strong><br>
+                Waktu Cetak: {{ $generatedAt }}
             </td>
         </tr>
     </table>
-
-    <div class="section-header">
-        Dokumentasi Visual Kerusakan Tiap Ruas Jalan (Wajib Ada Foto)
-    </div>
 
     @foreach ($results as $row)
         @php
@@ -433,51 +431,98 @@
             $photos = $row['photos_base64'] ?? [];
         @endphp
         <div class="photo-card">
+            <!-- Header Kartu: Tabel Rapi, Tidak Pernah Bertumpuk -->
             <div class="photo-card-header">
-                <table style="width: 100%; border: none;">
+                <table style="width: 100%; border-collapse: collapse; border: none;">
                     <tr>
-                        <td style="width: 70%;">
-                            <span style="background: #312e81; color: #ffffff; padding: 2px 6px; border-radius: 4px; font-size: 9px; margin-right: 6px;">
+                        <td style="width: 95px; vertical-align: middle; padding: 0;">
+                            <div class="badge-rank-pill">
                                 PERINGKAT #{{ $rank }}
-                            </span>
-                            <strong>{{ $road->location }}</strong>
-                            <span style="font-weight: normal; color: #475569; font-size: 9.5px;">
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle; padding-left: 8px;">
+                            <strong style="font-size: 10.5px; color: #0f172a;">{{ $road->location }}</strong>
+                            <span style="font-weight: normal; color: #64748b; font-size: 9px;">
                                 (Kec. {{ str_replace('Kecamatan ', '', $road->kecamatan) }}, Kel. {{ str_replace('Kelurahan ', '', $road->kelurahan) }})
                             </span>
                         </td>
-                        <td style="width: 30%; text-align: right; font-size: 9.5px; color: #312e81;">
+                        <td style="width: 200px; text-align: right; vertical-align: middle; font-size: 9px; color: #312e81; padding: 0;">
                             <strong>Nilai MOORA: {{ number_format($row['result'], 4) }}</strong> &bull; Total Foto: {{ count($photos) }}
                         </td>
                     </tr>
                 </table>
             </div>
+
+            <!-- Body Kartu: Grid Foto Berdampingan & Spesifikasi -->
             <div class="photo-card-body">
                 @if (!empty($photos) && count($photos) > 0)
-                    <div style="margin-bottom: 4px;">
-                        @foreach ($photos as $idx => $p)
-                            <img src="{{ $p }}" class="gallery-img" alt="Foto {{ $idx + 1 }}">
-                        @endforeach
-                    </div>
+                    <table style="border: none; border-collapse: collapse; margin-bottom: 6px;">
+                        <tr>
+                            @foreach ($photos as $idx => $p)
+                                <td style="padding: 0 10px 0 0; vertical-align: top; border: none;">
+                                    <div class="photo-frame">
+                                        <img src="{{ $p }}" class="gallery-img" alt="Foto {{ $idx + 1 }}">
+                                    </div>
+                                    <div class="photo-caption">
+                                        Dokumentasi #{{ $idx + 1 }}
+                                    </div>
+                                </td>
+                            @endforeach
+                        </tr>
+                    </table>
                 @else
-                    <div style="padding: 10px; color: #94a3b8; font-style: italic;">
+                    <div style="padding: 10px; color: #94a3b8; font-style: italic; font-size: 9px;">
                         Tidak ada foto dokumentasi terlampir.
                     </div>
                 @endif
-                <div style="font-size: 9px; color: #475569; margin-top: 4px;">
-                    <strong>Spesifikasi Kerusakan:</strong>
-                    Panjang: {{ $road->c1_label }} &bull;
-                    Lebar: {{ $road->c2_label }} &bull;
-                    Kedalaman: {{ $road->c3_label }} &bull;
-                    Jumlah Lubang: {{ $road->c4_label }} &bull;
-                    Kepentingan: {{ $road->c5_label }}
-                </div>
+
+                <!-- Strip Matriks Spesifikasi Kerusakan 5 Kriteria (Kotak-Kotak Rapi) -->
+                <table style="width: 100%; border-collapse: collapse; border: none; font-size: 8px; margin-top: 2px;">
+                    <tr>
+                        <td style="width: 20%; padding: 3px 5px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 3px;">
+                            <span style="color: #64748b; font-size: 7.5px; display: block;">C1 - Panjang:</span>
+                            <strong style="color: #0f172a;">{{ $road->c1_label }}</strong>
+                        </td>
+                        <td style="width: 1%; border: none;"></td>
+                        <td style="width: 20%; padding: 3px 5px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 3px;">
+                            <span style="color: #64748b; font-size: 7.5px; display: block;">C2 - Lebar Jalan:</span>
+                            <strong style="color: #0f172a;">{{ $road->c2_label }}</strong>
+                        </td>
+                        <td style="width: 1%; border: none;"></td>
+                        <td style="width: 20%; padding: 3px 5px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 3px;">
+                            <span style="color: #64748b; font-size: 7.5px; display: block;">C3 - Kedalaman:</span>
+                            <strong style="color: #0f172a;">{{ $road->c3_label }}</strong>
+                        </td>
+                        <td style="width: 1%; border: none;"></td>
+                        <td style="width: 18%; padding: 3px 5px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 3px;">
+                            <span style="color: #64748b; font-size: 7.5px; display: block;">C4 - Jml Lubang:</span>
+                            <strong style="color: #0f172a;">{{ $road->c4_label }}</strong>
+                        </td>
+                        <td style="width: 1%; border: none;"></td>
+                        <td style="width: 18%; padding: 3px 5px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 3px;">
+                            <span style="color: #64748b; font-size: 7.5px; display: block;">C5 - Kepentingan:</span>
+                            <strong style="color: #0f172a;">{{ $road->c5_label }}</strong>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     @endforeach
 
-    <div class="footer-note">
-        Dokumen ini dibuat otomatis oleh Sistem Pendukung Keputusan MOORA Dinas PUPR Kota Bandar Lampung | Halaman dicetak pada {{ $generatedAt }}
-    </div>
+    <!-- FOOTER RESMI DENGAN NOMOR HALAMAN DINAMIS DOMPDF -->
+    <script type="text/php">
+        if (isset($pdf)) {
+            $font = $fontMetrics->get_font("Helvetica", "normal");
+            $size = 8;
+            $color = array(0.45, 0.45, 0.45);
+            // Garis footer bawah
+            $pdf->line(34, 572, 808, 572, array(0.85, 0.85, 0.85), 1);
+            // Teks kiri
+            $pdf->text(34, 577, "Dokumen Resmi Sistem Pendukung Keputusan MOORA | Dinas PUPR Kota Bandar Lampung", $font, $size, $color);
+            // Teks kanan (Nomor halaman)
+            $pdf->page_text(725, 577, "Halaman {PAGE_NUM} dari {PAGE_COUNT}", $font, $size, $color);
+        }
+    </script>
 
 </body>
 </html>
