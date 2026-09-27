@@ -33,7 +33,7 @@ class User extends Authenticatable
 
     public function getProfilePhotoUrlAttribute(): string
     {
-        return asset('images/logo-pupr.png');
+        return asset('images/Logo-PU.png');
     }
 
     public function activityLogs()

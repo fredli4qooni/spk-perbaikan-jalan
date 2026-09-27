@@ -51,7 +51,7 @@ class ReportController extends Controller
             }
 
             fclose($handle);
-        }, 'laporan-prioritas-jalan-moora-pupr.csv', [
+        }, 'laporan-prioritas-jalan-moora-pu.csv', [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
     }
@@ -60,9 +60,9 @@ class ReportController extends Controller
     {
         $summary = $mooraService->calculate();
 
-        // Siapkan Logo PUPR base64
+        // Siapkan Logo PU base64
         $logoBase64 = null;
-        $logoPath = public_path('images/logo-pupr.png');
+        $logoPath = public_path('images/Logo-PU.png');
         if (file_exists($logoPath)) {
             $logoData = base64_encode(file_get_contents($logoPath));
             $logoBase64 = 'data:image/png;base64,' . $logoData;
@@ -102,7 +102,7 @@ class ReportController extends Controller
             'defaultFont' => 'sans-serif',
         ]);
 
-        $filename = 'Laporan-Prioritas-Jalan-MOORA-PUPR-' . date('Ymd-His') . '.pdf';
+        $filename = 'Laporan-Prioritas-Jalan-MOORA-PU-' . date('Ymd-His') . '.pdf';
 
         if ($request->boolean('stream')) {
             return $pdf->stream($filename);

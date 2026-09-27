@@ -10,7 +10,7 @@ try {
     $user = App\Models\User::updateOrCreate([
         'email' => 'admin@pupr.test',
     ], [
-        'name' => 'Admin PUPR',
+        'name' => 'Admin PU',
         'password' => Hash::make('password'),
         'role' => 'admin',
     ]);

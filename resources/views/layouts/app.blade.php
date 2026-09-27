@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'PUPR MOORA' }}</title>
+    <title>{{ $title ?? 'PU MOORA' }}</title>
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
@@ -25,8 +25,8 @@
         <div class="flex flex-col w-full">
             <div class="h-16 flex items-center px-5 bg-brand-purple text-white flex-shrink-0">
                 <a href="{{ route('dashboard') }}" class="font-bold text-lg tracking-wide flex items-center gap-3">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
-                    <span class="font-bold tracking-wider">PUPR MOORA</span>
+                    <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-9 w-9 object-contain bg-white rounded-lg p-1 shadow-sm">
+                    <span class="font-bold tracking-wider">PU MOORA</span>
                 </a>
             </div>
             <div class="flex flex-col flex-grow pt-6 pb-4 overflow-y-auto">
@@ -55,12 +55,12 @@
         <!-- Top Navbar -->
         <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow-sm border-b border-gray-200">
             <div class="flex-1 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                <!-- Sisi Kiri: Brand PUPR pada Mobile/Tablet (< lg) & Tanggal pada Desktop (>= lg) -->
+                <!-- Sisi Kiri: Brand PU pada Mobile/Tablet (< lg) & Tanggal pada Desktop (>= lg) -->
                 <div class="flex items-center gap-3">
                     <!-- Brand Logo untuk Layar Mobile/Tablet (< lg) -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 lg:hidden" title="Beranda PUPR MOORA">
-                        <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-8 w-8 object-contain bg-white rounded-lg p-0.5 border border-gray-200 shadow-2xs">
-                        <span class="font-bold tracking-wider text-brand-purple text-base">PUPR MOORA</span>
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 lg:hidden" title="Beranda PU MOORA">
+                        <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-8 w-8 object-contain bg-white rounded-lg p-0.5 border border-gray-200 shadow-2xs">
+                        <span class="font-bold tracking-wider text-brand-purple text-base">PU MOORA</span>
                     </a>
 
                     <!-- Tanggal untuk Desktop (>= lg) -->

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Portal Transparansi Prioritas Jalan - Dinas PUPR Kota Bandar Lampung' }}</title>
+    <title>{{ $title ?? 'Portal Transparansi Prioritas Jalan - Dinas Pekerjaan Umum Kota Bandar Lampung' }}</title>
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
@@ -27,15 +27,15 @@
                 <!-- Brand Identitas Resmi -->
                 <div class="flex items-center gap-3">
                     <a href="{{ route('public.dashboard') }}" class="flex items-center gap-3 group focus:outline-none">
-                        <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-10 w-10 sm:h-11 sm:w-11 object-contain bg-white rounded-xl p-1 border border-slate-200 shadow-2xs transition-transform group-hover:scale-105">
+                        <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-10 w-10 sm:h-11 sm:w-11 object-contain bg-white rounded-xl p-1 border border-slate-200 shadow-2xs transition-transform group-hover:scale-105">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="font-extrabold text-base sm:text-lg tracking-wider text-brand-purple">PUPR MOORA</span>
+                                <span class="font-extrabold text-base sm:text-lg tracking-wider text-brand-purple">PU MOORA</span>
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
                                     Publik
                                 </span>
                             </div>
-                            <p class="text-[11px] sm:text-xs text-slate-500 font-medium hidden xs:block">Dinas PUPR Kota Bandar Lampung</p>
+                            <p class="text-[11px] sm:text-xs text-slate-500 font-medium hidden xs:block">Dinas Pekerjaan Umum Kota Bandar Lampung</p>
                         </div>
                     </a>
                 </div>
@@ -128,9 +128,9 @@
                 <!-- Info Kedinasan -->
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-10 w-10 object-contain bg-white rounded-xl p-1 shadow-xs">
+                        <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-10 w-10 object-contain bg-white rounded-xl p-1 shadow-xs">
                         <div>
-                            <span class="font-extrabold text-white text-base tracking-wider uppercase">Dinas PUPR Kota Bandar Lampung</span>
+                            <span class="font-extrabold text-white text-base tracking-wider uppercase">Dinas Pekerjaan Umum Kota Bandar Lampung</span>
                             <p class="text-xs text-slate-400">Sistem Pendukung Keputusan Penanganan Ruas Jalan</p>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
             </div>
 
             <div class="pt-8 mt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-                <p>&copy; {{ date('Y') }} Dinas PUPR Kota Bandar Lampung. Hak Cipta Dilindungi.</p>
+                <p>&copy; {{ date('Y') }} Dinas Pekerjaan Umum Kota Bandar Lampung. Hak Cipta Dilindungi.</p>
                 <p>Sistem Pendukung Keputusan Prioritas Perbaikan Jalan &bull; Metode MOORA</p>
             </div>
         </div>

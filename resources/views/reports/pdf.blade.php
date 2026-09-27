@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Prioritas Perbaikan Jalan Metode MOORA - Dinas PUPR Kota Bandar Lampung</title>
+    <title>Laporan Prioritas Perbaikan Jalan Metode MOORA - Dinas Pekerjaan Umum Kota Bandar Lampung</title>
     <style>
         @page {
             margin: 1.0cm 1.2cm 1.2cm 1.2cm;
@@ -258,19 +258,19 @@
     <!-- HALAMAN 1: KOP SURAT, REKAPITULASI MOORA, PENGESAHAN           -->
     <!-- ============================================================== -->
 
-    <!-- KOP SURAT RESMI DINAS PUPR KOTA BANDAR LAMPUNG -->
+    <!-- KOP SURAT RESMI DINAS PEKERJAAN UMUM KOTA BANDAR LAMPUNG -->
     <table class="kop-table">
         <tr>
             <td class="kop-logo">
                 @if (!empty($logoBase64))
-                    <img src="{{ $logoBase64 }}" alt="Logo PUPR">
+                    <img src="{{ $logoBase64 }}" alt="Logo PU">
                 @endif
             </td>
             <td class="kop-text">
                 <h3>PEMERINTAH KOTA BANDAR LAMPUNG</h3>
-                <h2>DINAS PEKERJAAN UMUM DAN PENATAAN RUANG</h2>
+                <h2>DINAS PEKERJAAN UMUM</h2>
                 <p>Jl. Pulau Sebesi No. 67, Sukarame, Kota Bandar Lampung, Lampung 35131</p>
-                <p>Telepon: (0721) 703445 | Laman: pupr.bandarlampungkota.go.id | Email: pupr@bandarlampungkota.go.id</p>
+                <p>Telepon: (0721) 703445 | Laman: pu.bandarlampungkota.go.id | Email: pu@bandarlampungkota.go.id</p>
             </td>
         </tr>
     </table>
@@ -378,7 +378,7 @@
         <tr>
             <td>
                 Mengetahui,<br>
-                <strong>Kepala Dinas Pekerjaan Umum dan Penataan Ruang</strong><br>
+                <strong>Kepala Dinas Pekerjaan Umum</strong><br>
                 Kota Bandar Lampung
                 <div class="signature-space"></div>
                 <div class="signature-name">Ir. H. IWAN GUNAWAN, M.T.</div>
@@ -387,7 +387,7 @@
             <td>
                 Bandar Lampung, {{ now()->translatedFormat('d F Y') }}<br>
                 <strong>Petugas Survei / Analis Sistem SPK</strong><br>
-                Dinas PUPR Kota Bandar Lampung
+                Dinas PU Kota Bandar Lampung
                 <div class="signature-space"></div>
                 <div class="signature-name">TIM SURVEI INFRASTRUKTUR JALAN</div>
                 <div>Bidang Bina Marga</div>
@@ -406,7 +406,7 @@
         <tr>
             <td style="width: 44px; vertical-align: middle; padding: 0;">
                 @if (!empty($logoBase64))
-                    <img src="{{ $logoBase64 }}" style="max-width: 38px; max-height: 38px;" alt="Logo PUPR">
+                    <img src="{{ $logoBase64 }}" style="max-width: 38px; max-height: 38px;" alt="Logo PU">
                 @endif
             </td>
             <td style="vertical-align: middle; padding-left: 8px;">
@@ -414,7 +414,7 @@
                     LAMPIRAN DOKUMENTASI FOTO KERUSAKAN JALAN HASIL SURVEI LAPANGAN
                 </div>
                 <div style="font-size: 9px; color: #475569; margin-top: 1px;">
-                    Dinas Pekerjaan Umum dan Penataan Ruang Kota Bandar Lampung &bull; Bukti Fisik Prioritas Penanganan MOORA
+                    Dinas Pekerjaan Umum Kota Bandar Lampung &bull; Bukti Fisik Prioritas Penanganan MOORA
                 </div>
             </td>
             <td style="width: 170px; text-align: right; vertical-align: middle; font-size: 8.5px; color: #64748b; padding: 0;">
@@ -518,7 +518,7 @@
             // Garis footer bawah
             $pdf->line(34, 572, 808, 572, array(0.85, 0.85, 0.85), 1);
             // Teks kiri
-            $pdf->text(34, 577, "Dokumen Resmi Sistem Pendukung Keputusan MOORA | Dinas PUPR Kota Bandar Lampung", $font, $size, $color);
+            $pdf->text(34, 577, "Dokumen Resmi Sistem Pendukung Keputusan MOORA | Dinas Pekerjaan Umum Kota Bandar Lampung", $font, $size, $color);
             // Teks kanan (Nomor halaman)
             $pdf->page_text(725, 577, "Halaman {PAGE_NUM} dari {PAGE_COUNT}", $font, $size, $color);
         }

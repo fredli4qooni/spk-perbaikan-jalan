@@ -43,18 +43,18 @@
 
         <!-- ISI TAB 1: FORM EDIT PROFIL -->
         <div x-show="activeTab === 'edit'" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="p-5 sm:p-7 md:p-8">
-            <!-- Banner Avatar Otomatis PUPR -->
+            <!-- Banner Avatar Otomatis PU -->
             <div class="flex items-center gap-4 p-4 mb-6 rounded-xl bg-purple-50/70 border border-purple-100">
                 <div class="relative flex-shrink-0">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-brand-purple bg-white object-contain p-1.5 shadow-xs">
+                    <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-brand-purple bg-white object-contain p-1.5 shadow-xs">
                     <span class="absolute bottom-0 right-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-emerald-500 border-2 border-white" title="Akun Aktif"></span>
                 </div>
                 <div>
                     <div class="text-sm font-semibold text-gray-900 flex items-center gap-1.5">
-                        Identitas Resmi Dinas PUPR
+                        Identitas Resmi Dinas PU
                         <i class="bi bi-patch-check-fill text-brand-purple text-base"></i>
                     </div>
-                    <p class="text-xs text-gray-500 mt-0.5">Avatar akun ditetapkan secara otomatis menggunakan logo resmi Dinas PUPR.</p>
+                    <p class="text-xs text-gray-500 mt-0.5">Avatar akun ditetapkan secara otomatis menggunakan logo resmi Dinas Pekerjaan Umum.</p>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@
         <div x-show="activeTab === 'info'" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="p-5 sm:p-7 md:p-8" style="display: none;">
             <!-- Hero Profil Singkat -->
             <div class="flex items-center gap-4 p-4 mb-6 rounded-xl bg-gray-50/80 border border-gray-200">
-                <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="w-14 h-14 rounded-full border border-gray-200 bg-white object-contain p-1.5 shadow-2xs flex-shrink-0">
+                <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="w-14 h-14 rounded-full border border-gray-200 bg-white object-contain p-1.5 shadow-2xs flex-shrink-0">
                 <div class="min-w-0 flex-1">
                     <div class="font-bold text-gray-900 text-base sm:text-lg truncate leading-tight">{{ auth()->user()->name }}</div>
                     <div class="text-xs sm:text-sm text-gray-500 truncate mt-0.5">{{ auth()->user()->email }}</div>
@@ -142,7 +142,7 @@
                 <div class="p-3.5 sm:p-4 rounded-xl bg-gray-50/60 border border-gray-200 flex items-center justify-between">
                     <div>
                         <div class="text-[10px] font-medium text-gray-500 uppercase tracking-wider mb-1">Hak Akses / Peran</div>
-                        <div class="font-semibold text-gray-900 text-sm">{{ ucfirst(auth()->user()->role) }} PUPR</div>
+                        <div class="font-semibold text-gray-900 text-sm">{{ ucfirst(auth()->user()->role) }} PU</div>
                     </div>
                     <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold {{ auth()->user()->role === 'admin' ? 'bg-purple-100 text-brand-purple border border-purple-200' : 'bg-blue-100 text-blue-800 border border-blue-200' }}">
                         {{ strtoupper(auth()->user()->role) }}

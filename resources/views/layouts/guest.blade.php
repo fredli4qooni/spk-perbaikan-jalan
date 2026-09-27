@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'PUPR MOORA' }}</title>
+    <title>{{ $title ?? 'PU MOORA' }}</title>
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
@@ -25,8 +25,8 @@
             
             <div class="relative z-10">
                 <div class="flex items-center gap-3 mb-10">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-11 w-11 object-contain bg-white rounded-xl p-1.5 shadow-sm">
-                    <span class="font-extrabold text-2xl tracking-widest uppercase">PUPR MOORA</span>
+                    <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-11 w-11 object-contain bg-white rounded-xl p-1.5 shadow-sm">
+                    <span class="font-extrabold text-2xl tracking-widest uppercase">PU MOORA</span>
                 </div>
                 
                 <h1 class="text-4xl font-extrabold leading-tight mb-6">
@@ -83,8 +83,8 @@
             <div class="w-full max-w-md">
                 <!-- Mobile Logo (hidden on desktop) -->
                 <div class="lg:hidden flex items-center justify-center gap-3 mb-10">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="Logo PUPR" class="h-10 w-10 object-contain bg-white rounded-lg p-1 shadow-sm">
-                    <span class="font-extrabold text-2xl tracking-widest text-brand-purple uppercase">PUPR MOORA</span>
+                    <img src="{{ asset('images/Logo-PU.png') }}" alt="Logo PU" class="h-10 w-10 object-contain bg-white rounded-lg p-1 shadow-sm">
+                    <span class="font-extrabold text-2xl tracking-widest text-brand-purple uppercase">PU MOORA</span>
                 </div>
                 
                 <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 sm:p-10">

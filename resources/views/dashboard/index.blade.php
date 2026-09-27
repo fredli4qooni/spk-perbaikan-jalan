@@ -158,7 +158,7 @@
             </a>
         </div>
     @else
-        <!-- Menu Pintas Admin PUPR (4-kolom mobile / 6-kolom desktop) -->
+        <!-- Menu Pintas Admin PU (4-kolom mobile / 6-kolom desktop) -->
         <div class="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
             <!-- 1. Data Ruas Jalan -->
             <a href="{{ route('roads.index') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-blue-50/50 transition-all cursor-pointer">
@@ -318,7 +318,7 @@
                 <div class="text-right flex-shrink-0 pl-2 text-[11px] text-gray-500">
                     <div class="font-medium text-gray-800 truncate flex items-center justify-end gap-1">
                         <i class="bi bi-person text-[11px] text-gray-400"></i>
-                        <span>{{ $road->user->name ?? 'Petugas PUPR' }}</span>
+                        <span>{{ $road->user->name ?? 'Petugas PU' }}</span>
                     </div>
                     <div class="text-[10px] text-gray-400 mt-0.5">{{ $road->created_at->translatedFormat('d M Y') }}</div>
                 </div>

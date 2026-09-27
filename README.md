@@ -1,4 +1,4 @@
-# Sistem Pendukung Keputusan Prioritas Perbaikan Jalan - PUPR Kota Bandar Lampung
+# Sistem Pendukung Keputusan Prioritas Perbaikan Jalan - Dinas Pekerjaan Umum Kota Bandar Lampung
 
 Aplikasi web berbasis PHP Laravel untuk menghitung prioritas perbaikan jalan menggunakan metode MOORA.
 

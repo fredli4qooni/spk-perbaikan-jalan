@@ -14,10 +14,10 @@
     class="fixed bottom-20 lg:bottom-6 right-4 left-4 sm:left-auto sm:right-6 sm:w-96 z-40 bg-white/98 backdrop-blur-md rounded-2xl border border-gray-200 shadow-2xl p-3.5 sm:p-4 flex items-center gap-3.5"
     style="display: none;"
 >
-    <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="w-11 h-11 object-contain bg-gray-50 rounded-xl p-1.5 border border-gray-200 flex-shrink-0 shadow-2xs">
+    <img src="{{ asset('images/Logo-PU.png') }}" alt="PU" class="w-11 h-11 object-contain bg-gray-50 rounded-xl p-1.5 border border-gray-200 flex-shrink-0 shadow-2xs">
     <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5">
-            <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-tight">Install PUPR MOORA</h4>
+            <h4 class="text-xs sm:text-sm font-bold text-gray-900 leading-tight">Install PU MOORA</h4>
             <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-brand-purple text-white">App</span>
         </div>
         <p class="text-[11px] text-gray-500 mt-0.5 leading-snug">Akses cepat & navigasi offline dari layar utama</p>
@@ -92,7 +92,7 @@
             const choice = await window.__pwaDeferredPrompt.userChoice;
             if (choice.outcome === 'accepted') {
                 if (window.showToast) {
-                    window.showToast('Terima kasih! Memulai proses pemasangan aplikasi PUPR MOORA.', 'success', 'Instalasi Berjalan');
+                    window.showToast('Terima kasih! Memulai proses pemasangan aplikasi PU MOORA.', 'success', 'Instalasi Berjalan');
                 }
             }
             window.__pwaDeferredPrompt = null;
@@ -114,7 +114,7 @@
     window.addEventListener('appinstalled', () => {
         window.__pwaDeferredPrompt = null;
         if (window.showToast) {
-            window.showToast('Aplikasi PUPR MOORA berhasil dipasang di perangkat Anda.', 'success', 'Aplikasi Terpasang');
+            window.showToast('Aplikasi PU MOORA berhasil dipasang di perangkat Anda.', 'success', 'Aplikasi Terpasang');
         }
         window.dispatchEvent(new CustomEvent('hide-pwa-banner'));
     });

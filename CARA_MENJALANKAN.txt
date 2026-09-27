@@ -1,5 +1,5 @@
 ═══════════════════════════════════════════════════════════════
-   CARA MENJALANKAN WEBSITE PUPR MOORA
+   CARA MENJALANKAN WEBSITE PU MOORA
 ═══════════════════════════════════════════════════════════════
 
 ⚠️ PENTING: Pastikan sudah ikuti langkah setup pertama kali ini:

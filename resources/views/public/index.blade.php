@@ -225,7 +225,7 @@
 @section('content')
 <div x-data="publicDashboard()" class="space-y-12 sm:space-y-16 lg:space-y-20 pb-16">
 
-    <!-- 1. HERO BANNER RESMI PUPR -->
+    <!-- 1. HERO BANNER RESMI PU -->
     <section class="relative bg-brand-purple text-white overflow-hidden py-14 sm:py-20 lg:py-24 border-b border-brand-purple/80">
         <!-- Dekorasi Latar Geometris -->
         <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5 pointer-events-none"></div>
@@ -237,7 +237,7 @@
                 <!-- Badge Resmi -->
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-brand-purple-200 border border-white/15 backdrop-blur-xs">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Portal Keterbukaan Informasi Publik Dinas PUPR</span>
+                    <span>Portal Keterbukaan Informasi Publik Dinas Pekerjaan Umum</span>
                 </div>
 
                 <!-- Judul Utama -->
@@ -247,7 +247,7 @@
 
                 <!-- Deskripsi -->
                 <p class="text-sm sm:text-base lg:text-lg text-brand-purple-200 leading-relaxed font-normal">
-                    Masyarakat dapat memantau secara terbuka data hasil survei kondisi kerusakan ruas jalan dan penentuan urutan prioritas penanganan perbaikan jalan oleh Dinas PUPR secara objektif, terukur, dan berbasis metode ilmiah <strong>MOORA</strong>.
+                    Masyarakat dapat memantau secara terbuka data hasil survei kondisi kerusakan ruas jalan dan penentuan urutan prioritas penanganan perbaikan jalan oleh Dinas Pekerjaan Umum secara objektif, terukur, dan berbasis metode ilmiah <strong>MOORA</strong>.
                 </p>
 
                 <!-- Tombol CTA -->
@@ -448,7 +448,7 @@
             <!-- Fullscreen Mode Top Bar (Responsif Mobile & Desktop) -->
             <div x-show="isFullscreenMap" class="bg-slate-900 text-white px-3 sm:px-4 py-2 sm:py-2.5 border-b border-slate-800 flex items-center justify-between gap-2 sm:gap-3 z-20 flex-shrink-0" x-cloak>
                 <div class="flex items-center gap-2 min-w-0">
-                    <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="h-5 w-5 sm:h-6 sm:w-6 object-contain shrink-0">
+                    <img src="{{ asset('images/Logo-PU.png') }}" alt="PU" class="h-5 w-5 sm:h-6 sm:w-6 object-contain shrink-0">
                     <div class="leading-tight min-w-0">
                         <span class="font-bold text-xs sm:text-sm text-white truncate block">Peta Sebaran Jalan</span>
                         <span class="text-[10px] text-slate-400 hidden sm:inline">Mode Layar Penuh &bull; Tekan Esc untuk keluar</span>
@@ -1002,7 +1002,7 @@
                 this.streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     maxNativeZoom: 19,
-                    attribution: '&copy; OpenStreetMap contributors | Dinas PUPR Kota Bandar Lampung',
+                    attribution: '&copy; OpenStreetMap contributors | Dinas Pekerjaan Umum Kota Bandar Lampung',
                     updateWhenZooming: false,
                     updateWhenIdle: false,
                     keepBuffer: 8,
@@ -1502,7 +1502,7 @@
                            </div>` 
                         : '';
 
-                    // Popup Card Resmi Dinas PUPR yang Bersih & Presisi
+                    // Popup Card Resmi Dinas Pekerjaan Umum yang Bersih & Presisi
                     const popupContent = `
                         <div style="font-family: inherit; width: 100%;" class="bg-white text-slate-800">
                             <!-- Banner Status Prioritas -->

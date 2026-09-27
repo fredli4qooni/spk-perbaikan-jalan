@@ -1,6 +1,6 @@
 {
-  "name": "PUPR MOORA - Prioritas Perbaikan Jalan",
-  "short_name": "PUPR MOORA",
+  "name": "PU MOORA - Prioritas Perbaikan Jalan",
+  "short_name": "PU MOORA",
   "description": "Sistem Pendukung Keputusan Prioritas Perbaikan Jalan Kota Bandar Lampung Menggunakan Metode MOORA",
   "start_url": "/",
   "scope": "/",
@@ -73,7 +73,7 @@
     {
       "name": "Data Ruas Jalan",
       "short_name": "Data Jalan",
-      "description": "Daftar inventarisasi jalan dinas PUPR",
+      "description": "Daftar inventarisasi jalan dinas PU",
       "url": "/roads",
       "icons": [{ "src": "/images/icons/icon-96x96.png", "sizes": "96x96" }]
     },

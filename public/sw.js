@@ -1,11 +1,11 @@
-const CACHE_NAME = 'pupr-moora-v1';
+const CACHE_NAME = 'pu-moora-v2';
 
 const STATIC_PRECACHE = [
     '/',
     '/manifest.json',
     '/offline.html',
     '/favicon.png',
-    '/images/logo-pupr.png',
+    '/images/Logo-PU.png',
     '/images/icons/icon-72x72.png',
     '/images/icons/icon-96x96.png',
     '/images/icons/icon-128x128.png',

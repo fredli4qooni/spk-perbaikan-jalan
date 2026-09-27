@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::updateOrCreate(
             ['email' => 'admin@pupr.test'],
             [
-                'name' => 'Admin PUPR',
+                'name' => 'Admin PU',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
             ]
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $petugas = User::updateOrCreate(
             ['email' => 'petugas@pupr.test'],
             [
-                'name' => 'Petugas PUPR',
+                'name' => 'Petugas PU',
                 'password' => Hash::make('password'),
                 'role' => 'petugas',
             ]

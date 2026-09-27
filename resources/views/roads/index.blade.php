@@ -154,7 +154,7 @@
                             </div>
                         @endif
                         <div class="truncate text-xs">
-                            <span class="font-semibold text-gray-800 block truncate leading-tight">{{ $road->user->name ?? 'Petugas PUPR' }}</span>
+                            <span class="font-semibold text-gray-800 block truncate leading-tight">{{ $road->user->name ?? 'Petugas PU' }}</span>
                             <span class="text-[10px] text-gray-400 leading-tight mt-0.5 block">{{ $road->created_at->translatedFormat('d M Y') }}</span>
                         </div>
                     </div>
@@ -261,9 +261,9 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/logo-pupr.png') }}" alt="PUPR" class="w-7 h-7 rounded-full object-contain border border-gray-200 bg-white p-0.5">
+                                    <img src="{{ asset('images/Logo-PU.png') }}" alt="PU" class="w-7 h-7 rounded-full object-contain border border-gray-200 bg-white p-0.5">
                                     <div>
-                                        <div class="text-xs font-semibold text-gray-900">{{ $road->user->name ?? 'Petugas PUPR' }}</div>
+                                        <div class="text-xs font-semibold text-gray-900">{{ $road->user->name ?? 'Petugas PU' }}</div>
                                         <div class="text-[10px] text-gray-400">{{ $road->created_at->format('d/m/Y') }}</div>
                                     </div>
                                 </div>

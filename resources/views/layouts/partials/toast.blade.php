@@ -1,4 +1,4 @@
-{{-- Toast Notification System (PUPR Modern Design) --}}
+{{-- Toast Notification System (PU Modern Design) --}}
 <div 
     x-data="toastManager()" 
     @toast.window="add($event.detail)"

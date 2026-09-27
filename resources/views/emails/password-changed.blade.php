@@ -85,7 +85,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>SPK PERBAIKAN JALAN (PUPR)</h1>
+            <h1>SPK PERBAIKAN JALAN (PU)</h1>
         </div>
         <div class="content">
             <div class="greeting">Halo, {{ $user->name }}</div>
@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} Dinas PUPR - Sistem Pendukung Keputusan Prioritas Perbaikan Jalan.
+            &copy; {{ date('Y') }} Dinas Pekerjaan Umum - Sistem Pendukung Keputusan Prioritas Perbaikan Jalan.
         </div>
     </div>
 </body>

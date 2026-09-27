@@ -22,7 +22,7 @@ class LoginNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pemberitahuan: Akun Anda Baru Saja Masuk ke Sistem SPK PUPR',
+            subject: 'Pemberitahuan: Akun Anda Baru Saja Masuk ke Sistem SPK PU',
         );
     }
 

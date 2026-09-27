@@ -7,7 +7,7 @@
         Tambah Petugas
     </h2>
     <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
-        Admin dapat mendaftarkan akun baru untuk petugas survei lapangan PUPR.
+        Admin dapat mendaftarkan akun baru untuk petugas survei lapangan PU.
     </p>
 </div>
 
@@ -23,7 +23,7 @@
                 </div>
                 <div>
                     <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5">Alamat Email Kedinasan</label>
-                    <input type="email" name="email" class="block w-full rounded-xl border-gray-300 shadow-2xs focus:border-brand-purple focus:ring-brand-purple text-sm p-3 border" placeholder="petugas@pupr.test" value="{{ old('email') }}" required>
+                    <input type="email" name="email" class="block w-full rounded-xl border-gray-300 shadow-2xs focus:border-brand-purple focus:ring-brand-purple text-sm p-3 border" placeholder="petugas@pu.test" value="{{ old('email') }}" required>
                 </div>
             </div>
             

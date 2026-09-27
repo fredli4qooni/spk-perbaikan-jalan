@@ -1,7 +1,7 @@
 {
-  "name": "pupr/bandar-lampung-moora",
+  "name": "pu/bandar-lampung-moora",
   "type": "project",
-  "description": "Sistem Pendukung Keputusan prioritas perbaikan jalan PUPR Kota Bandar Lampung dengan metode MOORA",
+  "description": "Sistem Pendukung Keputusan prioritas perbaikan jalan Dinas Pekerjaan Umum Kota Bandar Lampung dengan metode MOORA",
   "require": {
     "php": "^8.2",
     "barryvdh/laravel-dompdf": "^3.1",

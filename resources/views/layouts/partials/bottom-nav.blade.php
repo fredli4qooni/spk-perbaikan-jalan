@@ -159,7 +159,7 @@
                     <div class="min-w-0">
                         <p class="text-sm font-semibold text-gray-900 truncate">{{ auth()->user()->name }}</p>
                         <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide {{ auth()->user()->role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800' }}">
-                            {{ ucfirst(auth()->user()->role) }} PUPR
+                            {{ ucfirst(auth()->user()->role) }} PU
                         </span>
                     </div>
                 </div>
