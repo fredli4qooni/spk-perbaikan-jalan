@@ -188,7 +188,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-semibold {{ $row['rank'] <= 3 ? 'bg-brand-purple text-white shadow-xs' : 'bg-gray-100 text-gray-800' }}">
-                                {{ number_format($row['result'], 6) }}
+                                {{ number_format($row['result'], 4) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">

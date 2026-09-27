@@ -147,7 +147,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-semibold bg-brand-purple text-white">
-                                {{ number_format($row['result'], 6) }}
+                                {{ number_format($row['result'], 4) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">

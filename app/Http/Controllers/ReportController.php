@@ -46,7 +46,7 @@ class ReportController extends Controller
                     $row['road']->location,
                     $row['road']->kecamatan,
                     $row['road']->kelurahan,
-                    $row['result']
+                    number_format($row['result'], 4)
                 ]);
             }
 
