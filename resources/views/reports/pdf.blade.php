@@ -381,8 +381,8 @@
                 <strong>Kepala Dinas Pekerjaan Umum</strong><br>
                 Kota Bandar Lampung
                 <div class="signature-space"></div>
-                <div class="signature-name">Ir. H. IWAN GUNAWAN, M.T.</div>
-                <div>NIP. 19680512 199403 1 005</div>
+                <div class="signature-name">Dedi Sutioso, S.T., M.T.</div>
+                <div>NIP. 19740716 199503 1 004</div>
             </td>
             <td>
                 Bandar Lampung, {{ now()->translatedFormat('d F Y') }}<br>

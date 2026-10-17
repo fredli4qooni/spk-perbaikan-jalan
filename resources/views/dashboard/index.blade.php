@@ -96,7 +96,7 @@
 
     @if (auth()->user()->role === 'petugas')
         <!-- Menu Pintas Petugas Lapangan (4-kolom mobile / 6-kolom desktop) -->
-        <div class="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
+        <div class="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-2.5 sm:gap-3.5">
             <!-- 1. Input Ruas Baru (Hero Priority) -->
             <a href="{{ route('roads.create') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-purple-50/50 transition-all cursor-pointer">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-brand-purple text-white flex items-center justify-center text-lg sm:text-xl shadow-xs group-hover:bg-brand-purple-hover group-hover:scale-105 group-active:scale-95 transition-all">
@@ -137,17 +137,7 @@
                 </span>
             </a>
 
-            <!-- 5. Unduh CSV -->
-            <a href="{{ route('reports.export.csv') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-teal-50/50 transition-all cursor-pointer">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-50 text-teal-700 border border-teal-200/80 flex items-center justify-center text-lg sm:text-xl group-hover:bg-teal-600 group-hover:text-white group-hover:scale-105 group-active:scale-95 transition-all">
-                    <i class="bi bi-filetype-csv"></i>
-                </div>
-                <span class="text-[11px] sm:text-xs font-semibold text-gray-800 group-hover:text-teal-700 mt-2 leading-tight">
-                    Unduh CSV
-                </span>
-            </a>
-
-            <!-- 6. Profil Akun -->
+            <!-- 5. Profil Akun -->
             <a href="{{ route('profile.edit') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-gray-100 transition-all cursor-pointer">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gray-100 text-gray-700 border border-gray-200/80 flex items-center justify-center text-lg sm:text-xl group-hover:bg-gray-800 group-hover:text-white group-hover:scale-105 group-active:scale-95 transition-all">
                     <i class="bi bi-person-gear"></i>
@@ -190,17 +180,7 @@
                 </span>
             </a>
 
-            <!-- 4. Export CSV -->
-            <a href="{{ route('reports.export.csv') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-teal-50/50 transition-all cursor-pointer">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-50 text-teal-700 border border-teal-200/80 flex items-center justify-center text-lg sm:text-xl group-hover:bg-teal-600 group-hover:text-white group-hover:scale-105 group-active:scale-95 transition-all">
-                    <i class="bi bi-filetype-csv"></i>
-                </div>
-                <span class="text-[11px] sm:text-xs font-semibold text-gray-800 group-hover:text-teal-700 mt-2 leading-tight">
-                    Export CSV
-                </span>
-            </a>
-
-            <!-- 5. Kriteria & Bobot -->
+            <!-- 4. Kriteria & Bobot -->
             <a href="{{ route('criteria.index') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-amber-50/50 transition-all cursor-pointer">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-50 text-amber-800 border border-amber-200/80 flex items-center justify-center text-lg sm:text-xl group-hover:bg-amber-500 group-hover:text-white group-hover:scale-105 group-active:scale-95 transition-all">
                     <i class="bi bi-sliders"></i>
@@ -210,7 +190,7 @@
                 </span>
             </a>
 
-            <!-- 6. Kelola User -->
+            <!-- 5. Kelola User -->
             <a href="{{ route('users.index') }}" class="group flex flex-col items-center text-center p-2 rounded-xl hover:bg-indigo-50/50 transition-all cursor-pointer">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-indigo-50 text-indigo-700 border border-indigo-200/80 flex items-center justify-center text-lg sm:text-xl group-hover:bg-indigo-600 group-hover:text-white group-hover:scale-105 group-active:scale-95 transition-all">
                     <i class="bi bi-people-fill"></i>
