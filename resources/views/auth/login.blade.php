@@ -42,7 +42,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
                 <i class="bi bi-envelope text-gray-400"></i> Email
             </label>
-            <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-purple focus:border-brand-purple transition-colors bg-gray-50 focus:bg-white" value="{{ old('email') }}" placeholder="admin@pupr.test" required autofocus>
+            <input type="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-purple focus:border-brand-purple transition-colors bg-gray-50 focus:bg-white" value="{{ old('email') }}" placeholder="petugas@pu.test" required autofocus>
         </div>
         
         <div class="mb-5" x-data="{ showPassword: false }">
@@ -67,5 +67,11 @@
             Masuk
         </button>
     </form>
+
+    <div class="mt-3">
+        <a href="{{ route('public.dashboard') }}" class="w-full flex justify-center items-center py-2.5 px-4 border border-gray-200 rounded-lg shadow-2xs text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 focus:outline-none transition-all">
+            <i class="bi bi-house mr-2 text-gray-500"></i> Kembali ke Dashboard Publik
+        </a>
+    </div>
 </div>
 @endsection
